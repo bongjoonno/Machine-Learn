@@ -1,2 +1,2 @@
-# first_repo
-my very first github repo lol
+# my_first_repository
+my very first github repo lol!!!
