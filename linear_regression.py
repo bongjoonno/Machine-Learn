@@ -1,16 +1,6 @@
 from imports import np
 
-def linear_regression(x, y, epochs=1000, learning_rate=0.05, training_split=0.8):
-    n = len(x)
-    
-    training_border = int(0.8 * n)
-    
-    x_train = x[:training_border]
-    y_train = y[:training_border]
-    
-    x_test = x[training_border:]
-    y_test = y[training_border:]
-    
+def linear_regression(x, y, epochs=1000, learning_rate=0.05):
     x_train = np.column_stack((np.ones(len(x_train)), x_train))
     x_test = np.column_stack((np.ones(len(x_test)), x_test))
     
