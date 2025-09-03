@@ -16,6 +16,3 @@ def linear_regression(x_train, y_train, x_test, y_test, epochs=1000, learning_ra
     y_pred_test = x_test @ theta
     
     return y_pred_test
-
-res = linear_regression([1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10])
-print(res)  
