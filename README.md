@@ -1,2 +1,2 @@
-# my_first_repository
-my very first github repo lol!!!
+# Machine Learn
+a machine learning api with linear regression
