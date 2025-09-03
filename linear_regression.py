@@ -1,4 +1,4 @@
-import numpy as np
+from imports import np
 
 def linear_regression(x, y, epochs=1000, learning_rate=0.05, training_split=0.8):
     n = len(x)
