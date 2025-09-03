@@ -1,4 +1,4 @@
-import numpy as np
+from imports import np
 
 def linear_regression(x, y, epochs=1000, learning_rate=0.05, training_split=0.8):
     n = len(x)
@@ -24,12 +24,7 @@ def linear_regression(x, y, epochs=1000, learning_rate=0.05, training_split=0.8)
         
     y_pred_test = x_test @ theta
     
-    sum_squared_prediction_difference = np.sum((y_test - y_pred_test)**2)
-    sum_squared_mean_difference = np.sum((y_test - np.mean(y_test))**2)
-    
-    R_squared = 1 - (sum_squared_prediction_difference / sum_squared_mean_difference)
-    
-    return R_squared
+    return y_pred_test
 
 res = linear_regression([1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10])
 print(res)  
