@@ -1,6 +1,7 @@
 from imports import np
 
 def linear_regression(x_train, y_train, x_test, y_test, epochs=1000, learning_rate=0.05):
+    n = len(x_train)
     
     x_train = np.column_stack((np.ones(len(x_train)), x_train))
     x_test = np.column_stack((np.ones(len(x_test)), x_test))
