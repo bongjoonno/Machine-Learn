@@ -1,16 +1,23 @@
 from r_squared import r_squared
 from linear_regression import linear_regression
+from logistic_regression import logistic_regression
 from train_test_split import train_test_split
+from imports import np
 
-x = [1,2,3,4,5,6,7,8,9,10]
-y = [1,2,3,4,5,6,7,8,9,10]
+x = [x for x in range(1000)]
+
+start = 0
+y = []
+
+for _ in range(1000):
+    y.append(start)
+    start += 0.001
+
+y = np.array(y)
+y = (y >= 0.5).astype(int)
 
 x_train, y_train, x_test, y_test = train_test_split(x, y)
 
-y_pred = linear_regression(x_train, y_train, x_test)
+y_pred = logistic_regression(x_train, y_train, x_test)
 
-r_2 = r_squared(y_pred, y_test)
-
-print(r_2)
-
-
+print(sum(y_pred == y_test) / len(y_test))
