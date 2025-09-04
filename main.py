@@ -18,4 +18,3 @@ x_train, y_train, x_test, y_test = train_test_split(x, y)
 
 y_pred = logistic_regression(x_train, y_train, x_test)
 
-print(y_pred)
