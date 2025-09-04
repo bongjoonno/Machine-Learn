@@ -8,10 +8,12 @@ def linear_regression(x_train, y_train, x_test, epochs=1000, learning_rate=0.05)
     
     theta = np.random.rand(x_train.shape[1])
     
+    one_divided_by_n = 1/n
+    
     for _ in range(epochs):
         y_pred = x_train @ theta
         errors = y_pred - y_train
-        gradient = (1/n) * (errors @ x_train)
+        gradient = one_divided_by_n * (x_train.T @ errors)
         theta -= learning_rate * gradient
         
     y_pred_test = x_test @ theta

@@ -8,14 +8,17 @@ def logistic_regression(x_train, y_train, x_test, epochs=1000, learning_rate=0.0
     
     theta = np.random.rand(x_train.shape[1])
     
+    one_divided_by_n = 1/n
+    
     for _ in range(epochs):
         y_pred = sigmoid(x_train @ theta)
         errors = y_pred - y_train
-        gradient = (1/n) * (errors @ x_train)
+        gradient = one_divided_by_n * (x_train.T @ errors)
         theta -= learning_rate * gradient
         
     y_pred_test = sigmoid(x_test @ theta)
     
+    y_pred_test = (y_pred_test >= 0.5).astype(int)
     return y_pred_test
 
 
