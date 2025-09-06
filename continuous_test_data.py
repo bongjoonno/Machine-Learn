@@ -13,4 +13,3 @@ df = pd.concat([df, regions], axis=1)
 
 x_continuous = df.drop(columns='charges')
 y_continuous = df['charges']
-
