@@ -9,13 +9,9 @@ from categorical_accuracy import categorical_acc
 from categorical_test_data import x_cat, y_cat
 from continuous_test_data import x_continuous, y_continuous
 
-x_train, y_train, x_test, y_test = train_test_split(x_cat, y_cat)
+x_train, y_train, x_test, y_test = train_test_split(x_continuous, y_continuous)
 
 scaler = StandardScaler()
 
-x_train = scaler.fit_transform(x_train)
-x_test = scaler.transform(x_test)
-
-y_pred = logistic_regression(x_train, y_train, x_test)
-
-print(categorical_acc(y_pred, y_test))
+x_train[['age', 'bmi', 'children']] = scaler.fit_transform(x_train.loc[:, ['age', 'bmi', 'children']])
+print(x_train)
