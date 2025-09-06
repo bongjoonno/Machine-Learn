@@ -17,6 +17,6 @@ scaler = StandardScaler()
 
 x_train, x_test = scale_data(x_train, x_test, ['age', 'bmi', 'children'])
 
-#y_pred = linear_regression(x_train, y_train, x_test, learning_rate = 0.1)
+y_pred = linear_regression(x_train, y_train, x_test, learning_rate = 0.1)
 
-#print(r_squared(y_pred, y_test))
+print(r_squared(y_pred, y_test))
