@@ -1,4 +1,4 @@
-import pandas as pd
+from imports import pd
 
 df = pd.read_csv('/workspaces/first_repo/test_data/breast-cancer.csv')
 
