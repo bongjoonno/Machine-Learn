@@ -14,4 +14,9 @@ x_train, y_train, x_test, y_test = train_test_split(x_continuous, y_continuous)
 scaler = StandardScaler()
 
 x_train[['age', 'bmi', 'children']] = scaler.fit_transform(x_train.loc[:, ['age', 'bmi', 'children']])
-print(x_train)
+
+x_test[['age', 'bmi', 'children']] = scaler.transform(x_test.loc[:, ['age', 'bmi', 'children']])
+
+y_pred = linear_regression(x_train, y_train, x_test, learning_rate = 0.1)
+
+print(r_squared(y_pred, y_test))
