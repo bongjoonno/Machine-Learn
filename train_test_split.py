@@ -1,15 +1,7 @@
 from imports import np
 
 def train_test_split(x, y, train_split=0.8):
-    x = np.array(x)
-    y = np.array(y)
-    
     n = len(x)
-    
-    indices = np.random.permutation(n) 
-    
-    x = x[indices]
-    y = y[indices]
     
     training_border = int(train_split * n)
     
