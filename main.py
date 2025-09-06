@@ -3,21 +3,14 @@ from linear_regression import linear_regression
 from logistic_regression import logistic_regression
 from train_test_split import train_test_split
 from imports import np
-
-x = [x for x in range(1000)]
-
-start = 0
-y = []
-
-for _ in range(1000):
-    y.append(start)
-    start += 0.001
-
-y = np.array(y)
-y = (y >= 0.5).astype(int)
+from test_data import x, y
+from sklearn.preprocessing import StandardScaler
 
 x_train, y_train, x_test, y_test = train_test_split(x, y)
 
-y_pred = logistic_regression(x_train, y_train, x_test)
+scaler = StandardScaler()
 
-print(sum(y_pred == y_test) / len(y_test))
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
+
+print(x_test)
