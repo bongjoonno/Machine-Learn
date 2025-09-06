@@ -1,23 +1,22 @@
+from imports import np, pd, StandardScaler
+
 from r_squared import r_squared
 from linear_regression import linear_regression
 from logistic_regression import logistic_regression
 from train_test_split import train_test_split
-from imports import np
+from categorical_accuracy import categorical_acc
 
-x = [x for x in range(1000)]
+from categorical_test_data import x_cat, y_cat
+from continuous_test_data import x_continuous, y_continuous
 
-start = 0
-y = []
+from scale_data import scale_data
 
-for _ in range(1000):
-    y.append(start)
-    start += 0.001
+x_train, y_train, x_test, y_test = train_test_split(x_continuous, y_continuous)
 
-y = np.array(y)
-y = (y >= 0.5).astype(int)
+scaler = StandardScaler()
 
-x_train, y_train, x_test, y_test = train_test_split(x, y)
+x_train, x_test = scale_data(x_train, x_test, ['age', 'bmi', 'children'])
 
-y_pred = logistic_regression(x_train, y_train, x_test)
+y_pred = linear_regression(x_train, y_train, x_test, learning_rate = 0.1)
 
-print(sum(y_pred == y_test) / len(y_test))
+print(r_squared(y_pred, y_test))
