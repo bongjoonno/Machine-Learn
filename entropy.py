@@ -1,5 +1,4 @@
 from math import log
-from scipy.stats import entropy
 from collections import Counter
 
 def get_entropy(items):
