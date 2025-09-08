@@ -1,3 +1,5 @@
+from math import log
+
 def mutual_information(df, independent_class, dependent_class):
   class_counts_by_x = df[[independent_class, dependent_class]].value_counts()
   class_counts_by_y = df[[dependent_class, independent_class]].value_counts()
