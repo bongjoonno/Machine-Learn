@@ -1,7 +1,16 @@
-def get_entropy(nums):
-    nums_set = set(nums)
-    return nums_set
+from math import log
+from scipy.stats import entropy
+from collections import Counter
 
+def get_entropy(items):
+    n = len(items)
 
+    items_count = Counter(items)
 
-print(get_entropy())
+    entropy = 0
+
+    for item, count in items_count.items():
+        prob = count / n
+        entropy += prob * log(1 / prob)
+
+    return entropy
