@@ -1,22 +1,22 @@
-from imports import np, pd, StandardScaler
+from main_testing_imports import *
 
-from r_squared import r_squared
-from linear_regression import linear_regression
-from logistic_regression import logistic_regression
-from train_test_split import train_test_split
-from categorical_accuracy import categorical_acc
+class_labels = ['ham', 'spam']
+word_counts_by_class, total_words_by_class, vocab_size = naive_bayes_prep(class_labels, [email_ham['Message'], email_spam['Message']])
 
-from categorical_test_data import x_cat, y_cat
-from continuous_test_data import x_continuous, y_continuous
+  
+normal_prob = len(email_ham) / len(email_df)
+spam_prob = len(email_spam) / len(email_df)
 
-from scale_data import scale_data
+prior_probs = [normal_prob, spam_prob]
 
-x_train, y_train, x_test, y_test = train_test_split(x_continuous, y_continuous)
+result = email_df['Message'].apply(lambda sentence: naive_bayes_predict(sentence, word_counts_by_class, total_words_by_class, vocab_size, prior_probs))
 
-scaler = StandardScaler()
+categorizations = []
 
-x_train, x_test = scale_data(x_train, x_test, ['age', 'bmi', 'children'])
+for row in result:
+  categorizations.append(max(row, key=row.get))
 
-y_pred = linear_regression(x_train, y_train, x_test, learning_rate = 0.1)
+email_df['Prediction'] = categorizations
 
-print(r_squared(y_pred, y_test))
+accuracy = (email_df['Category'] == email_df['Prediction']).sum() / len(email_df)
+print(accuracy)
