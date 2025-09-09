@@ -1,15 +1,15 @@
 from imports import pd
 
-df = pd.read_csv('/workspaces/first_repo/test_data/insurance.csv')
+insurance_df = pd.read_csv('/workspaces/first_repo/test_data/insurance.csv')
 
-df['sex'] = df['sex'].map({'female' : 0, 'male' : 1})
-df['smoker'] = df['smoker'].map({'yes' : 1, 'no' : 0})
+insurance_df['sex'] = insurance_df['sex'].map({'female' : 0, 'male' : 1})
+insurance_df['smoker'] = insurance_df['smoker'].map({'yes' : 1, 'no' : 0})
 
-regions = pd.get_dummies(df['region'], dtype=int)
+regions = pd.get_dummies(insurance_df['region'], dtype=int)
 
-df = df.drop(columns='region')
+insurance_df = insurance_df.drop(columns='region')
 
-df = pd.concat([df, regions], axis=1)
+insurance_df = pd.concat([insurance_df, regions], axis=1)
 
-x_continuous = df.drop(columns='charges')
-y_continuous = df['charges']
+insurance_x = insurance_df.drop(columns='charges')
+insurance_y = insurance_df['charges']
