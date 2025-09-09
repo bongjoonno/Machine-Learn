@@ -1,6 +1,6 @@
 from imports import pd
 
-breast_cancer_df = pd.read_csv('/workspaces/first_repo/test_data/breast-cancer.csv')
+breast_cancer_df = pd.read_csv('/workspaces/Machine-Learn/test_data/breast-cancer.csv')
 
 breast_cancer_df = breast_cancer_df.drop(columns=['id'])
 breast_cancer_df['diagnosis'] = breast_cancer_df['diagnosis'].map({'M': 1, 'B': 0})

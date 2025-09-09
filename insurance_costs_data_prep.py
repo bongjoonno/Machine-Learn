@@ -1,6 +1,6 @@
 from imports import pd
 
-insurance_df = pd.read_csv('/workspaces/first_repo/test_data/insurance.csv')
+insurance_df = pd.read_csv('/workspaces/Machine-Learn/test_data/insurance.csv')
 
 insurance_df['sex'] = insurance_df['sex'].map({'female' : 0, 'male' : 1})
 insurance_df['smoker'] = insurance_df['smoker'].map({'yes' : 1, 'no' : 0})
