@@ -6,8 +6,8 @@ from logistic_regression import logistic_regression
 from train_test_split import train_test_split
 from categorical_accuracy import categorical_acc
 
-from categorical_test_data import x_cat, y_cat
-from continuous_test_data import x_continuous, y_continuous
+from breast_cancer_data_prep import x_cat, y_cat
+from insurance_costs_data_prep import x_continuous, y_continuous
 
 from scale_data import scale_data
 
