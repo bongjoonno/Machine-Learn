@@ -1,5 +1,5 @@
 from main_testing_imports import *
-
+'''
 class_labels = ['ham', 'spam']
 word_counts_by_class, total_words_by_class, vocab_size = naive_bayes_prep(class_labels, [email_ham['Message'], email_spam['Message']])
 
@@ -19,4 +19,16 @@ for row in result:
 email_df['Prediction'] = categorizations
 
 accuracy = (email_df['Category'] == email_df['Prediction']).sum() / len(email_df)
+'''
+
+
+#LinearRegression() Object
+#train and test methods
+
+insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test = train_test_split(insurance_x, insurance_y)
+
+model = LinearRegression(insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test)
+
+model.train()
+accuracy = model.test()
 print(accuracy)
