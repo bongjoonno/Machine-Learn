@@ -27,8 +27,12 @@ accuracy = (email_df['Category'] == email_df['Prediction']).sum() / len(email_df
 
 insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test = train_test_split(insurance_x, insurance_y)
 
+insurance_x_train, insurance_x_test = scale_data(insurance_x_train, insurance_x_test, ['age', 'bmi', 'children'])
+
 model = LinearRegression(insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test)
 
-model.train()
-accuracy = model.test()
+model.train(1_000, 0.05)
+y_pred = model.test()
+
+accuracy = r_squared(y_pred, insurance_y_test)
 print(accuracy)

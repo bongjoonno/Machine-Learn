@@ -25,4 +25,4 @@ class LinearRegression:
     
     def test(self):
         y_pred = self.x_test @ self.theta
-        return sum(y_pred == self.y_test)
+        return y_pred
