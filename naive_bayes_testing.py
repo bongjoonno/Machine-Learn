@@ -1,5 +1,6 @@
 from model_imports import naive_bayes_prep, naive_bayes_predict
 from data_imports import email_df, email_ham, email_spam
+from metrics_imports import categorical_acc
 
 class_labels = ['ham', 'spam']
 word_counts_by_class, total_words_by_class, vocab_size = naive_bayes_prep(class_labels, [email_ham['Message'], email_spam['Message']])
@@ -19,5 +20,5 @@ for row in result:
 
 email_df['Prediction'] = categorizations
 
-accuracy = (email_df['Category'] == email_df['Prediction']).sum() / len(email_df)
+accuracy = categorical_acc(email_df['Prediction'], email_df['Category'])
 print(accuracy)
