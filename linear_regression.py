@@ -1,17 +1,16 @@
 from imports import np
 
 class LinearRegression:
-    def __init__(self, x_train, y_train, x_test, y_test):
+    def __init__(self):
+        pass
+
+    def train(self, x_train, y_train, epochs=1000, learning_rate=0.05):
         self.x_train = x_train
         self.y_train = y_train
-        self.x_test = x_test
-        self.y_test = y_test
 
-    def train(self, epochs=1000, learning_rate=0.05):
         n = len(self.x_train)
         
         self.x_train = np.column_stack((np.ones(len(self.x_train)), self.x_train))
-        self.x_test = np.column_stack((np.ones(len(self.x_test)), self.x_test))
         
         one_divided_by_n = 1/n
         
@@ -23,6 +22,7 @@ class LinearRegression:
             gradient = one_divided_by_n * (self.x_train.T @ errors)
             self.theta -= learning_rate * gradient
     
-    def test(self):
-        y_pred = self.x_test @ self.theta
+    def predict(self, x):
+        x = np.column_stack((np.ones(len(x)), x))
+        y_pred = x @ self.theta
         return y_pred
