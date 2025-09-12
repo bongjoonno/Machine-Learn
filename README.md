@@ -1,2 +1,2 @@
 # Machine Learn
-a machine learning api with linear regression
+a machine learning api to tackle any problem

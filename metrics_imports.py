@@ -1,5 +1,5 @@
 #metrics
 from r_squared import r_squared
-from categorical_accuracy import categorical_acc
+from categorical_accuracy import categorical_accuracy
 from mutual_information import mutual_information
 from entropy import get_entropy
