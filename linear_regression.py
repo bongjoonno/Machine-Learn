@@ -1,10 +1,13 @@
 from imports import np
+from constants import NUMPY_RANDOM_SEED_PARAMETERS, EPOCHS, LEARNING_RATE
+
+np.random.seed(NUMPY_RANDOM_SEED_PARAMETERS)
 
 class LinearRegression:
     def __init__(self):
         pass
 
-    def train(self, x_train, y_train, epochs=1000, learning_rate=0.05):
+    def train(self, x_train, y_train, epochs=EPOCHS, learning_rate=LEARNING_RATE):
         self.x_train = x_train
         self.y_train = y_train
 
