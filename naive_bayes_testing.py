@@ -17,3 +17,4 @@ for row in result:
 email_df['Prediction'] = categorizations
 
 accuracy = categorical_accuracy(email_df['Prediction'], email_df['Category'])
+print(accuracy)
