@@ -15,7 +15,7 @@ class LinearRegression:
         
         one_divided_by_n = 1/n
         
-        self.theta = np.random.rand(self.x_train.shape[1])
+        self.theta = np.zeros(self.x_train.shape[1])
         
         for _ in range(epochs):
             y_pred = self.x_train @ self.theta
