@@ -1,7 +1,5 @@
 from imports import np
-from constants import NUMPY_RANDOM_SEED_PARAMETERS, EPOCHS, LEARNING_RATE
-
-np.random.seed(NUMPY_RANDOM_SEED_PARAMETERS)
+from constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
     def __init__(self):
