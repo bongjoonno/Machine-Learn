@@ -1,6 +1,6 @@
 from model_imports import NaiveBayes
-from data_imports import email_df, email_ham, email_spam
-from metrics_imports import categorical_accuracy
+from data_imports.data_imports import email_df, email_ham, email_spam
+from metrics.metrics_imports import categorical_accuracy
 
 naive_bayes_model = NaiveBayes()
 

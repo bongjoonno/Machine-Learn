@@ -1,3 +1,3 @@
 from linear_regression import LinearRegression
-from logistic_regression import LogisticRegression
+from logistic_regression.logistic_regression import LogisticRegression
 from naive_bayes import NaiveBayes

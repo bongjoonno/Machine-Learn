@@ -1,0 +1,5 @@
+#metrics
+from metrics.r_squared import r_squared
+from metrics.categorical_accuracy import categorical_accuracy
+from mutual_information import mutual_information
+from metrics.entropy import get_entropy
