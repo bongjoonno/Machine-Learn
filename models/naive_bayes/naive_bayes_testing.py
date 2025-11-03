@@ -1,4 +1,4 @@
-from model_imports import NaiveBayes
+from models.model_imports import NaiveBayes
 from data_imports.data_imports import email_df, email_ham, email_spam
 from metrics.metrics_imports import categorical_accuracy
 

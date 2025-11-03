@@ -1,7 +1,7 @@
 from imports import pd
-from constants import CUR_DIRECTORY
+from constants import PROJECT_DIRECTORY
 
-breast_cancer_df = pd.read_csv(CUR_DIRECTORY / 'test_data' / 'breast-cancer.csv')
+breast_cancer_df = pd.read_csv(PROJECT_DIRECTORY / 'test_data' / 'breast-cancer.csv')
 
 breast_cancer_df = breast_cancer_df.drop(columns=['id'])
 breast_cancer_df['diagnosis'] = breast_cancer_df['diagnosis'].map({'M': 1, 'B': 0})

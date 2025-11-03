@@ -1,6 +1,6 @@
-from model_imports import LogisticRegression
+from models.model_imports import LogisticRegression
 from data_imports.data_imports import breast_cancer_x, breast_cancer_y
-from data_manipulation_imports import train_test_split, scale_data
+from data_manipulation.data_manipulation_imports import train_test_split, scale_data
 from metrics.metrics_imports import categorical_accuracy
 
 breast_cancer_x_train, breast_cancer_y_train, breast_cancer_x_test, breast_cancer_y_test = train_test_split(breast_cancer_x, breast_cancer_y)

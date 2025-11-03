@@ -1,7 +1,7 @@
 from imports import pd
-from constants import CUR_DIRECTORY
+from constants import PROJECT_DIRECTORY
 
-email_df = pd.read_csv(CUR_DIRECTORY / 'test_data' / 'email_spam.csv')
+email_df = pd.read_csv(PROJECT_DIRECTORY / 'test_data' / 'email_spam.csv')
 
 email_df = email_df[email_df['Category'].isin(['ham', 'spam'])]
 

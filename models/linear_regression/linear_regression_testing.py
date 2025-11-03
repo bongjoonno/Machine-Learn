@@ -1,6 +1,6 @@
-from model_imports import LinearRegression
+from models.model_imports import LinearRegression
 from data_imports.data_imports import insurance_x, insurance_y
-from data_manipulation_imports import train_test_split, scale_data
+from data_manipulation.data_manipulation_imports import train_test_split, scale_data
 from metrics.metrics_imports import r_squared
 
 insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test = train_test_split(insurance_x, insurance_y)
