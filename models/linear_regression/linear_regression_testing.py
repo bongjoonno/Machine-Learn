@@ -1,4 +1,4 @@
-from models.model_imports import LinearRegression
+from linear_regression import LinearRegression
 from data_imports.data_imports import insurance_x, insurance_y
 from data_manipulation.data_manipulation_imports import train_test_split, scale_data
 from metrics.metrics_imports import r_squared
