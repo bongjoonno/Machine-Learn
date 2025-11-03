@@ -1,2 +1,2 @@
 # Machine Learn
-a machine learning api to tackle any problem
+A Machine Learning Library for Prediction and Categorization

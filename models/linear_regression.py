@@ -1,7 +1,5 @@
 from imports import np
-from constants import NUMPY_RANDOM_SEED_PARAMETERS, EPOCHS, LEARNING_RATE
-
-np.random.seed(NUMPY_RANDOM_SEED_PARAMETERS)
+from constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
     def __init__(self):
@@ -17,7 +15,7 @@ class LinearRegression:
         
         one_divided_by_n = 1/n
         
-        self.theta = np.random.rand(self.x_train.shape[1])
+        self.theta = np.zeros(self.x_train.shape[1])
         
         for _ in range(epochs):
             y_pred = self.x_train @ self.theta
