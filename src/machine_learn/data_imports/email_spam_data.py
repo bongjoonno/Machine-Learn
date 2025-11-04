@@ -1,5 +1,5 @@
-from imports import pd
-from constants import PROJECT_DIRECTORY
+from src.machine_learn.imports import pd
+from src.machine_learn.constants import PROJECT_DIRECTORY
 
 email_df = pd.read_csv(PROJECT_DIRECTORY / 'test_data' / 'email_spam.csv')
 

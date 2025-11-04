@@ -1,4 +1,4 @@
-from imports import np
+from src.machine_learn.imports import np
 
 def r_squared(y_pred, y_test):
     sum_squared_prediction_difference = np.sum((y_test - y_pred)**2)

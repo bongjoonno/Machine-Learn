@@ -1,5 +1,5 @@
-from imports import np
-from constants import EPOCHS, LEARNING_RATE
+from src.machine_learn.imports import np
+from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
     def __init__(self):
