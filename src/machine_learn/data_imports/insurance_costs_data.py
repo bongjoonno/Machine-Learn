@@ -1,7 +1,7 @@
 from src.machine_learn.imports import pd
 from src.machine_learn.constants import PROJECT_DIRECTORY
 
-insurance_df = pd.read_csv(PROJECT_DIRECTORY / 'test_data' / 'insurance.csv')
+insurance_df = pd.read_csv(PROJECT_DIRECTORY / 'data' / 'test_data' / 'insurance.csv')
 
 insurance_df['sex'] = insurance_df['sex'].map({'female' : 0, 'male' : 1})
 insurance_df['smoker'] = insurance_df['smoker'].map({'yes' : 1, 'no' : 0})
