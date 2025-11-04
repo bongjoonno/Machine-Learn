@@ -1,4 +1,4 @@
 #data prep
-from data.data_imports.breast_cancer_data import breast_cancer_df, breast_cancer_x, breast_cancer_y
-from data.data_imports.insurance_costs_data import insurance_df, insurance_x, insurance_y
-from data.data_imports.email_spam_data import email_df, email_ham, email_spam
+from src.machine_learn.data_imports.breast_cancer_data import breast_cancer_df, breast_cancer_x, breast_cancer_y
+from src.machine_learn.data_imports.insurance_costs_data import insurance_df, insurance_x, insurance_y
+from src.machine_learn.data_imports.email_spam_data import email_df, email_ham, email_spam

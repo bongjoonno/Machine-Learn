@@ -2,7 +2,7 @@ from tests.model_tests.all_model_tests import run_all_tests
 
 
 def main():
-    run_all_tests()
+    return run_all_tests()
 
 
 
