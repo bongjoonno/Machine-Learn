@@ -1,7 +1,7 @@
-from models.logistic_regression import LogisticRegression
-from data_imports.data_imports import breast_cancer_x, breast_cancer_y
-from data_manipulation.data_manipulation_imports import train_test_split, scale_data
-from metrics.metrics_imports import categorical_accuracy
+from src.machine_learn.models.logistic_regression import LogisticRegression
+from src.machine_learn.data_imports.data_imports import breast_cancer_x, breast_cancer_y
+from src.machine_learn.data_manipulation.data_manipulation_imports import train_test_split, scale_data
+from src.machine_learn.metrics.metrics_imports import categorical_accuracy
 
 
 def logistic_regression_test():

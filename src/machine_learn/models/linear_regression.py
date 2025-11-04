@@ -1,7 +1,7 @@
-from imports import np
-from constants import EPOCHS, LEARNING_RATE
+from src.machine_learn.imports import np
+from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
-class LogisticRegression:
+class LinearRegression:
     def __init__(self):
         pass
 
@@ -18,19 +18,12 @@ class LogisticRegression:
         self.theta = np.zeros(self.x_train.shape[1])
         
         for _ in range(epochs):
-            y_pred = LogisticRegression.sigmoid(self.x_train @ self.theta)
+            y_pred = self.x_train @ self.theta
             errors = y_pred - self.y_train
             gradient = one_divided_by_n * (self.x_train.T @ errors)
             self.theta -= learning_rate * gradient
-        
-    @staticmethod
-    def sigmoid(x):
-        return np.where(x >= 0, 
-                    1 / (1 + np.exp(-x)), 
-                    np.exp(x) / (1 + np.exp(x)))
     
     def predict(self, x):
         x = np.column_stack((np.ones(len(x)), x))
-        y_pred = LogisticRegression.sigmoid(x @ self.theta)
-        y_pred_categorical = (y_pred >= 0.5).astype(int)
-        return y_pred_categorical
+        y_pred = x @ self.theta
+        return y_pred

@@ -1,2 +1,0 @@
-from data_manipulation.scale_data import scale_data
-from data_manipulation.train_test_split import train_test_split

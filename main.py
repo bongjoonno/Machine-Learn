@@ -1,8 +1,10 @@
-from model_tests.linear_regression_testing import linear_regression_test
-from model_tests.logistic_regression_test import logistic_regression_test
-from model_tests.naive_bayes_testing import naive_bayes_test
+from tests.model_tests.all_model_tests import run_all_tests
+
+
+def main():
+    return run_all_tests()
+
+
 
 if __name__ == '__main__':
-    print(linear_regression_test())
-    print(logistic_regression_test())
-    print(naive_bayes_test())
+    print(main())

@@ -1,4 +1,4 @@
-from imports import StandardScaler
+from src.machine_learn.imports import StandardScaler
 
 def scale_data(x_train, x_test, columns_to_scale):
     scaler = StandardScaler()
