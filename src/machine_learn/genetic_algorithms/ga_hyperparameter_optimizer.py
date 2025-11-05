@@ -2,9 +2,9 @@ from src.machine_learn.imports import np
 
 class GAHParamOptimizer:
     epoch_low = 1
-    epoch_high = 100_000
+    epoch_high = 1000
 
-    learning_rate_low = 0.000001
+    learning_rate_low = 0.001
     learning_rate_high = 0.5
 
     def __init__(self, population_size = 100):
