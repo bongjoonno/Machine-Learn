@@ -13,7 +13,7 @@ class GAHParamOptimizer:
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, generations = 100):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 100):
         self.generate_population()
         self.model = linear_regression_model
 
@@ -23,9 +23,7 @@ class GAHParamOptimizer:
     def fitness(self):
         for epochs, learning_rate in self.population:
             self.model.train(epochs, learning_rate)
-            y_pred = self.model.predict(insurance_x_test)
-            linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
-            print(epochs, learning_rate, linear_regression_r_squared)
+            
 
         
 
