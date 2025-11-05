@@ -11,18 +11,23 @@ class GAHParamOptimizer:
     def __init__(self, population_size = 100):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
+        self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, generations = 100):
-        self.genetic_evolution(generations)
-    
-    def genetic_evolution(self, generations):
+    def optimize(self, linear_regression_model: LinearRegression, generations = 100):
         self.generate_population()
-        
+        self.model = linear_regression_model
+
         for _ in range(generations):
             self.fitness()
     
     def fitness(self):
-        pass
+        for epochs, learning_rate in self.population:
+            self.model.train(epochs, learning_rate)
+            y_pred = self.model.predict(insurance_x_test)
+            linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
+            print(epochs, learning_rate, linear_regression_r_squared)
+
+        
 
 
     def generate_population(self):
