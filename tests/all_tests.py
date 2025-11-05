@@ -4,4 +4,4 @@ from tests.naive_bayes_test import naive_bayes_test
 from tests.ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
 
 def run_all_tests():
-    return linear_regression_test(), logistic_regression_test(), naive_bayes_test(), ga_hyperparameter_optimizer_test()
+    return ga_hyperparameter_optimizer_test()

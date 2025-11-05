@@ -12,13 +12,15 @@ def ga_hyperparameter_optimizer_test():
     linear_regression_model = LinearRegression()
     ga_hparameter_optimizer = GAHParamOptimizer()
     
+    ga_hparameter_optimizer.generate_population()
 
 
-    for _ in 
-    linear_regression_model.train(insurance_x_train, insurance_y_train)
-    y_pred = linear_regression_model.predict(insurance_x_test)
+    for epochs, learning_rate in ga_hparameter_optimizer.population:
+        linear_regression_model.train(insurance_x_train, insurance_y_train, epochs, learning_rate)
+        y_pred = linear_regression_model.predict(insurance_x_test)
+        linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
+        print(epochs, learning_rate, linear_regression_r_squared)
 
-    linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
     
 
 
