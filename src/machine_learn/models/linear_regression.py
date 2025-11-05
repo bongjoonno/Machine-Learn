@@ -2,9 +2,6 @@ from src.machine_learn.imports import np
 from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
-    def __init__(self):
-        pass
-
     def train(self, x_train, y_train, epochs=EPOCHS, learning_rate=LEARNING_RATE):
         self.x_train = x_train
         self.y_train = y_train

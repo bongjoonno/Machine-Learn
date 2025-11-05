@@ -1,5 +1,8 @@
 from src.machine_learn.imports import np
 
+
+
+
 class GAHParamOptimizer:
     epoch_low = 1
     epoch_high = 1000
