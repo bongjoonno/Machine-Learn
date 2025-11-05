@@ -1,4 +1,4 @@
-def train_validate_test_split(x, y, train_size=0.60, test_size=0.35):
+def train_test_validate_split(x, y, train_size=0.60, test_size=0.35):
     n = len(x)
     
     train_border = int(train_size * n)
