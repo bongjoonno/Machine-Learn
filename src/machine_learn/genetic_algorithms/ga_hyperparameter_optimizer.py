@@ -19,13 +19,13 @@ class GAHParamOptimizer:
         self.x_validation = x_validation
         self.y_validation = y_validation
 
-        for _ in range(generations):
-            self.fitness()
+        self.fitness()
     
     def fitness(self):
         for i, (epochs, learning_rate) in enumerate(self.population):
             self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
             self.fitness_scores[i] = self.model.min_loss
+            print(epochs, learning_rate, self.model.min_loss)
 
     def generate_population(self):
         for i in range(self.population_size):
