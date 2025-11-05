@@ -1,7 +1,5 @@
 from src.machine_learn.imports import np
-
-
-
+from src.machine_learn.models.linear_regression import LinearRegression
 
 class GAHParamOptimizer:
     epoch_low = 1
