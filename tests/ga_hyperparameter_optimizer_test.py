@@ -18,5 +18,6 @@ def ga_hyperparameter_optimizer_test():
 
 
 
-# generate initial population of random parameters (able to specify multiple)
-# how can it be general though since ranges for randomization need to be specified
+# generate initial population of random (epoch, learning_rate) tuple pairs
+# random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
+# evaluate each by training and getting fitness function
