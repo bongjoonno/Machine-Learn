@@ -7,16 +7,15 @@ class GAHParamOptimizer:
     learning_rate_low = 0.000001
     learning_rate_high = 0.5
 
-    def generate_population(size = 100):
-        population = []
+    def __init__(self, population_size = 100):
+        self.population_size = population_size
+        self.population = [0 for _ in range(self.population_size)]
 
-        for _ in range(size):
+    def generate_population(self):
+        for i in range(self.population_size):
             random_epochs = np.random.randint(GAHParamOptimizer.epoch_low, GAHParamOptimizer.epoch_high)
             random_learning_rate = np.random.uniform(GAHParamOptimizer.learning_rate_low, GAHParamOptimizer.learning_rate_high)
-
-            population.append((random_epochs, random_learning_rate))
-        
-        return population
+            self.population[i] = ((random_epochs, random_learning_rate))
 
 
 
