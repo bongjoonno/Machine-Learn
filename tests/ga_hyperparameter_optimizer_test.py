@@ -9,19 +9,23 @@ from src.machine_learn.imports import StandardScaler
 def ga_hyperparameter_optimizer_test():
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(insurance_x, insurance_y)
     scaler = StandardScaler()
-    scaler.fit(x_train.loc[:, ['age', 'bmi', 'children']])
+    scaler.fit_transform(x_train[['age', 'bmi', 'children']])
 
-    x_train.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_train.loc[:, ['age', 'bmi', 'children']])
-    x_test.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_test.loc[:, ['age', 'bmi', 'children']])
-    x_val.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_val.loc[:, ['age', 'bmi', 'children']])
+    x_test.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_test[['age', 'bmi', 'children']])
+    x_val.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_val[['age', 'bmi', 'children']])
+
+
 
     linear_regression_model = LinearRegression()
     ga_hparameter_optimizer = GAHParamOptimizer()
     
-    ga_hparameter_optimizer.optimize(linear_regression_model, x_val, y_val)
+    #ga_hparameter_optimizer.optimize(linear_regression_model, x_val, y_val)
     
 
-
+    linear_regression_model.train(x_train, y_train)
+    y_pred = linear_regression_model.predict(x_test)
+    r2 = r_squared(y_pred, y_test)
+    return r2
 
 # generate initial population of random (epoch, learning_rate) tuple pairs
 # random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
