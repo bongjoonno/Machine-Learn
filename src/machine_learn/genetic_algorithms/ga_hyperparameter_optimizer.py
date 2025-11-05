@@ -16,14 +16,17 @@ class GAHParamOptimizer:
     def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 100):
         self.generate_population()
         self.model = linear_regression_model
+        self.x_validation = x_validation
+        self.y_validation = y_validation
 
         for _ in range(generations):
             self.fitness()
     
     def fitness(self):
-        for epochs, learning_rate in self.population:
-            self.model.train(epochs, learning_rate)
-            
+        for i, epochs, learning_rate in enumerate(self.population):
+            self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
+            self.fitness_scores[i] = self.model.min_loss
+
 
         
 

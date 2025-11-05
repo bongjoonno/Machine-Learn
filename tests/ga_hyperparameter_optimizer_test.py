@@ -9,18 +9,10 @@ def ga_hyperparameter_optimizer_test():
 
     insurance_x_train, insurance_x_test = scale_data(insurance_x_train, insurance_x_test, ['age', 'bmi', 'children'])
 
-    linear_regression_model = LinearRegression(insurance_x_train, insurance_y_train)
+    linear_regression_model = LinearRegression()
     ga_hparameter_optimizer = GAHParamOptimizer()
     
-    ga_hparameter_optimizer.optimize()
-
-
-    for epochs, learning_rate in ga_hparameter_optimizer.population:
-        linear_regression_model.train(epochs, learning_rate)
-        y_pred = linear_regression_model.predict(insurance_x_test)
-        linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
-        print(epochs, learning_rate, linear_regression_r_squared)
-
+    ga_hparameter_optimizer.optimize(linear_regression_model=, x_validation, y_validation)
     
 
 
