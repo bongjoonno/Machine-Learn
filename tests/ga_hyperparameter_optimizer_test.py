@@ -15,3 +15,8 @@ def ga_hyperparameter_optimizer_test():
 
     linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
     return linear_regression_r_squared
+
+
+
+# generate initial population of random parameters (able to specify multiple)
+# how can it be general though since ranges for randomization need to be specified
