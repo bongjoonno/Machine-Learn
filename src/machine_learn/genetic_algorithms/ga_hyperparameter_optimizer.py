@@ -22,17 +22,16 @@ class GAHParamOptimizer:
         for _ in range(generations):
             self.fitness()
     
+    def fitness(self):
+        for i, (epochs, learning_rate) in enumerate(self.population):
+            self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
+            self.fitness_scores[i] = self.model.min_loss
+
     def generate_population(self):
         for i in range(self.population_size):
             random_epochs = np.random.randint(GAHParamOptimizer.epoch_low, GAHParamOptimizer.epoch_high)
             random_learning_rate = np.random.uniform(GAHParamOptimizer.learning_rate_low, GAHParamOptimizer.learning_rate_high)
             self.population[i] = ((random_epochs, random_learning_rate))
-
-
-    def fitness(self):
-        for i, epochs, learning_rate in enumerate(self.population):
-            self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
-            self.fitness_scores[i] = self.model.min_loss
 
 
 

@@ -1,4 +1,4 @@
-from machine_learn.data_manipulation import train_test_validate_split
+from src.machine_learn.data_manipulation import train_test_validate_split
 from src.machine_learn.models.linear_regression import LinearRegression
 from src.machine_learn.data_imports.data_imports import insurance_x, insurance_y
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
@@ -9,7 +9,7 @@ from src.machine_learn.imports import StandardScaler
 def ga_hyperparameter_optimizer_test():
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(insurance_x, insurance_y)
     scaler = StandardScaler()
-    scaler.fit(x_train)
+    scaler.fit(x_train.loc[:, ['age', 'bmi', 'children']])
 
     x_train.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_train.loc[:, ['age', 'bmi', 'children']])
     x_test.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_test.loc[:, ['age', 'bmi', 'children']])
