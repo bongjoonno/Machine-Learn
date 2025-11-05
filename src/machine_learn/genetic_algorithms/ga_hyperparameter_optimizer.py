@@ -11,6 +11,19 @@ class GAHParamOptimizer:
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
 
+    def optimize(self, generations = 100):
+        self.genetic_evolution(generations)
+    
+    def genetic_evolution(self, generations):
+        self.generate_population()
+        
+        for _ in range(generations):
+            self.fitness()
+    
+    def fitness(self):
+        pass
+
+
     def generate_population(self):
         for i in range(self.population_size):
             random_epochs = np.random.randint(GAHParamOptimizer.epoch_low, GAHParamOptimizer.epoch_high)
