@@ -9,11 +9,11 @@ from src.machine_learn.imports import StandardScaler, plt
 
 def ga_hyperparameter_optimizer_test():
     x_train, y_train, x_test, y_test = train_test_split(student_x, student_y)
-    #scaler = StandardScaler()
-    #scaler.fit_transform(x_train)
+    scaler = StandardScaler()
+    scaler.fit_transform(x_train)
 
-    #x_test = scaler.transform(x_test)
-    #_val = scaler.transform(x_val)
+    x_test = scaler.transform(x_test)
+    #x_val = scaler.transform(x_val)
 
 
 
@@ -25,7 +25,7 @@ def ga_hyperparameter_optimizer_test():
 
     linear_regression_model.train(x_train, y_train)
     y_pred = linear_regression_model.predict(x_test)
-    return r_squared(y_pred, y_test), linear_regression_model.min_loss
+    return r_squared(y_pred, y_test)
 
 # generate initial population of random (epoch, learning_rate) tuple pairs
 # random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
