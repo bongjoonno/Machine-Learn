@@ -25,8 +25,9 @@ def ga_hyperparameter_optimizer_test():
 
     linear_regression_model.train(x_train, y_train)
     y_pred = linear_regression_model.predict(x_test)
-    plt.plot(y_pred, label = 'y_pred')
+    #plt.plot(y_pred, label = 'y_pred')
     plt.plot(y_test, label = 'y_test')
+    plt.show()
     return r_squared(y_pred, y_test), linear_regression_model.min_loss
 
 # generate initial population of random (epoch, learning_rate) tuple pairs
