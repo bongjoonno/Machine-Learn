@@ -1,6 +1,6 @@
 from src.machine_learn.data_manipulation import train_test_validate_split
 from src.machine_learn.models.linear_regression import LinearRegression
-from src.machine_learn.data_imports.data_imports import insurance_x, insurance_y
+from src.machine_learn.data_imports import student_df
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
 from src.machine_learn.metrics.metrics_imports import r_squared
 from src.machine_learn.genetic_algorithms.ga_hyperparameter_optimizer import GAHParamOptimizer

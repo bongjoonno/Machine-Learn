@@ -1,8 +1,9 @@
 from tests.all_tests import run_all_tests
-
+from src.machine_learn.data_imports import student_performance_data
 
 def main():
-    return run_all_tests()
+    pass
+    #return run_all_tests()
 
 
 
