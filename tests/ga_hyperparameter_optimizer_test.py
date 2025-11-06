@@ -11,8 +11,8 @@ def ga_hyperparameter_optimizer_test():
     scaler = StandardScaler()
     scaler.fit_transform(x_train)
 
-    x_test = scaler.transform(x_test[['age', 'bmi', 'children']])
-    x_val = scaler.transform(x_val[['age', 'bmi', 'children']])
+    x_test = scaler.transform(x_test)
+    x_val = scaler.transform(x_val)
 
 
 
