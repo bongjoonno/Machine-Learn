@@ -3,12 +3,12 @@ from src.machine_learn.models.linear_regression import LinearRegression
 
 class GAHParamOptimizer:
     epoch_low = 1
-    epoch_high = 1000
+    epoch_high = 5_000
 
-    learning_rate_low = 0.001
-    learning_rate_high = 0.5
+    learning_rate_low = 0.00001
+    learning_rate_high = 1
 
-    def __init__(self, population_size = 100):
+    def __init__(self, population_size = 8):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
@@ -20,12 +20,27 @@ class GAHParamOptimizer:
         self.y_validation = y_validation
 
         self.fitness()
+        population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
+        self.top_50_percent = population_sorted_by_fitness[:self.population_size//2]
+        print(population_sorted_by_fitness)
+        print(self.top_50_percent)
+        self.repopulate()
+    
+    def repopulate(self):
+        np.random.shuffle(self.top_50_percent)
+        
+        for i in range(0, len(self.top_50_percent)-1, 2):
+            parent1 = self.top_50_percent[i]
+            parent2 = self.top_50_percent[i+1]
+            print(parent1, parent2)
+    
+    def crossover(self):
+        pass
     
     def fitness(self):
         for i, (epochs, learning_rate) in enumerate(self.population):
             self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
             self.fitness_scores[i] = self.model.min_loss
-            print(epochs, learning_rate, self.model.min_loss)
 
     def generate_population(self):
         for i in range(self.population_size):
