@@ -1,18 +1,18 @@
 from src.machine_learn.data_manipulation import train_test_validate_split
 from src.machine_learn.models.linear_regression import LinearRegression
-from src.machine_learn.data_imports import student_df
+from src.machine_learn.data_imports.student_performance_data import student_x, student_y
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
 from src.machine_learn.metrics.metrics_imports import r_squared
 from src.machine_learn.genetic_algorithms.ga_hyperparameter_optimizer import GAHParamOptimizer
 from src.machine_learn.imports import StandardScaler
 
 def ga_hyperparameter_optimizer_test():
-    x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(insurance_x, insurance_y)
+    x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(student_x, student_y)
     scaler = StandardScaler()
-    scaler.fit_transform(x_train[['age', 'bmi', 'children']])
+    scaler.fit_transform(x_train)
 
-    x_test.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_test[['age', 'bmi', 'children']])
-    x_val.loc[:, ['age', 'bmi', 'children']] = scaler.transform(x_val[['age', 'bmi', 'children']])
+    x_test = scaler.transform(x_test[['age', 'bmi', 'children']])
+    x_val = scaler.transform(x_val[['age', 'bmi', 'children']])
 
 
 
