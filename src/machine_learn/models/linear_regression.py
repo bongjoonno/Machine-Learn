@@ -2,28 +2,25 @@ from src.machine_learn.imports import np
 from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
-    def __init__(self):
-        pass
-
-    def train(self, x_train, y_train, epochs=EPOCHS, learning_rate=LEARNING_RATE):
-        self.x_train = x_train
-        self.y_train = y_train
-
-        n = len(self.x_train)
-        
-        self.x_train = np.column_stack((np.ones(len(self.x_train)), self.x_train))
-        
-        one_divided_by_n = 1/n
-        
-        self.theta = np.zeros(self.x_train.shape[1])
-        
-        for _ in range(epochs):
-            y_pred = self.x_train @ self.theta
-            errors = y_pred - self.y_train
-            gradient = one_divided_by_n * (self.x_train.T @ errors)
-            self.theta -= learning_rate * gradient
-    
-    def predict(self, x):
+    def train(self, x, y, epochs=EPOCHS, learning_rate=LEARNING_RATE):   
         x = np.column_stack((np.ones(len(x)), x))
-        y_pred = x @ self.theta
+        one_divided_by_n = 1/(x.shape[1])
+
+        self.theta = np.ones(x.shape[1])
+        self.min_loss = float('inf')
+
+        for _ in range(epochs):
+            y_pred = x @ self.theta
+            errors = y_pred - y
+            gradient = one_divided_by_n * (x.T @ errors)
+            self.theta -= learning_rate * gradient
+
+            mse = np.mean(errors**2)
+            self.min_loss = min(mse, self.min_loss)
+            print(mse)
+
+    
+    def predict(self, x_test):
+        x_test = np.column_stack((np.ones(len(x_test)), x_test))
+        y_pred = x_test @ self.theta
         return y_pred

@@ -1,5 +1,4 @@
-from tests.model_tests.all_model_tests import run_all_tests
-
+from tests.all_tests import run_all_tests
 
 def main():
     return run_all_tests()

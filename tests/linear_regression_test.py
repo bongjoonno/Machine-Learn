@@ -1,6 +1,6 @@
 from src.machine_learn.models.linear_regression import LinearRegression
 from src.machine_learn.data_imports.data_imports import insurance_x, insurance_y
-from src.machine_learn.data_manipulation.data_manipulation_imports import train_test_split, scale_data
+from src.machine_learn.data_manipulation.train_test_split import train_test_split, scale_data
 from src.machine_learn.metrics.metrics_imports import r_squared
 
 def linear_regression_test():

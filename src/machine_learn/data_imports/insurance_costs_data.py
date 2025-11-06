@@ -14,3 +14,4 @@ insurance_df = pd.concat([insurance_df, regions], axis=1)
 
 insurance_x = insurance_df.drop(columns='charges')
 insurance_y = insurance_df['charges']
+

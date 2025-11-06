@@ -1,7 +1,7 @@
-def train_test_split(x, y, train_split=0.8):
+def train_test_split(x, y, train_size=0.8):
     n = len(x)
     
-    training_border = int(train_split * n)
+    training_border = int(train_size * n)
     
     x_train = x[:training_border]
     y_train = y[:training_border]

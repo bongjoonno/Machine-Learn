@@ -16,12 +16,15 @@ class LogisticRegression:
         one_divided_by_n = 1/n
         
         self.theta = np.zeros(self.x_train.shape[1])
+        self.min_loss = float('inf')
         
         for _ in range(epochs):
             y_pred = LogisticRegression.sigmoid(self.x_train @ self.theta)
             errors = y_pred - self.y_train
             gradient = one_divided_by_n * (self.x_train.T @ errors)
             self.theta -= learning_rate * gradient
+            mse = np.mean(errors**2)
+            self.min_loss = min(self.min_loss, mse)
         
     @staticmethod
     def sigmoid(x):

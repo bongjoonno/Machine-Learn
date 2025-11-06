@@ -1,2 +1,0 @@
-from src.machine_learn.data_manipulation.scale_data import scale_data
-from src.machine_learn.data_manipulation.train_test_split import train_test_split
