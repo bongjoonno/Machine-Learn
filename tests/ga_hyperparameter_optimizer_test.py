@@ -23,9 +23,9 @@ def ga_hyperparameter_optimizer_test():
     #ga_hparameter_optimizer.optimize(linear_regression_model, x_val, y_val)
     
 
-    linear_regression_model.train(x_train, y_train)
+    linear_regression_model.train(x_train, y_train, epochs=15)
     y_pred = linear_regression_model.predict(x_test)
-    return r_squared(y_pred, y_test)
+    #return r_squared(y_pred, y_test)
 
 # generate initial population of random (epoch, learning_rate) tuple pairs
 # random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
