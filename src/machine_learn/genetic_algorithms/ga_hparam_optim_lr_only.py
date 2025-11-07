@@ -29,14 +29,15 @@ class GAHParamOptim:
                 self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
 
                 # biasin toward smaller learning rates, needs fix
-                fitness_to_population_sorted_by_fitness = sorted(zip(self.fitness_scores, self.population))
-                population_sorted_by_fitness = [solution for _, solution in fitness_to_population_sorted_by_fitness]
-                top_50_percent = population_sorted_by_fitness[:self.population_size//2]
+                fitness_to_population = list(zip(self.fitness_scores, self.population))
+                np.random.shuffle(fitness_to_population)
+                fitness_to_population_sorted = sorted(fitness_to_population, key=lambda x: x[0])[:self.population_size//2]
+                top_50_percent = [solution for _, solution in fitness_to_population_sorted]
 
                 children = GAHParamOptim.make_offspring(top_50_percent)
                 self.population = top_50_percent + children
 
-                for item in fitness_to_population_sorted_by_fitness: print(item)
+                for item in fitness_to_population_sorted: print(item)
                 print('\n')
 
                 
