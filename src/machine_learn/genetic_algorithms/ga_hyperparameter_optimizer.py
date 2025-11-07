@@ -26,7 +26,7 @@ class GAHParamOptimizer:
             generation_average_fitness_score = np.mean(self.fitness_scores)
    
             self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
-            
+
             population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
             top_50_percent = population_sorted_by_fitness[:self.population_size//2]
 
@@ -34,6 +34,7 @@ class GAHParamOptimizer:
             self.population = top_50_percent + children
 
             if self.fitness_scores[0] < self.lowest_loss:
+                self.lowest_loss = self.fitness_scores[0]
                 self.lowest_loss_solution = population_sorted_by_fitness[0]
             
             print(self.lowest_loss, self.lowest_loss_solution)
