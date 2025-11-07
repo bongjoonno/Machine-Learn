@@ -35,7 +35,7 @@ class GAHParamOptim:
                 self.lowest_loss = self.fitness_scores[0]
                 self.lowest_loss_solution = population_sorted_by_fitness[0]
             
-            print(self.lowest_loss, self.lowest_loss_solution)
+        return self.lowest_loss_solution
 
 
     
