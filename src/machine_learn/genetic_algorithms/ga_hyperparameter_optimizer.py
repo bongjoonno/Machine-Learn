@@ -18,7 +18,7 @@ class GAHParamOptimizer:
         self.x_validation = x_validation
         self.y_validation = y_validation
         self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
-
+        self.lowest_loss = float('inf')
 
         for i in tqdm(range(generations)):
             self.fitness()
@@ -26,14 +26,17 @@ class GAHParamOptimizer:
             generation_average_fitness_score = np.mean(self.fitness_scores)
    
             self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
-
-            print(self.avg_fitness_scores_per_generation)
-
+            
             population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
             top_50_percent = population_sorted_by_fitness[:self.population_size//2]
 
             children = GAHParamOptimizer.make_offspring(top_50_percent)
             self.population = top_50_percent + children
+
+            if self.fitness_scores[0] < self.lowest_loss:
+                self.lowest_loss_solution = population_sorted_by_fitness[0]
+            
+            print(self.lowest_loss, self.lowest_loss_solution)
 
 
     
