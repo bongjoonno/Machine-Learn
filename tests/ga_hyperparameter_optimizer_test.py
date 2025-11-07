@@ -36,17 +36,6 @@ def ga_hyperparameter_optimizer_test():
     print(f'{EPOCHS=} {LEARNING_RATE=} {acc_w_default_hparams=}')
     print(f'{EPOCHS=} {optimal_learning_rate=} {acc_w_optim_hparams=}')
     
-    
 
-    #plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
+    plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
     plt.show()
-
-# generate initial population of random (epoch, learning_rate) tuple pairs
-# random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
-# evaluate each by training and getting fitness function
-
-
-# ughh need validation set...
-# Training:   ~65%
-# Validation: ~15%
-# Testing:    ~20%
