@@ -1,9 +1,7 @@
 from src.machine_learn.imports import np, tqdm
 from src.machine_learn.models.linear_regression import LinearRegression
-class GAHParamOptimizer:
-    epoch_low = 500
-    epoch_high = 5_000
 
+class GAHParamOptim:
     learning_rate_low = 0.00001
     learning_rate_high = 0.1
 
@@ -30,7 +28,7 @@ class GAHParamOptimizer:
             population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
             top_50_percent = population_sorted_by_fitness[:self.population_size//2]
 
-            children = GAHParamOptimizer.make_offspring(top_50_percent)
+            children = GAHParamOptim.make_offspring(top_50_percent)
             self.population = top_50_percent + children
 
             if self.fitness_scores[0] < self.lowest_loss:
@@ -38,9 +36,6 @@ class GAHParamOptimizer:
                 self.lowest_loss_solution = population_sorted_by_fitness[0]
             
             print(self.lowest_loss, self.lowest_loss_solution)
-        
-        return self.lowest_loss_solution
-
 
 
     
@@ -54,7 +49,7 @@ class GAHParamOptimizer:
             parent_a = top_50_percent[i]
             parent_b = top_50_percent[i+1]
 
-            child1, child2 = GAHParamOptimizer.crossover(parent_a, parent_b)
+            child1, child2 = GAHParamOptim.crossover(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
@@ -63,31 +58,23 @@ class GAHParamOptimizer:
     
     @staticmethod
     def crossover(parent_a, parent_b):
-        epochs_weight1 = np.random.uniform(0, 1)
-        epochs_weight2 = 1 - epochs_weight1
-
         lr_weight1 = np.random.uniform(0, 1)
         lr_weight2 = 1 - lr_weight1
-
-
-        child_a_epochs = int((parent_a[0]*epochs_weight1) + (parent_b[0]*epochs_weight2))
-        child_b_epochs = int((parent_a[0]*epochs_weight2) + (parent_b[0]*epochs_weight1))
 
         child_a_lr = (parent_a[1]*lr_weight1) + (parent_b[1]*lr_weight2)
         child_b_lr = (parent_a[1]*lr_weight2) + (parent_b[1]*lr_weight1)
 
-        return ((child_a_epochs, child_a_lr), (child_b_epochs, child_b_lr))
+        return child_a_lr, child_b_lr
 
     def fitness(self):
-        for i, (epochs, learning_rate) in enumerate(self.population):
+        for i, ad in enumerate(self.population):
             self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
         for i in range(self.population_size):
-            random_epochs = np.random.randint(GAHParamOptimizer.epoch_low, GAHParamOptimizer.epoch_high)
-            random_learning_rate = np.random.uniform(GAHParamOptimizer.learning_rate_low, GAHParamOptimizer.learning_rate_high)
-            self.population[i] = ((random_epochs, random_learning_rate))
+            random_learning_rate = np.random.uniform(GAHParamOptim.learning_rate_low, GAHParamOptim.learning_rate_high)
+            self.population[i] = random_learning_rate
 
 
 

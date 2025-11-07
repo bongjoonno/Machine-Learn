@@ -3,6 +3,7 @@ from src.machine_learn.models.logistic_regression import LogisticRegression
 from src.machine_learn.data_imports.breast_cancer_data import breast_cancer_x, breast_cancer_y
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
 from src.machine_learn.genetic_algorithms.ga_hyperparameter_optimizer import GAHParamOptimizer
+from src.machine_learn.genetic_algorithms.ga_hparam_optim_lr_only import GAHParamOptim
 from src.machine_learn.imports import StandardScaler
 from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 from src.machine_learn.imports import plt
@@ -18,14 +19,16 @@ def ga_hyperparameter_optimizer_test():
 
 
     logistic_regression_model = LogisticRegression()
-    ga_hparameter_optimizer = GAHParamOptimizer()
+    ga_hparameter_optimizer = GAHParamOptim()
     
-    #ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
+    
     logistic_regression_model.train(x_train, y_train)
     y_pred = logistic_regression_model.predict(x_test)
     acc_w_default_hparams = categorical_accuracy(y_pred, y_test)
 
-    logistic_regression_model.train(x_train, y_train, 1_000, 0.9084582095481644)
+    optimal_learning_rate = ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
+
+    logistic_regression_model.train(x_train, y_train, learning_rate = optimal_learning_rate)
     y_pred = logistic_regression_model.predict(x_test)
     acc_w_optim_hparams = categorical_accuracy(y_pred, y_test)
 
