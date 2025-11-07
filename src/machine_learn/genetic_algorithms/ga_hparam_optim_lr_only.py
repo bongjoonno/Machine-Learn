@@ -11,23 +11,22 @@ class GAHParamOptim:
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
+    def optimize(self, model: LinearRegression, x_validation, y_validation, generations = 10):
         solution_to_loss = {}
+        self.model = model
+        self.x_validation = x_validation
+        self.y_validation = y_validation
+        self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
 
         for _ in range(GAHParamOptim.optimization_runs):
             self.generate_population()
-            self.model = linear_regression_model
-            self.x_validation = x_validation
-            self.y_validation = y_validation
-            self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
-            self.lowest_loss = float('inf')
 
-            for i in tqdm(range(generations)):
+            for gen in tqdm(range(generations)):
                 self.fitness()
 
                 generation_average_fitness_score = np.mean(self.fitness_scores)
     
-                self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
+                self.avg_fitness_scores_per_generation[gen] = generation_average_fitness_score
 
                 population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
                 top_50_percent = population_sorted_by_fitness[:self.population_size//2]
@@ -36,6 +35,8 @@ class GAHParamOptim:
                 self.population = top_50_percent + children
 
                 solution_to_loss[top_50_percent[0]] = min(self.fitness_scores)
+        
+        return min(solution_to_loss, key=solution_to_loss.get)
             
 
 
@@ -74,9 +75,9 @@ class GAHParamOptim:
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
-        for i in range(self.population_size):
+        for pp in range(self.population_size):
             random_learning_rate = np.random.uniform(GAHParamOptim.learning_rate_low, GAHParamOptim.learning_rate_high)
-            self.population[i] = random_learning_rate
+            self.population[pp] = random_learning_rate
 
 
 
