@@ -12,7 +12,8 @@ class GAHParamOptim:
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
     def optimize(self, model: LinearRegression, x_validation, y_validation, generations = 10):
-        solution_to_loss = {}
+        best_fitness_solution_pairs = []
+
         self.model = model
         self.x_validation = x_validation
         self.y_validation = y_validation
@@ -37,12 +38,11 @@ class GAHParamOptim:
                 children = GAHParamOptim.make_offspring(top_50_percent)
                 self.population = top_50_percent + children
 
-                for item in fitness_to_population_sorted: print(item)
-                print('\n')
+                best_fitness_solution_pairs.append(fitness_to_population_sorted[0])
 
                 
         
-        return min(solution_to_loss, key=solution_to_loss.get)
+        return min(best_fitness_solution_pairs, key=lambda x: x[0])
             
 
 
