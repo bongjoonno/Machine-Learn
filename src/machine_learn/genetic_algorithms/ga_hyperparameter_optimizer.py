@@ -32,14 +32,14 @@ class GAHParamOptimizer:
         children = []
 
         for i in range(0, len(self.top_50_percent)-1, 2):
-            parent1 = self.top_50_percent[i]
-            parent2 = self.top_50_percent[i+1]
-            child1, child2 = self.crossover(parent1, parent2)
+            parent_a = self.top_50_percent[i]
+            parent_b = self.top_50_percent[i+1]
+            child1, child2 = self.crossover(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
 
-            print(parent1, parent2, child1, child2)
+            print(parent_a, parent_b, child1, child2)
     
     def crossover(self, parent_a, parent_b):
         epochs_weight1 = np.random.random()
