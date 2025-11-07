@@ -1,25 +1,24 @@
 from src.machine_learn.imports import np, tqdm
-from src.machine_learn.models.linear_regression import LinearRegression
 
 class GAHParamOptim:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
     optimization_runs = 10
 
-    def __init__(self, population_size = 8):
+    def __init__(self, population_size = 12):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, model: LinearRegression, x_validation, y_validation, generations = 10):
+    def optimize(self, model, x_validation, y_validation, generations = 25):
         best_fitness_solution_pairs = []
 
         self.model = model
         self.x_validation = x_validation
         self.y_validation = y_validation
-        self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
+        self.avg_fitness_scores_per_generation = []
 
-        for _ in range(GAHParamOptim.optimization_runs):
+        for _ in tqdm(range(GAHParamOptim.optimization_runs)):
             self.generate_population()
 
             for i in range(generations):
@@ -27,7 +26,7 @@ class GAHParamOptim:
 
                 generation_average_fitness_score = np.mean(self.fitness_scores)
     
-                self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
+                self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
 
                 # biasin toward smaller learning rates, needs fix
                 fitness_to_population = list(zip(self.fitness_scores, self.population))
@@ -40,8 +39,6 @@ class GAHParamOptim:
 
                 best_fitness_solution_pairs.append(fitness_to_population_sorted[0])
 
-                
-        
         return min(best_fitness_solution_pairs, key=lambda x: x[0])[1]
             
 
