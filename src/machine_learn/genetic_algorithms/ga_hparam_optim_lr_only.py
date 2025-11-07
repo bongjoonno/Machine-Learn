@@ -10,7 +10,7 @@ class GAHParamOptim:
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 25):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
