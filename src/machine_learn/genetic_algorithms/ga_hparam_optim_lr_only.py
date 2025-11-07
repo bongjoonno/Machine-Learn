@@ -2,8 +2,8 @@ from src.machine_learn.imports import np, tqdm
 from src.machine_learn.models.linear_regression import LinearRegression
 
 class GAHParamOptim:
-    learning_rate_low = 0.001
-    learning_rate_high = 0.05
+    learning_rate_low = 0.0001
+    learning_rate_high = 0.1
 
     def __init__(self, population_size = 50):
         self.population_size = population_size
