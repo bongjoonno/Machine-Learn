@@ -68,7 +68,7 @@ class GAHParamOptim:
 
     def fitness(self):
         for i, learning_rate in enumerate(self.population):
-            self.model.train(self.x_validation, self.y_validation, epochs = 10, learning_rate = learning_rate)
+            self.model.train(self.x_validation, self.y_validation, epochs = 20, learning_rate = learning_rate)
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
