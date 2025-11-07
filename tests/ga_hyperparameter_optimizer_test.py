@@ -22,9 +22,6 @@ def ga_hyperparameter_optimizer_test():
     
     ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
 
-    for avg_fitness_score in ga_hparameter_optimizer.avg_fitness_scores_per_generation:
-        print(avg_fitness_score)
-        
     plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
     plt.show()
 

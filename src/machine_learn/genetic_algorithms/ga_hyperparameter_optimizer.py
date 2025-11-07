@@ -12,7 +12,7 @@ class GAHParamOptimizer:
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 5):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
@@ -24,6 +24,11 @@ class GAHParamOptimizer:
             self.fitness()
 
             generation_average_fitness_score = np.mean(self.fitness_scores)
+            
+            for val in self.fitness_scores:
+                print(val)
+            
+            print(f'{generation_average_fitness_score=}')
             self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
 
             population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
