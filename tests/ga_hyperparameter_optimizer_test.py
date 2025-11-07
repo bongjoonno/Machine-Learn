@@ -17,7 +17,7 @@ def ga_hyperparameter_optimizer_test():
 
     x_test = scaler.transform(x_test)
 
-
+    x_val = scaler.transform(x_val)
 
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptim()
@@ -65,6 +65,12 @@ def ga_hyperparameter_optimizer_test():
     
     print(f'{convergence_diff=}')
     
+    convergence_diff_percentage = ((epochs_at_convergence_optim - epochs_at_convergence_base) / epochs_at_convergence_base) * 100
+    
+    if convergence_diff_percentage < 0:
+        print(f'Convergence time was reduced by {abs(convergence_diff_percentage):.2f}%')
+    else:
+        print(f'Convergence time was increase by {abs(convergence_diff_percentage):.2f}%, you suck.')
     
     plt.plot(epochs_lst, base_acc, label = f'lr = {LEARNING_RATE}')
     plt.plot(epochs_lst, optim_acc, label = 'lr = optimized')
