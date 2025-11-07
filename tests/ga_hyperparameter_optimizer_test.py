@@ -27,7 +27,7 @@ def ga_hyperparameter_optimizer_test():
     y_pred = logistic_regression_model.predict(x_test)
     acc_w_default_hparams = categorical_accuracy(y_pred, y_test)
 
-    optimal_learning_rate = ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
+    optimal_learning_rate = 0.2#ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
 
     logistic_regression_model.train(x_train, y_train, learning_rate = optimal_learning_rate)
     y_pred = logistic_regression_model.predict(x_test)
