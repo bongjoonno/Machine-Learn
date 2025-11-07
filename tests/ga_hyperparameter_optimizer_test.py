@@ -22,7 +22,7 @@ def ga_hyperparameter_optimizer_test():
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptim()
     
-    epochs_lst = [_ for _ in range(1, 1000, 20)]
+    epochs_lst = [_ for _ in range(1, 1000, 10)]
     base_acc = []
     optim_acc = []
     
