@@ -5,6 +5,7 @@ from src.machine_learn.data_manipulation.train_test_validate_split import train_
 from src.machine_learn.genetic_algorithms.ga_hyperparameter_optimizer import GAHParamOptimizer
 from src.machine_learn.imports import StandardScaler
 from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
+from src.machine_learn.imports import plt
 
 def ga_hyperparameter_optimizer_test():
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(breast_cancer_x, breast_cancer_y)
@@ -21,6 +22,11 @@ def ga_hyperparameter_optimizer_test():
     
     ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
 
+    for avg_fitness_score in ga_hparameter_optimizer.avg_fitness_scores_per_generation:
+        print(avg_fitness_score)
+        
+    plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
+    plt.show()
 
 # generate initial population of random (epoch, learning_rate) tuple pairs
 # random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)

@@ -1,11 +1,10 @@
-from src.machine_learn.imports import np
+from src.machine_learn.imports import np, tqdm
 from src.machine_learn.models.linear_regression import LinearRegression
-
 class GAHParamOptimizer:
     epoch_low = 1
     epoch_high = 5_000
 
-    learning_rate_low = 0.00001
+    learning_rate_low = 0.000001
     learning_rate_high = 1
 
     def __init__(self, population_size = 8):
@@ -13,39 +12,51 @@ class GAHParamOptimizer:
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 100):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
         self.y_validation = y_validation
+        self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
 
-        self.fitness()
-        population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
-        self.top_50_percent = population_sorted_by_fitness[:self.population_size//2]
-        print(population_sorted_by_fitness)
-        print(self.top_50_percent)
-        self.repopulate()
+
+        for _ in tqdm(range(generations)):
+            self.fitness()
+
+            generation_average_fitness_score = np.mean(self.fitness_scores)
+            self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
+
+            population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
+            top_50_percent = population_sorted_by_fitness[:self.population_size//2]
+
+            children = GAHParamOptimizer.make_offspring(top_50_percent)
+            self.population = top_50_percent + children
+
+
     
-    def repopulate(self):
-        np.random.shuffle(self.top_50_percent)
+    @staticmethod
+    def make_offspring(top_50_percent):
+        np.random.shuffle(top_50_percent)
         
         children = []
 
-        for i in range(0, len(self.top_50_percent)-1, 2):
-            parent_a = self.top_50_percent[i]
-            parent_b = self.top_50_percent[i+1]
-            child1, child2 = self.crossover(parent_a, parent_b)
+        for i in range(0, len(top_50_percent)-1, 2):
+            parent_a = top_50_percent[i]
+            parent_b = top_50_percent[i+1]
+
+            child1, child2 = GAHParamOptimizer.crossover(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
 
-            print(parent_a, parent_b, child1, child2)
+        return children
     
-    def crossover(self, parent_a, parent_b):
-        epochs_weight1 = np.random.random()
+    @staticmethod
+    def crossover(parent_a, parent_b):
+        epochs_weight1 = np.random.uniform(0, 1)
         epochs_weight2 = 1 - epochs_weight1
 
-        lr_weight1 = np.random.random()
+        lr_weight1 = np.random.uniform(0, 1)
         lr_weight2 = 1 - lr_weight1
 
 
