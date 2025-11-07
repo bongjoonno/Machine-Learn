@@ -24,12 +24,10 @@ class GAHParamOptimizer:
             self.fitness()
 
             generation_average_fitness_score = np.mean(self.fitness_scores)
-            
-            for val in self.fitness_scores:
-                print(val)
-            
-            print(f'{generation_average_fitness_score=}')
+   
             self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
+
+            print(self.avg_fitness_scores_per_generation)
 
             population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
             top_50_percent = population_sorted_by_fitness[:self.population_size//2]
