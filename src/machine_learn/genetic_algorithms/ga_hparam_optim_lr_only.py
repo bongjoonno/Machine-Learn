@@ -5,12 +5,12 @@ class GAHParamOptim:
     learning_rate_low = 0.00001
     learning_rate_high = 0.1
 
-    def __init__(self, population_size = 20):
+    def __init__(self, population_size = 10):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 50):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
@@ -61,14 +61,14 @@ class GAHParamOptim:
         lr_weight1 = np.random.uniform(0, 1)
         lr_weight2 = 1 - lr_weight1
 
-        child_a_lr = (parent_a[1]*lr_weight1) + (parent_b[1]*lr_weight2)
-        child_b_lr = (parent_a[1]*lr_weight2) + (parent_b[1]*lr_weight1)
+        child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
+        child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
 
         return child_a_lr, child_b_lr
 
     def fitness(self):
-        for i, ad in enumerate(self.population):
-            self.model.train(self.x_validation, self.y_validation, epochs, learning_rate)
+        for i, learning_rate in enumerate(self.population):
+            self.model.train(self.x_validation, self.y_validation, learning_rate = learning_rate)
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
