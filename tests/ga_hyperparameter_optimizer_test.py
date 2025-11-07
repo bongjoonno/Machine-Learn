@@ -22,7 +22,7 @@ def ga_hyperparameter_optimizer_test():
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptim()
     
-    epochs_lst = [_ for _ in range(1, 500, 10)]
+    epochs_lst = [_ for _ in range(1, 300, 5)]
     base_acc = []
     optim_acc = []
     
@@ -66,7 +66,7 @@ def ga_hyperparameter_optimizer_test():
     print(f'{convergence_diff=}')
     
     
-    plt.plot(epochs_lst, base_acc, label = 'lr = 0.1')
+    plt.plot(epochs_lst, base_acc, label = f'lr = {LEARNING_RATE}')
     plt.plot(epochs_lst, optim_acc, label = 'lr = optimized')
     plt.xlabel('epochs')
     plt.ylabel('R2')
