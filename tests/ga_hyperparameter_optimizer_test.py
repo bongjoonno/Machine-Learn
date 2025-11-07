@@ -7,6 +7,7 @@ from src.machine_learn.genetic_algorithms.ga_hparam_optim_lr_only import GAHPara
 from src.machine_learn.imports import StandardScaler
 from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 from src.machine_learn.imports import plt
+from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 def ga_hyperparameter_optimizer_test():
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(breast_cancer_x, breast_cancer_y)
@@ -32,8 +33,8 @@ def ga_hyperparameter_optimizer_test():
     y_pred = logistic_regression_model.predict(x_test)
     acc_w_optim_hparams = categorical_accuracy(y_pred, y_test)
 
-    print(f'{acc_w_default_hparams=}')
-    print(f'{acc_w_optim_hparams=}')
+    print(f'{EPOCHS=} {LEARNING_RATE=} {acc_w_default_hparams=}')
+    print(f'{EPOCHS=} {optimal_learning_rate=} {acc_w_optim_hparams=}')
     
     
 
