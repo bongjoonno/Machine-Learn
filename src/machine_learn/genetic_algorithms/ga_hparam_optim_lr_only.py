@@ -6,7 +6,7 @@ class GAHParamOptim:
     learning_rate_high = 0.1
     optimization_runs = 10
 
-    def __init__(self, population_size = 10):
+    def __init__(self, population_size = 8):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
@@ -21,7 +21,7 @@ class GAHParamOptim:
         for _ in range(GAHParamOptim.optimization_runs):
             self.generate_population()
 
-            for gen in tqdm(range(generations)):
+            for _ in range(generations):
                 self.fitness()
 
                 generation_average_fitness_score = np.mean(self.fitness_scores)
@@ -33,6 +33,7 @@ class GAHParamOptim:
 
                 children = GAHParamOptim.make_offspring(top_50_percent)
                 self.population = top_50_percent + children
+                print(len(self.population))
 
                 solution_to_loss[top_50_percent[0]] = min(self.fitness_scores)
         
@@ -75,9 +76,9 @@ class GAHParamOptim:
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
-        for pp in range(self.population_size):
+        for i in range(self.population_size):
             random_learning_rate = np.random.uniform(GAHParamOptim.learning_rate_low, GAHParamOptim.learning_rate_high)
-            self.population[pp] = random_learning_rate
+            self.population[i] = random_learning_rate
 
 
 
