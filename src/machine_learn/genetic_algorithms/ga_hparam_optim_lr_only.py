@@ -4,7 +4,7 @@ class GAHParamOptim:
     learning_rate_low = 0.0001
     learning_rate_high = 0.05
 
-    def __init__(self, population_size = 28):
+    def __init__(self, population_size = 40):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
