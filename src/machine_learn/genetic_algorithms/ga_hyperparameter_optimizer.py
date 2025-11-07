@@ -39,7 +39,7 @@ class GAHParamOptimizer:
             
             print(self.lowest_loss, self.lowest_loss_solution)
         
-        return self.lowest_loss_solution
+        return self.lowest
 
 
 
