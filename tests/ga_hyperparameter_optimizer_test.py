@@ -1,8 +1,6 @@
-from src.machine_learn.data_manipulation import train_test_validate_split
 from src.machine_learn.models.logistic_regression import LogisticRegression
 from src.machine_learn.data_imports.breast_cancer_data import breast_cancer_x, breast_cancer_y
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
-from src.machine_learn.genetic_algorithms.ga_hyperparameter_optimizer import GAHParamOptimizer
 from src.machine_learn.genetic_algorithms.ga_hparam_optim_lr_only import GAHParamOptim
 from src.machine_learn.imports import StandardScaler
 from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
@@ -22,9 +20,10 @@ def ga_hyperparameter_optimizer_test():
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptim()
     
-    epochs_lst = [_ for _ in range(1, 300, 3)]
+    epochs_lst = [_ for _ in range(1, 300, 5)]
     base_acc = []
     optim_acc = []
+    optimal_learning_rates = []
     
     for epochs in epochs_lst:
         logistic_regression_model.train(x_train, y_train, epochs=epochs)
@@ -32,7 +31,8 @@ def ga_hyperparameter_optimizer_test():
         acc_w_default_hparams = categorical_accuracy(y_pred, y_test)
 
         optimal_learning_rate = ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
-
+        optimal_learning_rates.append(optimal_learning_rate)
+        
         logistic_regression_model.train(x_train, y_train, epochs=epochs, learning_rate = optimal_learning_rate)
         y_pred = logistic_regression_model.predict(x_test)
         acc_w_optim_hparams = categorical_accuracy(y_pred, y_test)
@@ -58,8 +58,11 @@ def ga_hyperparameter_optimizer_test():
     epochs_at_convergence_base = epochs_lst[base_acc.index(max_r2_base_acc)]
     epochs_at_convergence_optim = epochs_lst[optim_acc.index(max_r2_optim_acc)]
     
+    lr_at_convergence_optim = optimal_learning_rates[optim_acc.index(max_r2_optim_acc)]
+    
     print(f'{epochs_at_convergence_base=}')
     print(f'{epochs_at_convergence_optim=}')
+    print(f'{lr_at_convergence_optim=}')
    
     convergence_diff = epochs_at_convergence_base - epochs_at_convergence_optim
     
@@ -72,9 +75,17 @@ def ga_hyperparameter_optimizer_test():
     else:
         print(f'Convergence time was increase by {abs(convergence_diff_percentage):.2f}%, you suck.')
     
+    logistic_regression_model.train(x_train, y_train, epochs = epochs_at_convergence_optim, learning_rate = lr_at_convergence_optim)
+    y_pred = logistic_regression_model.predict(x_test)
+    final_accuracy_w_optimized_hparams = categorical_accuracy(y_pred, y_test)
+    
+    print(f'{final_accuracy_w_optimized_hparams=}')
+    
     plt.plot(epochs_lst, base_acc, label = f'lr = {LEARNING_RATE}')
     plt.plot(epochs_lst, optim_acc, label = 'lr = optimized')
     plt.xlabel('epochs')
     plt.ylabel('R2')
     plt.legend()
     plt.show()
+    
+    
