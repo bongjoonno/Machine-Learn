@@ -5,12 +5,12 @@ class GAHParamOptim:
     learning_rate_low = 0.001
     learning_rate_high = 0.05
 
-    def __init__(self, population_size = 50):
+    def __init__(self, population_size = 20):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 500):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 100):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
@@ -68,7 +68,7 @@ class GAHParamOptim:
 
     def fitness(self):
         for i, learning_rate in enumerate(self.population):
-            self.model.train(self.x_validation, self.y_validation, epochs = 50, learning_rate = learning_rate)
+            self.model.train(self.x_validation, self.y_validation, epochs = 100, learning_rate = learning_rate)
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
