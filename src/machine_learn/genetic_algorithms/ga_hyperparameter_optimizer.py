@@ -20,12 +20,12 @@ class GAHParamOptimizer:
         self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
 
 
-        for _ in tqdm(range(generations)):
+        for i in tqdm(range(generations)):
             self.fitness()
 
             generation_average_fitness_score = np.mean(self.fitness_scores)
    
-            self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
+            self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
 
             print(self.avg_fitness_scores_per_generation)
 
