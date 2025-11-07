@@ -3,14 +3,14 @@ from src.machine_learn.imports import np, tqdm
 class GAHParamOptim:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
-    optimization_runs = 10
+    optimization_runs = 3
 
-    def __init__(self, population_size = 12):
+    def __init__(self, population_size = 20):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, model, x_validation, y_validation, generations = 25):
+    def optimize(self, model, x_validation, y_validation, generations = 20):
         best_fitness_solution_pairs = []
 
         self.model = model
@@ -39,6 +39,7 @@ class GAHParamOptim:
 
                 best_fitness_solution_pairs.append(fitness_to_population_sorted[0])
 
+        np.random.shuffle(best_fitness_solution_pairs)
         return min(best_fitness_solution_pairs, key=lambda x: x[0])[1]
             
 
