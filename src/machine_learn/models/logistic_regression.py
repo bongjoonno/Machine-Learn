@@ -28,6 +28,7 @@ class LogisticRegression:
         
     @staticmethod
     def sigmoid(x):
+        x = np.clip(x, -709, 709)
         return np.where(x >= 0, 
                     1 / (1 + np.exp(-x)), 
                     np.exp(x) / (1 + np.exp(x)))
