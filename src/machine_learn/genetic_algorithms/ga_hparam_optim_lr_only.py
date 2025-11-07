@@ -4,12 +4,12 @@ class GAHParamOptim:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
 
-    def __init__(self, population_size = 60):
+    def __init__(self, population_size = 100):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, model, x_validation, y_validation, generations = 10):
+    def optimize(self, model, x_validation, y_validation, generations = 100):
         lowest_loss = float('inf')
         lowest_loss_solution = None
 
