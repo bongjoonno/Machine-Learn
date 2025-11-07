@@ -37,5 +37,5 @@ def ga_hyperparameter_optimizer_test():
     print(f'{EPOCHS=} {optimal_learning_rate=} {acc_w_optim_hparams=}')
     
 
-    #plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
-    #plt.show()
+    plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
+    plt.show()
