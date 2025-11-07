@@ -35,9 +35,9 @@ class GAHParamOptim:
             children = GAHParamOptim.make_offspring(top_50_percent)
             self.population = top_50_percent + children
 
-            if ba:
-                lowest_loss = fitness_to_population_sorted[0]
-                lowest_loss_solution = fitness_to_population_sorted[1]
+            if fitness_to_population_sorted[0][0] < lowest_loss:
+                lowest_loss = fitness_to_population_sorted[0][0]
+                lowest_loss_solution = fitness_to_population_sorted[0][1]
 
         return lowest_loss_solution
             
@@ -64,8 +64,8 @@ class GAHParamOptim:
     
     @staticmethod
     def crossover(parent_a, parent_b):
-        lr_weight1 = np.random.uniform(-0.25, 1.25)
-        lr_weight2 = 1.25 - lr_weight1
+        lr_weight1 = np.random.uniform(0, 1)
+        lr_weight2 = 1 - lr_weight1
 
         child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
         child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
