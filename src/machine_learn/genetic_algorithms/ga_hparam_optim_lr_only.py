@@ -42,7 +42,7 @@ class GAHParamOptim:
 
                 
         
-        return min(best_fitness_solution_pairs, key=lambda x: x[0])
+        return min(best_fitness_solution_pairs, key=lambda x: x[0])[1]
             
 
 
