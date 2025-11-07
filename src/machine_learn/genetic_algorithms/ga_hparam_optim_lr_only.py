@@ -4,6 +4,7 @@ from src.machine_learn.models.linear_regression import LinearRegression
 class GAHParamOptim:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
+    optimization_runs = 10
 
     def __init__(self, population_size = 10):
         self.population_size = population_size
@@ -11,31 +12,32 @@ class GAHParamOptim:
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
     def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
-        self.generate_population()
-        self.model = linear_regression_model
-        self.x_validation = x_validation
-        self.y_validation = y_validation
-        self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
-        self.lowest_loss = float('inf')
+        solution_to_loss = {}
 
-        for i in tqdm(range(generations)):
-            self.fitness()
+        for _ in range(GAHParamOptim.optimization_runs):
+            self.generate_population()
+            self.model = linear_regression_model
+            self.x_validation = x_validation
+            self.y_validation = y_validation
+            self.avg_fitness_scores_per_generation = [0 for _ in range(generations)]
+            self.lowest_loss = float('inf')
 
-            generation_average_fitness_score = np.mean(self.fitness_scores)
-   
-            self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
+            for i in tqdm(range(generations)):
+                self.fitness()
 
-            population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
-            top_50_percent = population_sorted_by_fitness[:self.population_size//2]
+                generation_average_fitness_score = np.mean(self.fitness_scores)
+    
+                self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
 
-            children = GAHParamOptim.make_offspring(top_50_percent)
-            self.population = top_50_percent + children
+                population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
+                top_50_percent = population_sorted_by_fitness[:self.population_size//2]
 
-            if self.fitness_scores[0] < self.lowest_loss:
-                self.lowest_loss = self.fitness_scores[0]
-                self.lowest_loss_solution = population_sorted_by_fitness[0]
+                children = GAHParamOptim.make_offspring(top_50_percent)
+                self.population = top_50_percent + children
+
+                solution_to_loss[top_50_percent[0]] = min(self.fitness_scores)
             
-        return self.lowest_loss_solution
+
 
 
     
