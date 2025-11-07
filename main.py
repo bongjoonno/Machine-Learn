@@ -1,7 +1,8 @@
-from tests.all_tests import run_all_tests
+from tests.main_model_tests import main_model_tests
+from tests.ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
 
 def main():
-    return run_all_tests()
+    return main_model_tests()
 
 
 

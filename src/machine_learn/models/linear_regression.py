@@ -17,7 +17,6 @@ class LinearRegression:
 
             mse = np.mean(errors**2)
             self.min_loss = min(mse, self.min_loss)
-            print(mse)
 
     
     def predict(self, x_test):
