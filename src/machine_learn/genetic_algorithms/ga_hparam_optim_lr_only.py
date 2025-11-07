@@ -78,19 +78,5 @@ class GAHParamOptim:
             self.fitness_scores[i] = self.model.min_loss
 
     def generate_population(self):
-        range_to_cover = GAHParamOptim.learning_rate_high - GAHParamOptim.learning_rate_low
-        per_epoch_increment = range_to_cover/self.population_size
-        start = GAHParamOptim.learning_rate_low
         for i in range(self.population_size):
-            self.population[i] = start
-            start += per_epoch_increment
-
-
-
-
-
-
-
-# generate initial population of random (epoch, learning_rate) tuple pairs
-# random epochs in range (1, 100_000) and learning_rate from (0.000001, 0.5)
-# evaluate each by training and getting fitness function
+            self.population[i] = np.random.uniform(GAHParamOptim.learning_rate_low, GAHParamOptim.learning_rate_high)

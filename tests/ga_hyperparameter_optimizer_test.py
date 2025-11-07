@@ -22,7 +22,7 @@ def ga_hyperparameter_optimizer_test():
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptim()
     
-    epochs_lst = [_ for _ in range(1, 1000, 10)]
+    epochs_lst = [_ for _ in range(1, 1_000, 20)]
     base_acc = []
     optim_acc = []
     
@@ -39,6 +39,32 @@ def ga_hyperparameter_optimizer_test():
 
         base_acc.append(acc_w_default_hparams)
         optim_acc.append(acc_w_optim_hparams)
+    
+    total_base_acc = sum(base_acc)
+    total_optim_acc = sum(optim_acc)
+    
+    max_r2_base_acc = max(base_acc)
+    max_r2_optim_acc = max(optim_acc)
+    
+    if max_r2_base_acc > max_r2_optim_acc:
+        print('optimizer failed to converge...')
+        
+    print(f'{max_r2_base_acc=}')
+    print(f'{max_r2_optim_acc=}')
+    
+    print(f'{total_base_acc=}')
+    print(f'{total_optim_acc=}')
+    
+    epochs_at_convergence_base = base_acc.index(max_r2_base_acc)
+    epochs_at_convergence_optim = optim_acc.index(max_r2_optim_acc)
+    
+    print(f'{epochs_at_convergence_base=}')
+    print(f'{epochs_at_convergence_optim=}')
+   
+    convergence_diff = epochs_at_convergence_base - epochs_at_convergence_optim
+    
+    print(f'{convergence_diff=}')
+    
     
     plt.plot(epochs_lst, base_acc, label = 'lr = 0.1')
     plt.plot(epochs_lst, optim_acc, label = 'lr = optimized')
