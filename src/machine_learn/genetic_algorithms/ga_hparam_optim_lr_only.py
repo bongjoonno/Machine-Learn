@@ -67,8 +67,8 @@ class GAHParamOptim:
     
     @staticmethod
     def crossover(parent_a, parent_b):
-        lr_weight1 = np.random.uniform(0, 1.5)
-        lr_weight2 = 1.5 - lr_weight1
+        lr_weight1 = np.random.uniform(0, 1)
+        lr_weight2 = 1 - lr_weight1
 
         child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
         child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
