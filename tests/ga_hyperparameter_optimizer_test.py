@@ -55,8 +55,8 @@ def ga_hyperparameter_optimizer_test():
     print(f'{total_base_acc=}')
     print(f'{total_optim_acc=}')
     
-    epochs_at_convergence_base = base_acc[base_acc.index(max_r2_base_acc)]
-    epochs_at_convergence_optim = optim_acc[optim_acc.index(max_r2_optim_acc)]
+    epochs_at_convergence_base = epochs_lst[base_acc.index(max_r2_base_acc)]
+    epochs_at_convergence_optim = epochs_lst[optim_acc.index(max_r2_optim_acc)]
     
     print(f'{epochs_at_convergence_base=}')
     print(f'{epochs_at_convergence_optim=}')
