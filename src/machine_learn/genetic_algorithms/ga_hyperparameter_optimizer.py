@@ -1,18 +1,18 @@
 from src.machine_learn.imports import np, tqdm
 from src.machine_learn.models.linear_regression import LinearRegression
 class GAHParamOptimizer:
-    epoch_low = 1
+    epoch_low = 500
     epoch_high = 5_000
 
-    learning_rate_low = 0.000001
-    learning_rate_high = 1
+    learning_rate_low = 0.00001
+    learning_rate_high = 0.1
 
-    def __init__(self, population_size = 8):
+    def __init__(self, population_size = 4):
         self.population_size = population_size
         self.population = [0 for _ in range(self.population_size)]
         self.fitness_scores = [0 for _ in range(self.population_size)]
 
-    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 5):
+    def optimize(self, linear_regression_model: LinearRegression, x_validation, y_validation, generations = 10):
         self.generate_population()
         self.model = linear_regression_model
         self.x_validation = x_validation
