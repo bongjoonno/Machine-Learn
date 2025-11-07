@@ -21,21 +21,25 @@ class GAHParamOptim:
         for _ in range(GAHParamOptim.optimization_runs):
             self.generate_population()
 
-            for _ in range(generations):
+            for i in range(generations):
                 self.fitness()
 
                 generation_average_fitness_score = np.mean(self.fitness_scores)
     
-                self.avg_fitness_scores_per_generation[gen] = generation_average_fitness_score
+                self.avg_fitness_scores_per_generation[i] = generation_average_fitness_score
 
-                population_sorted_by_fitness = [chromosome for _, chromosome in sorted(zip(self.fitness_scores, self.population))]
+                # biasin toward smaller learning rates, needs fix
+                fitness_to_population_sorted_by_fitness = sorted(zip(self.fitness_scores, self.population))
+                population_sorted_by_fitness = [solution for _, solution in fitness_to_population_sorted_by_fitness]
                 top_50_percent = population_sorted_by_fitness[:self.population_size//2]
 
                 children = GAHParamOptim.make_offspring(top_50_percent)
                 self.population = top_50_percent + children
-                print(len(self.population))
 
-                solution_to_loss[top_50_percent[0]] = min(self.fitness_scores)
+                for item in fitness_to_population_sorted_by_fitness: print(item)
+                print('\n')
+
+                
         
         return min(solution_to_loss, key=solution_to_loss.get)
             
@@ -62,8 +66,8 @@ class GAHParamOptim:
     
     @staticmethod
     def crossover(parent_a, parent_b):
-        lr_weight1 = np.random.uniform(0, 1)
-        lr_weight2 = 1 - lr_weight1
+        lr_weight1 = np.random.uniform(0, 1.5)
+        lr_weight2 = 1.5 - lr_weight1
 
         child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
         child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
