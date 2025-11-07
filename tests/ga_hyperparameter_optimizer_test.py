@@ -20,9 +20,21 @@ def ga_hyperparameter_optimizer_test():
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAHParamOptimizer()
     
-    ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
+    #ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
+    logistic_regression_model.train(x_train, y_train)
+    y_pred = logistic_regression_model.predict(x_test)
+    acc_w_default_hparams = categorical_accuracy(y_pred, y_test)
 
-    plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
+    logistic_regression_model.train(x_train, y_train, 1_000, 0.9084582095481644)
+    y_pred = logistic_regression_model.predict(x_test)
+    acc_w_optim_hparams = categorical_accuracy(y_pred, y_test)
+
+    print(f'{acc_w_default_hparams=}')
+    print(f'{acc_w_optim_hparams=}')
+    
+    
+
+    #plt.plot(ga_hparameter_optimizer.avg_fitness_scores_per_generation)
     plt.show()
 
 # generate initial population of random (epoch, learning_rate) tuple pairs

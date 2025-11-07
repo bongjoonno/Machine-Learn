@@ -9,7 +9,7 @@ def train_test_validate_split(x, y, train_size=0.60, test_size=0.35):
     y_train = y[:train_border]
     
     x_test = x[train_border : test_border]
-    y_test = x[train_border : test_border]
+    y_test = y[train_border : test_border]
 
     x_validate = x[test_border:]
     y_validate = y[test_border:]
