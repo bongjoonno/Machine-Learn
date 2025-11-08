@@ -1,7 +1,7 @@
-from tests import test_linear_regression
+from tests import test_all_models
 
 def main() -> float:
-    return test_linear_regression()
+    return test_all_models()
 
 
 if __name__ == '__main__':
