@@ -9,7 +9,7 @@ class NaiveBayes:
     
     self.prior_probabilities = [len(text)/total_number_of_texts for text in texts_by_class]
 
-    self.word_counts_by_class: dict[str: {}] = {label: {} for label in class_labels}
+    self.word_counts_by_class: dict[str, dict] = {label: {} for label in class_labels}
     vocab_set = set()
     
     for i, texts in enumerate(texts_by_class):
@@ -31,7 +31,7 @@ class NaiveBayes:
   def predict(self, sentence: str) -> dict[str, float]:
     words_in_sentence = sentence.lower().split()
 
-    scores_by_class = {class_name: 0 for class_name, _ in self.word_counts_by_class.items()}
+    scores_by_class: dict[str, float] = {class_name: 0.0 for class_name, _ in self.word_counts_by_class.items()}
     
     vocab_size_laplace_smoothing = self.vocab_size * NaiveBayes.laplace_smoothing_param
 

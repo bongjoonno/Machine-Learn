@@ -1,7 +1,7 @@
-from tests import test_all_models, test_ga_hparam_optimizer
+from tests import test_linear_regression
 
-def main() -> list[float, float, float]:
-    return test_all_models()
+def main() -> float:
+    return test_linear_regression()
 
 
 if __name__ == '__main__':
