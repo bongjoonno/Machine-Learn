@@ -1,7 +1,10 @@
+from src.machine_learn.types import Series
 from math import log
 
 class NaiveBayes:
-  def train(self, class_labels: list, texts_by_class: list):
+  laplace_smoothing_param = 1
+  
+  def train(self, class_labels: list[str], texts_by_class: list[str] | list[Series]) -> None:
     total_number_of_texts = sum([len(text) for text in texts_by_class])
     
     self.prior_probabilities = [len(text)/total_number_of_texts for text in texts_by_class]
@@ -25,12 +28,12 @@ class NaiveBayes:
     self.total_words_by_class = {cur_class: sum(word_counts.values()) for cur_class, word_counts in self.word_counts_by_class.items()}
 
 
-  def predict(self, sentence: str, alpha=1):
+  def predict(self, sentence: str) -> dict[str, float]:
     words_in_sentence = sentence.lower().split()
 
     scores_by_class = {class_name: 0 for class_name, _ in self.word_counts_by_class.items()}
     
-    vocab_size_laplace_smoothing = self.vocab_size * alpha
+    vocab_size_laplace_smoothing = self.vocab_size * NaiveBayes.laplace_smoothing_param
 
     for i, (cur_class, word_counts) in enumerate(self.word_counts_by_class.items()):
       total_words = self.total_words_by_class[cur_class]
@@ -39,7 +42,7 @@ class NaiveBayes:
       total_words_with_laplace_smoothing = (total_words + vocab_size_laplace_smoothing)
       
       for word in words_in_sentence:
-        count = word_counts.get(word, 0) + alpha
+        count = word_counts.get(word, 0) + NaiveBayes.laplace_smoothing_param
         
         laplace_smoothing = count / total_words_with_laplace_smoothing
         
