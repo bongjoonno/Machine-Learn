@@ -1,5 +1,5 @@
 from src.machine_learn.imports import np
-from src.machine_learn.types import DF
+from src.machine_learn.types import DF, NDArray
 from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
@@ -20,7 +20,7 @@ class LinearRegression:
             self.min_loss = min(mse, self.min_loss)
 
     
-    def predict(self, x_test: DF):
+    def predict(self, x_test: DF) -> NDArray:
         x_test = np.column_stack((np.ones(len(x_test)), x_test))
         y_pred = x_test @ self.theta
         return y_pred

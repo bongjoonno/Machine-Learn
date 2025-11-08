@@ -1,7 +1,7 @@
 from src.machine_learn.models.logistic_regression import LogisticRegression
 from src.machine_learn.data_imports.breast_cancer_data import breast_cancer_x, breast_cancer_y
 from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
-from machine_learn.genetic_algorithms.ga_lr_optimizer import GAlrOptimizer
+from src.machine_learn.genetic_algorithms.ga_lr_optimizer import GAlrOptimizer
 from src.machine_learn.data_manipulation.scale_data import scale_data
 from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 from src.machine_learn.imports import plt
