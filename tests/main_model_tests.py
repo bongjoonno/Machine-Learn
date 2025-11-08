@@ -1,7 +1,7 @@
-from . import linear_regression_test, logistic_regression_test, naive_bayes_test
+from . import test_linear_regression, test_logistic_regression, test_naive_bayes
 from src.machine_learn.imports import np
 
-tests = [linear_regression_test, logistic_regression_test, naive_bayes_test]
+tests = [test_linear_regression, test_logistic_regression, test_naive_bayes]
 
-def main_model_tests() -> list[np.float64, float, float]:
+def main_model_tests() -> list[float, float, float]:
     return [func() for func in tests]

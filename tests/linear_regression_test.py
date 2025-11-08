@@ -4,7 +4,7 @@ from src.machine_learn.data_imports import insurance_x, insurance_y
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
-def linear_regression_test() -> np.float64:
+def test_linear_regression() -> np.float64:
     insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test = train_test_split(insurance_x, insurance_y)
 
     insurance_x_train, insurance_x_test = scale_data(insurance_x_train, insurance_x_test, columns_to_scale = ['age', 'bmi', 'children'])
