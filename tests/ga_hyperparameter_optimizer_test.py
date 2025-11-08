@@ -7,7 +7,7 @@ from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 from src.machine_learn.imports import plt
 from src.machine_learn.constants import LEARNING_RATE
 
-def ga_hyperparameter_optimizer_test():
+def ga_hyperparameter_optimizer_test() -> None:
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(breast_cancer_x, breast_cancer_y)
     x_train, x_test, x_val = scale_data(x_train.copy(), x_test.copy(), x_val.copy(), columns_to_scale = x_train.columns)
 

@@ -12,6 +12,7 @@ def logistic_regression_test():
 
     logistic_regression_model.train(breast_cancer_x_train, breast_cancer_y_train, 1_000, 0.01)
     y_pred = logistic_regression_model.predict(breast_cancer_x_test)
+    print(type(y_pred))
 
     logistic_regression_categorical_accuracy = categorical_accuracy(y_pred, breast_cancer_y_test)
     return logistic_regression_categorical_accuracy
