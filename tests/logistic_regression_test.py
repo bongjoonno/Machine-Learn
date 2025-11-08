@@ -4,10 +4,9 @@ from src.machine_learn.data_manipulation.train_test_split import train_test_spli
 from src.machine_learn.metrics.metrics_imports import categorical_accuracy
 
 
-def logistic_regression_test():
+def logistic_regression_test() -> float:
     breast_cancer_x_train, breast_cancer_y_train, breast_cancer_x_test, breast_cancer_y_test = train_test_split(breast_cancer_x, breast_cancer_y)
-
-    print(type(breast_cancer_x_train), type(breast_cancer_x_test), type(breast_cancer_y_train), type(breast_cancer_y_test))
+    
     logistic_regression_model = LogisticRegression()
 
     logistic_regression_model.train(breast_cancer_x_train, breast_cancer_y_train, 1_000, 0.01)
