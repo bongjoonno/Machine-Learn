@@ -17,7 +17,6 @@ def naive_bayes_test():
   naive_bayes_model.train(class_labels, [email_ham_train, email_spam_train])
 
   result = email_df_test['Message'].apply(lambda sentence: naive_bayes_model.predict(sentence))
-  print(naive_bayes_model.predict("what the hell is wrong with uuu"))
 
   categorizations = []
 

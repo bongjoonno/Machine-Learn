@@ -26,7 +26,7 @@ class LogisticRegression:
                     1 / (1 + np.exp(-x)), 
                     np.exp(x) / (1 + np.exp(x)))
     
-    def predict(self, x_test: DF) -> list[int]:
+    def predict(self, x_test: DF) -> NDArray:
         x_test = np.column_stack((np.ones(len(x_test)), x_test))
         
         y_pred = LogisticRegression.sigmoid(x_test @ self.theta)
