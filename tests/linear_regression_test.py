@@ -13,7 +13,6 @@ def linear_regression_test():
 
     linear_regression_model.train(insurance_x_train, insurance_y_train)
     y_pred = linear_regression_model.predict(insurance_x_test)
-    print(type(y_pred))
 
     linear_regression_r_squared = r_squared(y_pred, insurance_y_test)
     return linear_regression_r_squared
