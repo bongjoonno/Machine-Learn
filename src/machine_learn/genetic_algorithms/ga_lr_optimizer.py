@@ -1,5 +1,5 @@
 from src.machine_learn.imports import np
-from src.machine_learn.types import DF
+from src.machine_learn.types import DF, Series
 from src.machine_learn.models import LinearRegression, LogisticRegression
 
 class GAlrOptimizer:
@@ -12,7 +12,7 @@ class GAlrOptimizer:
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
-    def optimize(self, model: LinearRegression | LogisticRegression, x_validation: DF, y_validation: DF) -> float:
+    def optimize(self, model: LinearRegression | LogisticRegression, x_validation: DF, y_validation: Series) -> float:
         lowest_loss = float('inf')
         lowest_loss_lr = 0.0
 
