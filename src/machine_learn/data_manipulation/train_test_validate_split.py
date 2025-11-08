@@ -1,6 +1,6 @@
-from src.machine_learn.types import DF
+from src.machine_learn.types import DF, Series
 
-def train_test_validate_split(x: DF, y: DF, train_size: float = 0.80, test_size: float = 0.10, validation_size: float = 0.10) -> tuple[DF, DF, DF, DF, DF, DF]:
+def train_test_validate_split(x: DF, y: DF, train_size: float = 0.80, test_size: float = 0.10, validation_size: float = 0.10) -> tuple[DF, Series, DF, Series, DF, Series]:
     if sum([train_size, test_size, validation_size]) != 1:
         raise ValueError('train_size, test_size, and validation_size must sum to 1')
    
