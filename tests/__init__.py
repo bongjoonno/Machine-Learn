@@ -1,0 +1,5 @@
+from .ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
+from .linear_regression_test import linear_regression_test
+from .logistic_regression_test import logistic_regression_test
+from .main_model_tests import main_model_tests
+from .naive_bayes_test import naive_bayes_test
