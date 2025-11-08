@@ -1,4 +1,4 @@
-from .ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
+from .ga_hyperparameter_optimizer_test import test_ga_hparam_optimizer
 from .linear_regression_test import test_linear_regression
 from .logistic_regression_test import test_logistic_regression
 from .naive_bayes_test import test_naive_bayes

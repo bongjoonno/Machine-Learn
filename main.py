@@ -1,4 +1,4 @@
-from tests import main_model_tests, ga_hyperparameter_optimizer_test
+from tests import main_model_tests, test_ga_hparam_optimizer
 
 def main() -> list[float, float, float]:
     return main_model_tests()

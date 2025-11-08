@@ -1,5 +1,5 @@
 from src.machine_learn.models import LogisticRegression
-from src.machine_learn.data_imports import breast_cancer_x, breast_cancer_y
+from src.machine_learn.data_prep import breast_cancer_x, breast_cancer_y
 from src.machine_learn.data_manipulation import train_test_split
 from src.machine_learn.metrics import categorical_accuracy
 

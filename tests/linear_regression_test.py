@@ -1,6 +1,6 @@
 from src.machine_learn.imports import np
 from src.machine_learn.models import LinearRegression
-from src.machine_learn.data_imports import insurance_x, insurance_y
+from src.machine_learn.data_prep import insurance_x, insurance_y
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
