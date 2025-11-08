@@ -1,18 +1,20 @@
-from src.machine_learn.models.logistic_regression import LogisticRegression
-from src.machine_learn.data_imports.breast_cancer_data import breast_cancer_x, breast_cancer_y
-from src.machine_learn.data_manipulation.train_test_validate_split import train_test_validate_split
-from src.machine_learn.genetic_algorithms.ga_hparam_optim_lr_only import GAHParamOptim
-from src.machine_learn.data_manipulation.scale_data import scale_data
-from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 from src.machine_learn.imports import plt
 from src.machine_learn.constants import LEARNING_RATE
 
-def ga_hyperparameter_optimizer_test():
+from src.machine_learn.models import LogisticRegression
+from src.machine_learn.data_prep import breast_cancer_x, breast_cancer_y
+
+from src.machine_learn.data_manipulation import train_test_validate_split, scale_data
+from src.machine_learn.metrics import categorical_accuracy
+
+from src.machine_learn.genetic_algorithms import GAlrOptimizer
+
+def test_ga_hparam_optimizer() -> None:
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(breast_cancer_x, breast_cancer_y)
     x_train, x_test, x_val = scale_data(x_train.copy(), x_test.copy(), x_val.copy(), columns_to_scale = x_train.columns)
 
     logistic_regression_model = LogisticRegression()
-    ga_hparameter_optimizer = GAHParamOptim()
+    ga_hparameter_optimizer = GAlrOptimizer()
     
     epochs_lst = [_ for _ in range(1, 300, 5)]
     base_acc = []
@@ -81,5 +83,3 @@ def ga_hyperparameter_optimizer_test():
     plt.ylabel('R2')
     plt.legend()
     plt.show()
-    
-    

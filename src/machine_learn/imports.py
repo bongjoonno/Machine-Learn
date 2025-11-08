@@ -6,3 +6,4 @@ from collections import Counter
 from pathlib import Path
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from typing import TypeAlias

@@ -1,9 +1,7 @@
-from tests.main_model_tests import main_model_tests
-from tests.ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
+from tests import test_all_models, test_ga_hparam_optimizer
 
 def main():
-    return ga_hyperparameter_optimizer_test()
-
+    return test_ga_hparam_optimizer()
 
 
 if __name__ == '__main__':

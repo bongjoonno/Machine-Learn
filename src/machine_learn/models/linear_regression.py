@@ -1,25 +1,26 @@
 from src.machine_learn.imports import np
+from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LinearRegression:
-    def train(self, x, y, epochs=EPOCHS, learning_rate=LEARNING_RATE):   
-        x = np.column_stack((np.ones(len(x)), x))
-        one_divided_by_n = 1/(x.shape[1])
+    def train(self, x: DF, y: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:   
+        X = np.column_stack((np.ones(len(x)), x))
+        one_divided_by_n = 1/(X.shape[1])
 
-        self.theta = np.ones(x.shape[1])
+        self.theta = np.ones(X.shape[1])
         self.min_loss = float('inf')
 
         for _ in range(epochs):
-            y_pred = x @ self.theta
+            y_pred = X @ self.theta
             errors = y_pred - y
-            gradient = one_divided_by_n * (x.T @ errors)
+            gradient = one_divided_by_n * (X.T @ errors)
             self.theta -= learning_rate * gradient
 
-            mse = np.mean(errors**2)
+            mse = float(np.mean(errors**2))
             self.min_loss = min(mse, self.min_loss)
 
     
-    def predict(self, x_test):
-        x_test = np.column_stack((np.ones(len(x_test)), x_test))
-        y_pred = x_test @ self.theta
-        return y_pred
+    def predict(self, x: DF) -> NDArray:
+        X = np.column_stack((np.ones(len(x)), x))
+        y = X @ self.theta
+        return y

@@ -1,8 +1,8 @@
-from src.machine_learn.models.naive_bayes import NaiveBayes
-from src.machine_learn.data_imports.data_imports import email_df, email_ham, email_spam
-from src.machine_learn.metrics.metrics_imports import categorical_accuracy
+from src.machine_learn.models import NaiveBayes
+from src.machine_learn.data_prep import email_df, email_ham, email_spam
+from src.machine_learn.metrics import categorical_accuracy
 
-def naive_bayes_test():
+def test_naive_bayes():
   naive_bayes_model = NaiveBayes()
 
   class_labels = ['ham', 'spam']
@@ -12,7 +12,6 @@ def naive_bayes_test():
 
   email_ham_train = email_ham['Message'].iloc[:training_border]
   email_spam_train = email_spam['Message'].iloc[:training_border]
-
   email_df_test = email_df.iloc[training_border:].copy()
 
   naive_bayes_model.train(class_labels, [email_ham_train, email_spam_train])

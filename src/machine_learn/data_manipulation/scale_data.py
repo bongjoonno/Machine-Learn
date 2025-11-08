@@ -1,6 +1,7 @@
-from src.machine_learn.imports import StandardScaler
+from src.machine_learn.imports import pd, StandardScaler
+from src.machine_learn.types import DF
 
-def scale_data(x_train, *data_to_be_scaled_by_training_fit, columns_to_scale):
+def scale_data(x_train: DF, *data_to_be_scaled_by_training_fit: DF, columns_to_scale: list[str] | pd.Index) -> tuple[DF, ...]:
     scaler = StandardScaler()
 
     x_train = x_train.copy()

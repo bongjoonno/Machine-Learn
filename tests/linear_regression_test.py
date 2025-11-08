@@ -1,10 +1,10 @@
-from src.machine_learn.models.linear_regression import LinearRegression
-from src.machine_learn.data_imports.data_imports import insurance_x, insurance_y
-from src.machine_learn.data_manipulation.train_test_split import train_test_split
-from src.machine_learn.data_manipulation.scale_data import scale_data
-from src.machine_learn.metrics.metrics_imports import r_squared
+from src.machine_learn.imports import np
+from src.machine_learn.models import LinearRegression
+from src.machine_learn.data_prep import insurance_x, insurance_y
+from src.machine_learn.data_manipulation import train_test_split, scale_data
+from src.machine_learn.metrics import r_squared
 
-def linear_regression_test():
+def test_linear_regression() -> float:
     insurance_x_train, insurance_y_train, insurance_x_test, insurance_y_test = train_test_split(insurance_x, insurance_y)
 
     insurance_x_train, insurance_x_test = scale_data(insurance_x_train, insurance_x_test, columns_to_scale = ['age', 'bmi', 'children'])
