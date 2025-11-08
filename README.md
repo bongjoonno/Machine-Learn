@@ -1,31 +1,20 @@
 # Machine Learn
 A Machine Learning Library for Prediction and Categorization
 
-Includes:
+## Features:
 
-##Models:
+### Models
+- Linear Regression
+- Logistic Regression
+- Naive Bayes
+- Hyperparameter Optimizer w/Genetic Algorithm
 
-Linear Regression
-
-Logistic Regression
-
-Naive Bayes
-
-Hyperparameter Optimizer w/Genetic Algorithm
-
-
-##Data Wrangiling:
-
-Data Scale
-
-Train-Test Split
-
-Train-Test-Validate Split
+### Data Wrangiling:
+- Data Scaling
+- Train-Test Split
+- Train-Test-Validate Split
 
 
-##Metrics:
-
-R^2
-
-Categorical Accuracy
-
+### Metrics:
+- R^2
+- Categorical Accuracy
