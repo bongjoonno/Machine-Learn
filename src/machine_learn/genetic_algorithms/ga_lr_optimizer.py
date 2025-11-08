@@ -9,12 +9,12 @@ class GAlrOptimizer:
     def __init__(self) -> None:
         self.population_size = 24
         self.generations = 11
-        self.population = [0 for _ in range(self.population_size)]
-        self.fitness_scores = [0 for _ in range(self.population_size)]
+        self.population = [0.0 for _ in range(self.population_size)]
+        self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
     def optimize(self, model: LinearRegression | LogisticRegression, x_validation: DF, y_validation: DF) -> float:
         lowest_loss = float('inf')
-        lowest_loss_lr = None
+        lowest_loss_lr = 0.0
 
         self.model = model
         self.x_validation = x_validation
@@ -30,7 +30,7 @@ class GAlrOptimizer:
 
             self.avg_fitness_scores_per_generation.append(generation_average_fitness_score)
 
-            fitness_to_population = list(zip(self.fitness_scores, self.population))
+            fitness_to_population: list[tuple[float, float]] = list(zip(self.fitness_scores, self.population))
            
             np.random.shuffle(fitness_to_population)
            
