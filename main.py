@@ -1,7 +1,7 @@
-from tests import main_model_tests, test_ga_hparam_optimizer
+from tests import test_all_models, test_ga_hparam_optimizer
 
 def main() -> list[float, float, float]:
-    return main_model_tests()
+    return test_all_models()
 
 
 if __name__ == '__main__':
