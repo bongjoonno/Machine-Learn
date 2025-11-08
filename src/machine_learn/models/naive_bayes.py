@@ -1,15 +1,12 @@
 from math import log
 
 class NaiveBayes:
-  def __init__(self):
-    pass
-
   def train(self, class_labels: list, texts_by_class: list):
     total_number_of_texts = sum([len(text) for text in texts_by_class])
     
     self.prior_probabilities = [len(text)/total_number_of_texts for text in texts_by_class]
 
-    self.word_counts_by_class = {label: {} for label in class_labels}
+    self.word_counts_by_class: dict[str: {}] = {label: {} for label in class_labels}
     vocab_set = set()
     
     for i, texts in enumerate(texts_by_class):
