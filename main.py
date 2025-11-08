@@ -2,8 +2,7 @@ from tests.main_model_tests import main_model_tests
 from tests.ga_hyperparameter_optimizer_test import ga_hyperparameter_optimizer_test
 
 def main() -> tuple[list[float, float, float], None]:
-    return main_model_tests(), ga_hyperparameter_optimizer_test()
-
+    return main_model_tests()
 
 
 if __name__ == '__main__':

@@ -1,7 +1,6 @@
 from src.machine_learn.imports import np
 from src.machine_learn.types import DF
-from src.machine_learn.models.linear_regression import LinearRegression
-from src.machine_learn.models.logistic_regression import LogisticRegression
+from src.machine_learn.models import LinearRegression, LogisticRegression
 
 class GAlrOptimizer:
     learning_rate_low = 0.0001

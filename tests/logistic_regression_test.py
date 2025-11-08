@@ -1,7 +1,7 @@
-from src.machine_learn.models.logistic_regression import LogisticRegression
-from src.machine_learn.data_imports.data_imports import breast_cancer_x, breast_cancer_y
-from src.machine_learn.data_manipulation.train_test_split import train_test_split
-from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
+from src.machine_learn.models import LogisticRegression
+from src.machine_learn.data_imports import breast_cancer_x, breast_cancer_y
+from src.machine_learn.data_manipulation import train_test_split
+from src.machine_learn.metrics import categorical_accuracy
 
 
 def logistic_regression_test() -> float:
