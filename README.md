@@ -3,7 +3,7 @@ A Machine Learning Library for Prediction and Categorization
 
 Includes:
 
-Models:
+##Models:
 
 Linear Regression
 
@@ -13,7 +13,8 @@ Naive Bayes
 
 Hyperparameter Optimizer w/Genetic Algorithm
 
-Data Wrangiling:
+
+##Data Wrangiling:
 
 Data Scale
 
@@ -22,7 +23,7 @@ Train-Test Split
 Train-Test-Validate Split
 
 
-Metrics:
+##Metrics:
 
 R^2
 
