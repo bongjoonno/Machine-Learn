@@ -1,6 +1,6 @@
 from src.machine_learn.models.naive_bayes import NaiveBayes
 from src.machine_learn.data_imports.data_imports import email_df, email_ham, email_spam
-from src.machine_learn.metrics.metrics_imports import categorical_accuracy
+from src.machine_learn.metrics.categorical_accuracy import categorical_accuracy
 
 def naive_bayes_test():
   naive_bayes_model = NaiveBayes()
