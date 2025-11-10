@@ -13,7 +13,7 @@ data = [(breast_cancer_x, breast_cancer_y), ]
 def test_ga_hparam_optimizer() -> None:
     for x, y in data:
         x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(x, y)
-        x_train, x_test, x_val = scale_data(x_train x_test, x_val, columns_to_scale = x_train.columns)
+        x_train, x_test, x_val = scale_data(x_train, x_test, x_val, columns_to_scale = x_train.columns)
 
         logistic_regression_model = LogisticRegression()
         ga_hparameter_optimizer = GAlrOptimizer()
