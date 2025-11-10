@@ -1,6 +1,7 @@
 from src.machine_learn.imports import np
 from src.machine_learn.types import DF, Series
 from src.machine_learn.models import LinearRegression, LogisticRegression
+from src.machine_learn.metrics import mean_squared_error
 
 class GAlrOptimizer:
     learning_rate_low = 0.0001
@@ -12,7 +13,7 @@ class GAlrOptimizer:
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
-    def optimize(self, model: LinearRegression | LogisticRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> float:
+    def optimize(self, model: LinearRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> float:
         lowest_loss = float('inf')
         lowest_loss_lr = 0.0
 
@@ -58,7 +59,9 @@ class GAlrOptimizer:
     def fitness(self) -> None:
         for i, learning_rate in enumerate(self.population):
             self.model.train(self.x_train, self.y_train, epochs = 2, learning_rate = learning_rate)
-            self.fitness_scores[i] = self.model.min_loss
+            y_pred = self.model.predict(self.x_validation)
+            mse = mean_squared_error(y_pred, self.y_validation)
+            self.fitness_scores[i] = mse
             
     @staticmethod
     def make_offspring(top_50_percent: list[float]) -> list[float]:
