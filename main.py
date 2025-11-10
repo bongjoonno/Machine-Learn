@@ -1,7 +1,7 @@
-from tests import test_all_models, test_ga_hparam_optimizer
+from tests import test_all_models, test_ga_hparam_optimizer, data_imports_test
 
 def main():
-    test_ga_hparam_optimizer()
+    pass#test_ga_hparam_optimizer()
 
 
 if __name__ == '__main__':
