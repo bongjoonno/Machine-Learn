@@ -11,7 +11,7 @@ from src.machine_learn.genetic_algorithms import GAlrOptimizer
 
 def test_ga_hparam_optimizer() -> None:
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(breast_cancer_x, breast_cancer_y)
-    x_train, x_test, x_val = scale_data(x_train.copy(), x_test.copy(), x_val.copy(), columns_to_scale = x_train.columns)
+    x_train, x_test, x_val = scale_data(x_train x_test, x_val, columns_to_scale = x_train.columns)
 
     logistic_regression_model = LogisticRegression()
     ga_hparameter_optimizer = GAlrOptimizer()
