@@ -1,7 +1,7 @@
 from src.machine_learn.imports import pd
-from src.machine_learn.constants import PROJECT_DIRECTORY
+from src.machine_learn.constants import DATA_DIRECTORY
 
-email_df = pd.read_csv(PROJECT_DIRECTORY / 'data' / 'test_data' / 'email_spam.csv')
+email_df = pd.read_csv(DATA_DIRECTORY / 'email_spam.csv')
 
 email_df = email_df[email_df['Category'].isin(['ham', 'spam'])]
 

@@ -16,6 +16,7 @@ class LogisticRegression:
             gradient = one_divided_by_n * (X.T @ errors)
             self.theta -= learning_rate * gradient
             
+            # needs to be fixed, mse is not the way to measure loss for binary classification
             mse = np.mean(errors**2)
             self.min_loss = min(self.min_loss, mse)
         
