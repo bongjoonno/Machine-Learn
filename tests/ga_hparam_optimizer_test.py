@@ -24,13 +24,13 @@ def test_ga_hparam_optimizer() -> None:
     
     
     linear_regression_model.train(x_train, y_train, epochs = optim_epochs, learning_rate = optim_lr)
-    y_pred = linear_regression_model.predict(x_test)
-    accuracy = r_squared(y_pred, y_test)
+    y_pred = linear_regression_model.predict(x_val)
+    accuracy = r_squared(y_pred, y_val)
     
     print(accuracy)
     
-    plt.plot(range(len(y_pred)), sorted(y_pred))
-    plt.plot(range(len(y_test)), sorted(y_test))
+    plt.plot(range(len(y_pred)), y_pred, alpha = 0.6)
+    plt.plot(range(len(y_test)), y_test, alpha = 0.6)
     plt.show()
     
     
