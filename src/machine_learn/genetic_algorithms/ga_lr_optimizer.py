@@ -9,7 +9,7 @@ class GAlrOptimizer:
 
     def __init__(self) -> None:
         self.population_size = 100
-        self.generations = 100
+        self.generations = 200
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
