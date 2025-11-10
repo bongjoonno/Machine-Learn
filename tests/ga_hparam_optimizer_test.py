@@ -19,27 +19,17 @@ def test_ga_hparam_optimizer() -> None:
         ga_hparameter_optimizer = GAlrOptimizer()
         
         epochs_lst = [_ for _ in range(1, 300, 5)]
-        base_acc = []
-        optim_acc = []
         
         optimal_learning_rate = ga_hparameter_optimizer.optimize(logistic_regression_model, x_val, y_val)
         
+        accuracies = []
+        
         for epochs in epochs_lst:
-            logistic_regression_model.train(x_train, y_train, epochs=epochs)
-            y_pred = logistic_regression_model.predict(x_test)
-            acc_w_default_hparams = categorical_accuracy(y_pred, y_test)
-
-            logistic_regression_model.train(x_train, y_train, epochs=epochs, learning_rate = optimal_learning_rate)
-            y_pred = logistic_regression_model.predict(x_test)
-            acc_w_optim_hparams = categorical_accuracy(y_pred, y_test)
-
-            base_acc.append(acc_w_default_hparams)
-            optim_acc.append(acc_w_optim_hparams)
+            logistic_regression_model.train(x_train, y_train, epochs = epochs, learning_rate = optimal_learning_rate)
+            y_pred = logistic_regression_model.predict(x_val)
+            accuracies.append(categorical_accuracy(y_pred, y_val))
         
         
-        plt.plot(epochs_lst, base_acc, label = f'lr = {LEARNING_RATE}')
-        plt.plot(epochs_lst, optim_acc, label = 'lr = optimized')
-        plt.xlabel('epochs')
-        plt.ylabel('R2')
-        plt.legend()
-        plt.show()
+        plt.plot(epochs_lst, accuracies)
+        
+        
