@@ -8,20 +8,39 @@ class GAlrOptimizer:
     learning_rate_high = 0.05
 
     def __init__(self) -> None:
-        self.population_size = 24
-        self.generations = 11
+        self.population_size = 100
+        self.generations = 100
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
-    def optimize(self, model: LinearRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> float:
-        lowest_loss = float('inf')
-        lowest_loss_lr = 0.0
-
+    def optimize(self, model: LinearRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> tuple[int, float]:
         self.model = model
         self.x_train = x_train
         self.y_train = y_train
         self.x_validation = x_validation
         self.y_validation = y_validation
+        
+        optimal_lr = self.optimize_lr()
+        
+        epochs_lst = [_ for _ in range(1, 300, 5)]
+        
+        mses = []
+        
+        for epochs in epochs_lst:
+            self.model.train(x_train, y_train, epochs = epochs, learning_rate = optimal_lr)
+            y_pred = self.model.predict(self.x_validation)
+            mses.append(mean_squared_error(y_pred, self.y_validation))
+        
+        best_epochs = epochs_lst[mses.index(min(mses))]
+        
+        return (best_epochs, optimal_lr)
+            
+    
+    
+    def optimize_lr(self) -> float:
+        lowest_loss = float('inf')
+        lowest_loss_lr = 0.0
+
         self.avg_fitness_scores_per_generation = []
         
         self.generate_initial_population()
