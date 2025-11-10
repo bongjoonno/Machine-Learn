@@ -30,7 +30,7 @@ def test_ga_hparam_optimizer() -> None:
     print(accuracy)
     
     plt.plot(range(len(y_pred)), y_pred, alpha = 0.6)
-    plt.plot(range(len(y_test)), y_test, alpha = 0.6)
+    plt.plot(range(len(y_val)), y_val, alpha = 0.6)
     plt.show()
     
     
