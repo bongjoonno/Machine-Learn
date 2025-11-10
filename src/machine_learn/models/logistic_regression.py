@@ -3,7 +3,7 @@ from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 
 class LogisticRegression:
-    def train(self, x: DF, y: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:
+    def train(self, x: DF | Series, y: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:
         X = np.column_stack((np.ones(len(x)), x))
         one_divided_by_n = 1/X.shape[0]
         
@@ -27,7 +27,7 @@ class LogisticRegression:
                     1 / (1 + np.exp(-x)), 
                     np.exp(x) / (1 + np.exp(x)))
     
-    def predict(self, x: DF) -> NDArray:
+    def predict(self, x: DF | Series) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
         
         y = LogisticRegression.sigmoid(X @ self.theta)

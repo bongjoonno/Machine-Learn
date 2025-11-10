@@ -4,7 +4,7 @@ from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 from src.machine_learn.metrics import mean_squared_error
 
 class LinearRegression:
-    def train(self, x: DF, y: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:   
+    def train(self, x: DF | Series, y: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:   
         X = np.column_stack((np.ones(len(x)), x))
         one_divided_by_n = 1/(X.shape[1])
 
@@ -21,7 +21,7 @@ class LinearRegression:
             self.min_loss = min(mse, self.min_loss)
 
     
-    def predict(self, x: DF) -> NDArray:
+    def predict(self, x: DF | Series) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
         y = X @ self.theta
         return y
