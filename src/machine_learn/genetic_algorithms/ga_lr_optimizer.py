@@ -12,11 +12,13 @@ class GAlrOptimizer:
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
-    def optimize(self, model: LinearRegression | LogisticRegression, x_validation: DF, y_validation: Series) -> float:
+    def optimize(self, model: LinearRegression | LogisticRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> float:
         lowest_loss = float('inf')
         lowest_loss_lr = 0.0
 
         self.model = model
+        self.x_train = x_train
+        self.y_train = y_train
         self.x_validation = x_validation
         self.y_validation = y_validation
         self.avg_fitness_scores_per_generation = []
@@ -55,7 +57,7 @@ class GAlrOptimizer:
             
     def fitness(self) -> None:
         for i, learning_rate in enumerate(self.population):
-            self.model.train(self.x_validation, self.y_validation, epochs = 2, learning_rate = learning_rate)
+            self.model.train(self.x_train, self.y_train, epochs = 2, learning_rate = learning_rate)
             self.fitness_scores[i] = self.model.min_loss
             
     @staticmethod
