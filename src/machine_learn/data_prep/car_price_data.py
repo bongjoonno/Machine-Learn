@@ -3,6 +3,7 @@ from src.machine_learn.constants import DATA_DIRECTORY
 
 car_price_df = pd.read_csv(DATA_DIRECTORY / 'car_price.csv')
 car_price_df = car_price_df.drop(columns = ['car_ID'])
+car_price_df = car_price_df.sample(frac = 1, random_state = 42).reset_index(drop = True)
 
 car_price_cols_to_scale = ['wheelbase', 'carlength', 'carwidth', 'carheight', 'curbweight', 'enginesize', 'boreratio', 'stroke', 'compressionratio', 'horsepower', 'peakrpm', 'citympg', 'highwaympg']
 
@@ -13,7 +14,7 @@ car_price_df['CarName'] = car_price_df['CarName'].str.replace('toyouta', 'toyota
 car_price_df['CarName'] = car_price_df['CarName'].str.replace('vokswagen', 'volkswagen').str.replace('vw', 'volkswagen')
 
 binary_columns = ['fueltype', 'aspiration', 'doornumber', 'enginelocation']
-multi_columns = ['symboling', 'CarName', 'carbody', 'drivewheel', 'enginetype', 'cylindernumber', 'fuelsystem']
+multi_columns = ['CarName', 'carbody', 'drivewheel', 'enginetype', 'cylindernumber', 'fuelsystem']
 
 for col in binary_columns:
     car_price_df[col] = car_price_df[col].astype('category').cat.codes
