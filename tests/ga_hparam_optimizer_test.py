@@ -9,7 +9,7 @@ from src.machine_learn.metrics import r_squared
 
 from src.machine_learn.genetic_algorithms import GAlrOptimizer
 
-data = [(student_x, student_y, student_x.columns), (car_price_x, car_price_y, car_price_cols_to_scale)]
+data = [(car_price_x, car_price_y, car_price_cols_to_scale)]
 def test_ga_hparam_optimizer() -> None:
     
     linear_regression_model = LinearRegression()
