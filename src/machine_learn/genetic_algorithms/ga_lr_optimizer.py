@@ -22,7 +22,7 @@ class GAlrOptimizer:
         
         optimal_lr = self.optimize_lr()
         
-        epochs_lst = [_ for _ in range(1, 300, 5)]
+        epochs_lst = [1]
         
         mses = []
         
