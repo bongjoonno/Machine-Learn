@@ -25,7 +25,7 @@ def test_ga_hparam_optimizer() -> None:
         print(optim_epochs, optim_lr)
         
         
-        linear_regression_model.train(x_train, y_train, epochs = 50_000, learning_rate = optim_lr)
+        linear_regression_model.train(x_train, y_train, epochs = 100_000, learning_rate = optim_lr)
         y_pred = linear_regression_model.predict(x_val)
         accuracy = r_squared(y_pred, y_val)
         

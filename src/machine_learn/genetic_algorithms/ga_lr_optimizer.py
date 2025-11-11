@@ -5,7 +5,7 @@ from src.machine_learn.metrics import mean_squared_error
 
 class GAlrOptimizer:
     learning_rate_low = 0.0001
-    learning_rate_high = 0.05
+    learning_rate_high = 0.1
 
     def __init__(self) -> None:
         self.population_size = 100
