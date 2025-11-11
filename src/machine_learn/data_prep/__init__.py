@@ -4,4 +4,4 @@ from .insurance_costs_data import insurance_x, insurance_y
 from .student_performance_data import student_x, student_y
 from .titanic_data import titanic_x, titanic_y
 from .salary_data import salary_x, salary_y
-from .car_price_data import car_price_x, car_price_y
+from .car_price_data import car_price_x, car_price_y, car_price_cols_to_scale

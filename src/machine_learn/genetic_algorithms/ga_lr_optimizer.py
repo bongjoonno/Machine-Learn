@@ -8,8 +8,8 @@ class GAlrOptimizer:
     learning_rate_high = 0.05
 
     def __init__(self) -> None:
-        self.population_size = 60
-        self.generations = 50
+        self.population_size = 100
+        self.generations = 100
         self.population = [0.0 for _ in range(self.population_size)]
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
 
