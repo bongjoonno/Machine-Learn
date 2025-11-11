@@ -2,14 +2,14 @@ from src.machine_learn.imports import plt
 from src.machine_learn.constants import LEARNING_RATE
 
 from src.machine_learn.models import LinearRegression
-from src.machine_learn.data_prep import student_x, student_y, salary_x, salary_y
+from src.machine_learn.data_prep import student_x, student_y, car_price_x, car_price_y
 
 from src.machine_learn.data_manipulation import train_test_validate_split, scale_data
 from src.machine_learn.metrics import r_squared
 
 from src.machine_learn.genetic_algorithms import GAlrOptimizer
 
-data = [(student_x, student_y), (salary_x, salary_y)]
+data = [(student_x, student_y), (car_price_x, car_price_y)]
 def test_ga_hparam_optimizer() -> None:
     
     linear_regression_model = LinearRegression()
