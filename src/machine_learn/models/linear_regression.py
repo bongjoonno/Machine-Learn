@@ -4,7 +4,7 @@ from src.machine_learn.constants import EPOCHS, LEARNING_RATE
 from src.machine_learn.metrics import mean_squared_error
 
 class LinearRegression:
-    def train(self, x_train: DF, y_train: Series, x_val: DF, y_val: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:   
+    def train(self, x_train: DF, y_train: Series, epochs: int = EPOCHS, learning_rate: float = LEARNING_RATE) -> None:   
         X = np.column_stack((np.ones(len(x_train)), x_train))
         one_divided_by_n = 1/(X.shape[1])
 
