@@ -5,7 +5,7 @@ from src.machine_learn.metrics import mean_squared_error
 
 class GAlrOptimizer:
     learning_rate_low = 0.0001
-    learning_rate_high = 0.05
+    learning_rate_high = 0.1
 
     def __init__(self) -> None:
         self.population_size = 100
@@ -22,7 +22,7 @@ class GAlrOptimizer:
         
         optimal_lr = self.optimize_lr()
         
-        epochs_lst = [_ for _ in range(1, 300, 5)]
+        epochs_lst = [1]
         
         mses = []
         
