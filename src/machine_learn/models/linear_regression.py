@@ -33,6 +33,8 @@ class LinearRegression:
         self.epochs = 0
         
         while True:
+            self.epochs += 1
+            
             y_pred = X @ self.theta
             val_y_pred = X_val @ self.theta
             
@@ -48,9 +50,7 @@ class LinearRegression:
             if val_mse >= self.min_val_mse:
                 break
             else:
-                self.min_val_mse = min(val_mse, self.min_val_mse)
-            
-            self.epochs += 1
+                self.min_val_mse = val_mse
             
             
             
