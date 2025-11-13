@@ -20,7 +20,7 @@ class GAHParamOptimizer:
         self.fitness_scores = [0.0 for _ in range(self.population_size)]
         
     def epochs_grid_search(self, optimal_lr: float) -> float:
-        epochs_lst = [_ for _ in range(1, 500, 1)]
+        epochs_lst = [_ for _ in range(1, 500, 10)]
         
         mses = []
         

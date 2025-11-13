@@ -2,14 +2,16 @@ from src.machine_learn.imports import plt
 from src.machine_learn.constants import LEARNING_RATE
 
 from src.machine_learn.models import LinearRegression
-from src.machine_learn.data_prep import student_x, student_y, student_cols_to_scale, car_price_x, car_price_y, car_price_cols_to_scale
+from src.machine_learn.data_prep import (student_x, student_y, student_cols_to_scale, 
+                                        car_price_x, car_price_y, car_price_cols_to_scale, 
+                                        insurance_x, insurance_y, insurance_cols_to_scale)
 
 from src.machine_learn.data_manipulation import train_test_validate_split, scale_data
 from src.machine_learn.metrics import r_squared
 
 from src.machine_learn.genetic_algorithms import GAHParamOptimizer
 
-data = [(student_x, student_y, student_x.columns), (car_price_x, car_price_y, car_price_cols_to_scale)]
+data = [(student_x, student_y, student_cols_to_scale), (car_price_x, car_price_y, car_price_cols_to_scale), (insurance_x, insurance_y, insurance_cols_to_scale)]
 
 def test_ga_hparam_optimizer() -> None:
     

@@ -6,3 +6,5 @@ salary_df = salary_df.drop(columns = ['Unnamed: 0'])
 
 salary_x = salary_df[['YearsExperience']]
 salary_y = salary_df['Salary']
+
+salary_cols_to_scale = salary_x.columns
