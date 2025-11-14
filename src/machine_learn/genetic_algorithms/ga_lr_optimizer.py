@@ -1,39 +1,37 @@
 from src.machine_learn.imports import np
 from src.machine_learn.types import DF, Series
-from src.machine_learn.models import LinearRegression, LogisticRegression
+from src.machine_learn.models import LinearRegression
 from src.machine_learn.metrics import mean_squared_error
 
-class GAlrOptimizer:
+class GAHParamOptimizer:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
 
-    def __init__(self) -> None:
-        self.population_size = 100
-        self.generations = 100
-        self.population = [0.0 for _ in range(self.population_size)]
-        self.fitness_scores = [0.0 for _ in range(self.population_size)]
-
-    def optimize(self, model: LinearRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> tuple[int, float]:
+    def __init__(self, model: LinearRegression, x_train: DF, y_train: Series, x_validation: DF, y_validation: Series) -> None:
         self.model = model
         self.x_train = x_train
         self.y_train = y_train
         self.x_validation = x_validation
         self.y_validation = y_validation
         
-        optimal_lr = self.optimize_lr()
+        self.population_size = 100
+        self.generations = 100
+        self.population = [0.0 for _ in range(self.population_size)]
+        self.fitness_scores = [0.0 for _ in range(self.population_size)]
         
-        epochs_lst = [1]
+    def epochs_grid_search(self, optimal_lr: float) -> float:
+        epochs_lst = [_ for _ in range(1, 500, 10)]
         
         mses = []
         
         for epochs in epochs_lst:
-            self.model.train(x_train, y_train, epochs = epochs, learning_rate = optimal_lr)
+            self.model.train(self.x_train, self.y_train, epochs = epochs, learning_rate = optimal_lr)
             y_pred = self.model.predict(self.x_validation)
             mses.append(mean_squared_error(y_pred, self.y_validation))
         
         best_epochs = epochs_lst[mses.index(min(mses))]
         
-        return (best_epochs, optimal_lr)
+        return best_epochs
             
     
     
@@ -60,7 +58,7 @@ class GAlrOptimizer:
             
             top_50_percent = [solution for _, solution in fitness_to_population_sorted]
 
-            children = GAlrOptimizer.make_offspring(top_50_percent)
+            children = GAHParamOptimizer.make_offspring(top_50_percent)
             
             self.population = top_50_percent + children
 
@@ -73,7 +71,7 @@ class GAlrOptimizer:
 
     def generate_initial_population(self) -> None:
         for i in range(self.population_size):
-            self.population[i] = np.random.uniform(GAlrOptimizer.learning_rate_low, GAlrOptimizer.learning_rate_high)
+            self.population[i] = np.random.uniform(GAHParamOptimizer.learning_rate_low, GAHParamOptimizer.learning_rate_high)
             
     def fitness(self) -> None:
         for i, learning_rate in enumerate(self.population):
@@ -92,7 +90,7 @@ class GAlrOptimizer:
             parent_a = top_50_percent[i]
             parent_b = top_50_percent[i+1]
 
-            child1, child2 = GAlrOptimizer.crossover(parent_a, parent_b)
+            child1, child2 = GAHParamOptimizer.crossover(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)

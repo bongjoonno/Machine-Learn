@@ -3,14 +3,12 @@ from src.machine_learn.constants import PROJECT_DIRECTORY
 
 insurance_df = pd.read_csv(PROJECT_DIRECTORY / 'data' / 'test_data' / 'insurance.csv')
 
-insurance_df['sex'] = insurance_df['sex'].map({'female' : 0, 'male' : 1})
-insurance_df['smoker'] = insurance_df['smoker'].map({'yes' : 1, 'no' : 0})
+for col in ['sex', 'smoker']:
+    insurance_df[col] = insurance_df[col].astype('category').cat.codes
 
-regions = pd.get_dummies(insurance_df['region'], dtype=int)
-
-insurance_df = insurance_df.drop(columns='region')
-
-insurance_df = pd.concat([insurance_df, regions], axis=1)
+insurance_df = pd.get_dummies(insurance_df, columns = ['region'], dtype = int)
 
 insurance_x = insurance_df.drop(columns='charges')
 insurance_y = insurance_df['charges']
+
+insurance_cols_to_scale = ['age', 'bmi', 'children']

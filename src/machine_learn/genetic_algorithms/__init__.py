@@ -1,1 +1,1 @@
-from .ga_lr_optimizer import GAlrOptimizer
+from .ga_lr_optimizer import GAHParamOptimizer
