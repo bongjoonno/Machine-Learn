@@ -49,6 +49,7 @@ def test_ga_hparam_optimizer() -> None:
         
         
         print(comparison_arr)
+        print(linear_regression_model.theta)
         
         plt.plot(range(len(y_pred)), sorted(y_pred), alpha = 0.75, label = 'Early-Stop Epoch Optimizer')
         plt.plot(range(len(y_val)), sorted(y_val), alpha = 0.75, label = 'Validation Set')

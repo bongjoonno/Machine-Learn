@@ -2,8 +2,7 @@ from src.machine_learn.imports import np
 from src.machine_learn.types import DF, Series
 from src.machine_learn.models import LinearRegression
 from src.machine_learn.metrics import mean_squared_error
-
-
+from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 class GAHParamOptimizer:
     learning_rate_low = 0.0001
