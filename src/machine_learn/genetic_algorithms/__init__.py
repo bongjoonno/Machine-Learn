@@ -1,1 +1,2 @@
 from .ga_lr_optimizer import GAHParamOptimizer
+from .ga_param_optimizer import optimize_parameter
