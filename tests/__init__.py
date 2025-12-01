@@ -2,4 +2,5 @@ from .linear_regression_test import test_linear_regression
 from .logistic_regression_test import test_logistic_regression
 from .naive_bayes_test import test_naive_bayes
 from .ga_hparam_optimizer_test import test_ga_hparam_optimizer
+from.ga_param_optimizer_test import test_ga_param_optimizer
 from .all_model_tests import test_all_models
