@@ -10,6 +10,8 @@ def optimize_parameter(x, y):
     x = x.to_numpy()
     y = y.to_numpy()
     
+    n = len(x)
+    
     '''
     1. generate random solutions
     2. select top 50%
@@ -19,9 +21,7 @@ def optimize_parameter(x, y):
     '''
     
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
-    
-    for item in population:
-        print(item)
+
     
     # measure loss
     losses = []
@@ -32,9 +32,4 @@ def optimize_parameter(x, y):
         losses.append(mse)
 
 
-    population = [lr for _, lr in sorted(zip(losses, population))]
-    
-    #for item in population:
-        #print(item)
-    
-    
+    top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:n//2]

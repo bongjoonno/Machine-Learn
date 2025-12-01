@@ -2,6 +2,7 @@ from src.machine_learn.imports import np
 from src.machine_learn.types import DF, Series
 from src.machine_learn.models import LinearRegression
 from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.genetic_algorithms import arithmetic_crossover
 
 class GAHParamOptimizer:
     learning_rate_low = 0.0001
@@ -96,13 +97,3 @@ class GAHParamOptimizer:
             children.append(child2)
 
         return children
-    
-    @staticmethod
-    def crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
-        lr_weight1 = np.random.uniform(0, 1)
-        lr_weight2 = 1 - lr_weight1
-
-        child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
-        child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
-
-        return child_a_lr, child_b_lr
