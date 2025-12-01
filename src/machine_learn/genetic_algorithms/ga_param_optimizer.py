@@ -1,0 +1,43 @@
+from src.machine_learn.imports import np
+from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.genetic_algorithms import GeneticAlgorithm
+
+# still need to determine how to determine bounds
+
+param_lower_bound = -1_000_000_000
+param_upper_bound = 1_000_000_000
+population_size = 100
+generations = 10_000
+
+def optimize_parameter(x, y):
+    x = x.to_numpy()
+    y = y.to_numpy()
+    
+    n = len(x)
+    
+    '''
+    1. generate random solutions
+    2. select top 50%
+    3. generate children from top 50%
+    4. combine children and parent to make new population
+    5. repeat 2-4 until convergence
+    '''
+    
+    population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
+    losses = [0 for _ in range(population_size)]
+    
+    
+    for _ in range(generations):
+        for i, solution in enumerate(population):
+            y_pred = x * solution
+            mse = mean_squared_error(y_pred, y)
+            losses[i] = mse
+
+
+        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:n//2]
+        
+        children = GeneticAlgorithm.make_offspring(top_50_percent_of_population)
+        
+        population = top_50_percent_of_population + children
+        
+        print(np.mean(losses))

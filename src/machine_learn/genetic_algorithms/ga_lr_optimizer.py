@@ -2,6 +2,7 @@ from src.machine_learn.imports import np
 from src.machine_learn.types import DF, Series
 from src.machine_learn.models import LinearRegression
 from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 class GAHParamOptimizer:
     learning_rate_low = 0.0001
@@ -58,7 +59,7 @@ class GAHParamOptimizer:
             
             top_50_percent = [solution for _, solution in fitness_to_population_sorted]
 
-            children = GAHParamOptimizer.make_offspring(top_50_percent)
+            children = GeneticAlgorithm.make_offspring(top_50_percent)
             
             self.population = top_50_percent + children
 
@@ -79,30 +80,3 @@ class GAHParamOptimizer:
             y_pred = self.model.predict(self.x_validation)
             mse = mean_squared_error(y_pred, self.y_validation)
             self.fitness_scores[i] = mse
-            
-    @staticmethod
-    def make_offspring(top_50_percent: list[float]) -> list[float]:
-        np.random.shuffle(top_50_percent)
-        
-        children = []
-
-        for i in range(0, len(top_50_percent)-1, 2):
-            parent_a = top_50_percent[i]
-            parent_b = top_50_percent[i+1]
-
-            child1, child2 = GAHParamOptimizer.crossover(parent_a, parent_b)
-            
-            children.append(child1)
-            children.append(child2)
-
-        return children
-    
-    @staticmethod
-    def crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
-        lr_weight1 = np.random.uniform(0, 1)
-        lr_weight2 = 1 - lr_weight1
-
-        child_a_lr = (parent_a*lr_weight1) + (parent_b*lr_weight2)
-        child_b_lr = (parent_a*lr_weight2) + (parent_b*lr_weight1)
-
-        return child_a_lr, child_b_lr
