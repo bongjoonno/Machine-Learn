@@ -20,6 +20,9 @@ def optimize_parameter(x, y):
     
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     
+    for item in population:
+        print(item)
+    
     # measure loss
     losses = []
     
@@ -28,8 +31,10 @@ def optimize_parameter(x, y):
         mse = mean_squared_error(y_pred, y)
         losses.append(mse)
 
-    population = sorted(solution for loss, solution in zip(losses, population))
+
+    population = [lr for _, lr in sorted(zip(losses, population))]
+    
+    #for item in population:
+        #print(item)
     
     
-    for x, y in sorted(zip(losses, population)):
-        print(x, y)
