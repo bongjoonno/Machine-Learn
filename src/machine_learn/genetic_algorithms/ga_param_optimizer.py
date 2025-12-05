@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np
+from src.machine_learn.imports import np, plt
 from src.machine_learn.metrics import mean_squared_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
@@ -6,7 +6,7 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 param_lower_bound = -1_000_000_000
 param_upper_bound = 1_000_000_000
-population_size = 100
+population_size = 1000
 generations = 1000
 
 def optimize_parameter(x, y):
@@ -47,6 +47,10 @@ def optimize_parameter(x, y):
     print(population)
     best_preds = x * best_weight
     
+    plt.plot(y_pred)
+    plt.plot(y)
+    plt.show()
+    
     # do bias second
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     
@@ -65,3 +69,9 @@ def optimize_parameter(x, y):
         population = top_50_percent_of_population + children
         
         print(mean_squared_error(x * top_50_percent_of_population[0], y))
+    
+    plt.plot(y_pred)
+    plt.plot(y)
+    plt.show()
+    
+    print(r2)
