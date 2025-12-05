@@ -7,7 +7,7 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 param_lower_bound = -1_000_000_000
 param_upper_bound = 1_000_000_000
 population_size = 1000
-generations = 1000
+generations = 10_000
 
 def optimize_weight_and_bias_seperately(x, y):
     n = len(x)
