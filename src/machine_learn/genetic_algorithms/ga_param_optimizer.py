@@ -9,7 +9,7 @@ param_upper_bound = 1_000_000_000
 population_size = 1000
 generations = 1000
 
-def optimize_parameter(x, y):
+def optimize_weight_and_bias_seperately(x, y):
     x = x.to_numpy().flatten()
     y = y.to_numpy()
     
@@ -43,11 +43,7 @@ def optimize_parameter(x, y):
     
     best_weight = population[0]
     best_preds = x * best_weight
-    
-    print(r_squared(y_pred, y))
-    plt.plot(y_pred)
-    plt.plot(y)
-    plt.show()
+
     
     # do bias second
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
@@ -68,9 +64,4 @@ def optimize_parameter(x, y):
     
     best_bias = population[0]
     
-    print(best_weight, best_bias)
     
-    print(r_squared(y_pred, y))
-    plt.plot(y_pred)
-    plt.plot(y)
-    plt.show()
