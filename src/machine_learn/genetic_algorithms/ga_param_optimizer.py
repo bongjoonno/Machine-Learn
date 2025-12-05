@@ -1,5 +1,5 @@
 from src.machine_learn.imports import np, plt
-from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.metrics import mean_squared_error, r_squared
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 # still need to determine how to determine bounds
@@ -40,13 +40,11 @@ def optimize_parameter(x, y):
         children = GeneticAlgorithm.make_offspring(top_50_percent_of_population)
         
         population = top_50_percent_of_population + children
-        
-        print(mean_squared_error(x * top_50_percent_of_population[0], y))
     
     best_weight = population[0]
-    print(population)
     best_preds = x * best_weight
     
+    print(r_squared(y_pred, y))
     plt.plot(y_pred)
     plt.plot(y)
     plt.show()
@@ -67,11 +65,12 @@ def optimize_parameter(x, y):
         children = GeneticAlgorithm.make_offspring(top_50_percent_of_population)
         
         population = top_50_percent_of_population + children
-        
-        print(mean_squared_error(x * top_50_percent_of_population[0], y))
     
+    best_bias = population[0]
+    
+    print(best_weight, best_bias)
+    
+    print(r_squared(y_pred, y))
     plt.plot(y_pred)
     plt.plot(y)
     plt.show()
-    
-    print(r2)
