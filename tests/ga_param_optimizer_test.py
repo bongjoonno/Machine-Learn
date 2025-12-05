@@ -5,5 +5,4 @@ from src.machine_learn.genetic_algorithms import optimize_parameter
 
 def test_ga_param_optimizer():
     x_train, y_train, x_test, y_test, x_val, y_val = train_test_validate_split(salary_x, salary_y)
-    
     optimize_parameter(x_train, y_train)
