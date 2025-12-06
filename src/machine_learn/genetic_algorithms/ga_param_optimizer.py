@@ -10,8 +10,6 @@ population_size = 100
 generations = 100
 
 def optimize_weight(x, y):
-    n = len(x)
-    
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     losses = [0 for _ in range(population_size)]
     
@@ -23,7 +21,7 @@ def optimize_weight(x, y):
             losses[i] = mse
 
 
-        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:n//2]
+        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
         
         children = GeneticAlgorithm.make_offspring(top_50_percent_of_population)
         
@@ -34,7 +32,6 @@ def optimize_weight(x, y):
 
 
 def optimize_bias(x, y):
-    n = len(x)
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     losses = [0 for _ in range(population_size)]
     
@@ -46,7 +43,7 @@ def optimize_bias(x, y):
             losses[i] = mse
 
 
-        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:n//2]
+        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
         
         children = GeneticAlgorithm.make_offspring(top_50_percent_of_population)
         
