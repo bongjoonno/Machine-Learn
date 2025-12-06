@@ -9,4 +9,4 @@ student_df['Extracurricular Activities'] = student_df['Extracurricular Activitie
 student_x = student_df.drop(columns=['Performance Index'])
 student_y = student_df['Performance Index']
 
-student_cols_to_scale = student_x.columns
+student_cols_to_scale = ['Hours Studied', 'Previous Scores', 'Sleep Hours', 'Sample Question Papers Practiced']
