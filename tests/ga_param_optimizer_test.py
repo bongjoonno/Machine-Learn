@@ -15,20 +15,24 @@ def test_ga_param_optimizer():
     for x, y, cols_to_scale in data:
         number_of_features = x.shape[1]
         x_train, y_train, x_val, y_val, x_test, y_test = train_test_validate_split(x, y)
-        
         x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
         
+        print(x_train)
         x_train = x_train.to_numpy()
         y_train = y_train.to_numpy()
         
         theta = []
         
         for i in range(number_of_features):
-            x_feature = x_train[i]
+            x_feature = x_train.T[i]
+            print(x_feature)
+            print(x_feature.shape)
             weight = optimize_weight(x_feature, y_train)
             theta.append(weight)
-            
-        bias = optimize_bias(x_feature, y_train)
+        
+        best_preds = x_train @ theta
+        
+        bias = optimize_bias(best_preds, y_train)
         
         
         y_pred = (x_train @ theta) + bias
