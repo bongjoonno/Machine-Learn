@@ -11,6 +11,8 @@ generations = 100
 
 def optimize_weight(x, y):
     n = len(x)
+    
+    population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     losses = [0 for _ in range(population_size)]
     
     for _ in range(generations):
@@ -31,13 +33,14 @@ def optimize_weight(x, y):
     return best_weight
 
 
-def optimize_bias(x, y, best_preds):
+def optimize_bias(x, y):
+    n = len(x)
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
     losses = [0 for _ in range(population_size)]
     
     for _ in range(generations):
         for i, bias in enumerate(population):
-            y_pred = best_preds + bias
+            y_pred = x + bias
             
             mse = mean_squared_error(y_pred, y)
             losses[i] = mse

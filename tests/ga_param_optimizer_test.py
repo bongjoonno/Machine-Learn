@@ -18,14 +18,20 @@ def test_ga_param_optimizer():
         
         x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
         
-        x_train = x_train.to_numpy().flatten()
+        x_train = x_train.to_numpy()
         y_train = y_train.to_numpy()
         
-        weight = optimize_weight(x_train, y_train, number_of_features=number_of_features)
-        best_preds = x_train * weight
-        bias = optimize_bias(x, y, best_preds)
+        theta = []
         
-        y_pred = (x_train * weight) + bias
+        for i in range(number_of_features):
+            x_feature = x_train[i]
+            weight = optimize_weight(x_feature, y_train)
+            theta.append(weight)
+            
+        bias = optimize_bias(x_feature, y_train)
+        
+        
+        y_pred = (x_train @ theta) + bias
         
         print(r_squared(y_pred, y_train))
         
