@@ -43,9 +43,10 @@ def test_ga_hparam_optimizer() -> None:
         print(f'{early_stop_r2=}')
         
         
-        plt.plot(grid_search_y_pred)
-        plt.plot(early_stop_y_pred)
-        plt.plot(y_val)
+        print(grid_search_y_pred.shape, early_stop_y_pred.shape, y_val.shape)
+        plt.plot(range(len(y_val)), grid_search_y_pred, alpha=0.3)
+        plt.plot(range(len(y_val)), early_stop_y_pred, alpha=0.3)
+        plt.plot(range(len(y_val)), y_val, alpha=0.3)
         
         plt.legend(['grid-search', 'early-stop', 'validation-set'])
         plt.show()
