@@ -17,7 +17,6 @@ data = [(salary_x, salary_y, salary_cols_to_scale), (student_x, student_y, stude
 def test_ga_hparam_optimizer() -> None:
     
     linear_regression_model = LinearRegression()
-    comparison_arr = []
     
     for x, y, cols_to_scale in data:
         x_train, y_train, x_val, y_val, x_test, y_test = train_test_validate_split(x, y)
@@ -29,33 +28,25 @@ def test_ga_hparam_optimizer() -> None:
         optim_epochs = ga_hparameter_optimizer.epochs_grid_search(optimal_lr = optim_lr)
         
         linear_regression_model.train(x_train, y_train, epochs = optim_epochs, learning_rate = optim_lr)
-        y_pred = linear_regression_model.predict(x_val)
-        grid_epochs_r2 = r_squared(y_pred, y_val)
+        grid_search_y_pred = linear_regression_model.predict(x_val)
+        grid_epochs_r2 = r_squared(grid_search_y_pred, y_val)
         
-        plt.plot(range(len(y_pred)), sorted(y_pred), alpha = 0.75, label = 'Grid-Search Epoch Optimizer')
-        
-        print(f'{optim_epochs=}')
+        print(f'grid-search {optim_epochs=}')
         print(grid_epochs_r2)
         print('\n')
         
         linear_regression_model.train_early_stop(x_train, y_train, x_val, y_val, learning_rate = optim_lr)
-        y_pred = linear_regression_model.predict(x_val)
-        early_stop_r2 = r_squared(y_pred, y_val)
+        early_stop_y_pred = linear_regression_model.predict(x_val)
+        early_stop_r2 = r_squared(early_stop_y_pred, y_val)
         
-        comparison_arr.append(early_stop_r2 > grid_epochs_r2)
-        print(f'{linear_regression_model.epochs=}')
-        print(early_stop_r2)
-        print('\n')
+        print(f'early-stop-epochs = {linear_regression_model.epochs}')
+        print(f'{early_stop_r2=}')
         
         
-        print(comparison_arr)
-        print(linear_regression_model.theta)
+        print(grid_search_y_pred.shape, early_stop_y_pred.shape, y_val.shape)
+        plt.plot(range(len(y_val)), grid_search_y_pred, alpha=0.3)
+        plt.plot(range(len(y_val)), early_stop_y_pred, alpha=0.3)
+        plt.plot(range(len(y_val)), y_val, alpha=0.3)
         
-        plt.plot(range(len(y_pred)), sorted(y_pred), alpha = 0.75, label = 'Early-Stop Epoch Optimizer')
-        plt.plot(range(len(y_val)), sorted(y_val), alpha = 0.75, label = 'Validation Set')
-        plt.legend()
+        plt.legend(['grid-search', 'early-stop', 'validation-set'])
         plt.show()
-        
-        
-        
-        # write grid search lr optimizer

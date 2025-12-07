@@ -52,10 +52,6 @@ class LinearRegression:
             else:
                 self.min_val_mse = val_mse
             
-            
-            
-            
-
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
