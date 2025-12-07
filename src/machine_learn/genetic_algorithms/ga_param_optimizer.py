@@ -7,7 +7,7 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 param_lower_bound = -10
 param_upper_bound = 10
 population_size = 100
-generations = 400
+generations = 1
 
 def optimize_weight(x, y):
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
