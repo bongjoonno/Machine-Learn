@@ -22,20 +22,25 @@ def test_ga_all_param_optimizer():
         x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
         
         x_train = x_train.to_numpy()
+        x_val = x_val.to_numpy()
+        
         x_train = np.column_stack((np.ones(len(x_train)), x_train))
+        x_val = np.column_stack((np.ones(len(x_val)), x_val))
+        
         y_train = scaler.fit_transform(y_train.to_numpy().reshape(-1, 1)).flatten()
+        y_val = scaler.transform(y_val.to_numpy().reshape(-1, 1)).flatten()
         
         theta = ga_optimize_params(x_train, y_train)
     
         
-        y_pred = x_train @ theta
+        y_pred = x_val @ theta
         
 
-        print(r_squared(y_pred, y_train))
+        print(r_squared(y_pred, y_val))
 
-        plt.plot(y_train.flatten())
+        plt.plot(y_val)
         plt.plot(y_pred)
-        plt.legend(['y_train', 'y_pred'])
+        plt.legend(['y_val', 'y_pred'])
         plt.show()
 
         
