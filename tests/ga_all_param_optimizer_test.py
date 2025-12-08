@@ -15,7 +15,6 @@ def test_ga_all_param_optimizer():
     scaler = StandardScaler()
     
     for x, y, cols_to_scale in data:
-        number_of_features = x.shape[1]
         x_train, y_train, x_val, y_val, x_test, y_test = train_test_validate_split(x, y)
         x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
         
@@ -24,13 +23,13 @@ def test_ga_all_param_optimizer():
         
         theta = ga_optimize_params(x_train, y_train)
         
-        y_pred = (x_train @ theta) + bias
+        y_pred = x_train @ theta
         
 
         print(r_squared(y_pred, y_train))
 
         plt.plot(y_train.flatten())
-        #plt.plot(y_pred)
+        plt.plot(y_pred)
         plt.legend(['y_train', 'y_pred'])
         plt.show()
 
