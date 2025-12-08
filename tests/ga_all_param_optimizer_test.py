@@ -9,7 +9,10 @@ from src.machine_learn.data_prep import (salary_x, salary_y, salary_cols_to_scal
                                          car_price_x, car_price_y, car_price_cols_to_scale, 
                                          insurance_x, insurance_y, insurance_cols_to_scale)
 
-data = [(car_price_x, car_price_y, car_price_cols_to_scale)]
+data = [(salary_x, salary_y, salary_cols_to_scale), 
+        (student_x, student_y, student_cols_to_scale) ,
+        (car_price_x, car_price_y, car_price_cols_to_scale),
+        (insurance_x, insurance_y, insurance_cols_to_scale)]
 
 def test_ga_all_param_optimizer():
     scaler = StandardScaler()
@@ -19,9 +22,11 @@ def test_ga_all_param_optimizer():
         x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
         
         x_train = x_train.to_numpy()
+        x_train = np.column_stack((np.ones(len(x_train)), x_train))
         y_train = scaler.fit_transform(y_train.to_numpy().reshape(-1, 1)).flatten()
         
         theta = ga_optimize_params(x_train, y_train)
+    
         
         y_pred = x_train @ theta
         

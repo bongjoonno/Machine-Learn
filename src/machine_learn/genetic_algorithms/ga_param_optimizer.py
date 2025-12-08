@@ -7,7 +7,7 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 param_lower_bound = -10
 param_upper_bound = 10
 population_size = 100
-generations = 1
+generations = 20
 
 def optimize_weight(x, y):
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
@@ -54,20 +54,19 @@ def optimize_bias(x, y):
     return best_bias
 
 def ga_optimize_params(x, y):
-    X = np.column_stack((np.ones(len(x)), x))
-    population = [np.random.randn(X.shape[1]) for _ in range(population_size)]
+    population = [np.random.randn(x.shape[1]) for _ in range(population_size)]
     losses = [0 for _ in range(population_size)]
     
     for _ in range(generations):
         for i, solution in enumerate(population):
-            y_pred = X @ solution
+            y_pred = x @ solution
             losses[i] = mean_squared_error(y_pred, y)
         
         top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
         
         children = []
         
-        for i in range(X.shape[1]):
+        for i in range(x.shape[1]):
             params = []
             
             for j in range(len(top_50_percent_of_population)):
