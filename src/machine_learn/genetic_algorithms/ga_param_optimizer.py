@@ -52,3 +52,40 @@ def optimize_bias(x, y):
     best_bias = population[0]
     
     return best_bias
+
+def ga_optimize_params(x, y):
+    X = np.column_stack((np.ones(len(x)), x))
+    population = [np.random.randn(X.shape[1]) for _ in range(population_size)]
+    losses = [0 for _ in range(population_size)]
+    
+    for _ in range(generations):
+        for i, solution in enumerate(population):
+            y_pred = X @ solution
+            losses[i] = mean_squared_error(y_pred, y)
+        
+        top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
+        
+        children = []
+        
+        for i in range(X.shape[1]):
+            params = []
+            
+            for j in range(len(top_50_percent_of_population)):
+                params.append(top_50_percent_of_population[j][i])
+            
+            children.append(GeneticAlgorithm.make_offspring(params))
+        
+        children = np.array(children)
+        children = children.T
+        children = children.tolist()
+        
+        population = top_50_percent_of_population + children
+    
+    return population[0]
+            
+        
+        
+        
+    
+    
+    
