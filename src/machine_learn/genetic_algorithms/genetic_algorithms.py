@@ -1,5 +1,7 @@
 from src.machine_learn.imports import np
 
+np.random.seed(42)
+
 class GeneticAlgorithm:
     @staticmethod
     def make_offspring(top_50_percent: list[float]) -> list[float]:

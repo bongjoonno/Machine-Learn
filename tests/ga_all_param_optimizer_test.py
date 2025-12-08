@@ -38,8 +38,8 @@ def test_ga_all_param_optimizer():
 
         print(r_squared(y_pred, y_val))
 
-        plt.plot(y_val)
-        plt.plot(y_pred)
+        plt.plot(sorted(y_val))
+        plt.plot(sorted(y_pred))
         plt.legend(['y_val', 'y_pred'])
         plt.show()
 

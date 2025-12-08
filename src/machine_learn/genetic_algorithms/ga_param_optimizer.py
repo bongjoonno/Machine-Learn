@@ -4,13 +4,11 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 # still need to determine how to determine bounds
 
-population_size = 200
+population_size = 1_500
 generations = 100
 
 param_lower_bound = -1
 param_upper_bound = abs(param_lower_bound)
-
-param_bound_increment = ((2*param_upper_bound)+1)/population_size
 
 def optimize_weight(x, y):
     population = [np.random.uniform(param_lower_bound, param_upper_bound) for _ in range(population_size)]
