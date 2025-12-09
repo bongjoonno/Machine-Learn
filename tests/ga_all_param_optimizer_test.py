@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np, plt, StandardScaler
+from src.machine_learn.imports import np, plt, tqdm, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_prep import salary_x, salary_y
 from src.machine_learn.data_manipulation import train_test_validate_split, scale_data
@@ -14,10 +14,10 @@ data = [(salary_x, salary_y, salary_cols_to_scale),
 
 def test_ga_all_param_optimizer():
         scaler = StandardScaler()
-        param_bounds = np.random.uniform(-2, 0, 100)
-        param_bounds_dict = {}
+        population_sizes = [i for i in range(50, 5_000, 100)]
+        population_acc_dict = {}
          
-        for bound in param_bounds:  
+        for population_size in tqdm(population_sizes):  
                 accs = []    
                 for _ in range(10):
                         for x, y, cols_to_scale in data:
@@ -33,14 +33,17 @@ def test_ga_all_param_optimizer():
                                 y_train = scaler.fit_transform(y_train.to_numpy().reshape(-1, 1)).flatten()
                                 y_val = scaler.transform(y_val.to_numpy().reshape(-1, 1)).flatten()
                                 
-                                theta = ga_optimize_params(x_train, y_train, param_lower_bound = bound, mutate=False)
+                                theta = ga_optimize_params(x_train, y_train, population_size=population_size, mutate=False)
                         
                                 
                                 y_pred = x_val @ theta
                         
                                 accs.append(r_squared(y_pred, y_val))
 
-                param_bounds_dict[bound] = np.mean(accs)
+                population_acc_dict[population_size] = np.mean(accs)
                                 
 
-        print(param_bounds_dict)  
+        population_acc_dict = dict(sorted(population_acc_dict.items(), key=lambda x: x[1]))
+        
+        for key, val in population_acc_dict.items():
+                print(key, val)
