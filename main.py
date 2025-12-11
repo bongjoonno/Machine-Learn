@@ -2,7 +2,7 @@ from tests import test_all_models, test_ga_all_param_optimizer, test_ga_hparam_o
 
 def main():
     return test_ga_all_param_optimizer()
-
+ 
 
 if __name__ == '__main__':
     print(main())

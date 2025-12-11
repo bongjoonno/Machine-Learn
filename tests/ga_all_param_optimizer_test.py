@@ -14,12 +14,12 @@ data = [(salary_x, salary_y, salary_cols_to_scale),
 
 def test_ga_all_param_optimizer():
         scaler = StandardScaler()
-        population_sizes = [i for i in range(50, 5_000, 100)]
+        population_sizes = [i for i in range(2, 10_000, 100)]
         population_acc_dict = {}
          
         for population_size in tqdm(population_sizes):  
                 accs = []    
-                for _ in range(10):
+                for _ in range(100):
                         for x, y, cols_to_scale in data:
                                 x_train, y_train, x_val, y_val, x_test, y_test = train_test_validate_split(x, y)
                                 x_train, x_val, x_test = scale_data(x_train, x_val, x_test, columns_to_scale=cols_to_scale)
@@ -47,3 +47,6 @@ def test_ga_all_param_optimizer():
         
         for key, val in population_acc_dict.items():
                 print(key, val)
+        
+        plt.plot(population_acc_dict.keys(), population_acc_dict.values())
+        plt.show()
