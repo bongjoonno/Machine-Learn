@@ -8,3 +8,5 @@ energy_df['Day of Week'] = energy_df['Day of Week'].map({'Weekday' : 0, 'Weekend
 
 energy_x = energy_df.drop(columns=['Energy Consumption'])
 energy_y = energy_df['Energy Consumption']
+
+energy_cols_to_scale = ['Square Footage', 'Number of Occupants', 'Appliances Used', 'Average Temperature']
