@@ -6,3 +6,6 @@ def main():
 
 if __name__ == '__main__':
     print(main())
+    
+#TO-DO
+# Make template for linear regression testing y_scale can be boolean so it will work with GA's as well.
