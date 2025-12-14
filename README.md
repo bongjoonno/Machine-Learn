@@ -7,7 +7,8 @@ A Machine Learning Library for Prediction and Categorization
 - Linear Regression
 - Logistic Regression
 - Naive Bayes
-- Hyperparameter Optimizer w/Genetic Algorithm
+- Learning Rate Optimizer w/Genetic Algorithm
+- Genetic Algorithm Parameter Optimizer
 
 ### Data Wrangiling:
 - Data Scaling
