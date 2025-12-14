@@ -6,8 +6,9 @@ from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 param_lower_bound = -0.8568
 sigma_for_mutation = 0.0001
+population_size = 1000
 
-def ga_optimize_params(x, y, population_size, mutate: bool = True):
+def ga_optimize_params(x, y, mutate: bool = True):
     param_upper_bound = abs(param_lower_bound)
     number_of_features = x.shape[1]
     population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
