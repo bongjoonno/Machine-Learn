@@ -6,3 +6,4 @@ from .insurance_costs_data import insurance_x, insurance_y, insurance_cols_to_sc
 from .salary_data import salary_x, salary_y, salary_cols_to_scale
 from .student_performance_data import student_x, student_y, student_cols_to_scale
 from .car_price_data import car_price_x, car_price_y, car_price_cols_to_scale
+from .energy_usage_data import energy_df
