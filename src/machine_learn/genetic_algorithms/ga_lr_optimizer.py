@@ -4,7 +4,7 @@ from src.machine_learn.models import LinearRegression
 from src.machine_learn.metrics import mean_squared_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
-class GAHParamOptimizer:
+class GAlrOptimizer:
     learning_rate_low = 0.0001
     learning_rate_high = 0.1
 
@@ -18,23 +18,7 @@ class GAHParamOptimizer:
         self.population_size = 100
         self.generations = 100
         self.population = [0.0 for _ in range(self.population_size)]
-        self.fitness_scores = [0.0 for _ in range(self.population_size)]
-        
-    def epochs_grid_search(self, optimal_lr: float) -> float:
-        epochs_lst = [_ for _ in range(1, 500, 10)]
-        
-        mses = []
-        
-        for epochs in epochs_lst:
-            self.model.train(self.x_train, self.y_train, epochs = epochs, learning_rate = optimal_lr)
-            y_pred = self.model.predict(self.x_validation)
-            mses.append(mean_squared_error(y_pred, self.y_validation))
-        
-        best_epochs = epochs_lst[mses.index(min(mses))]
-        
-        return best_epochs
-            
-    
+        self.fitness_scores = [0.0 for _ in range(self.population_size)]         
     
     def optimize_lr(self) -> float:
         lowest_loss = float('inf')
@@ -72,7 +56,7 @@ class GAHParamOptimizer:
 
     def generate_initial_population(self) -> None:
         for i in range(self.population_size):
-            self.population[i] = np.random.uniform(GAHParamOptimizer.learning_rate_low, GAHParamOptimizer.learning_rate_high)
+            self.population[i] = np.random.uniform(GAlrOptimizer.learning_rate_low, GAlrOptimizer.learning_rate_high)
             
     def fitness(self) -> None:
         for i, learning_rate in enumerate(self.population):
