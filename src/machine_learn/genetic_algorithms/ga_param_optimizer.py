@@ -27,15 +27,13 @@ class GAOptimizer:
         
         self.min_train_mse = float('inf')
         
-        self.epochs_performed = 0
-        
         number_of_features = X.shape[1]
 
         population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
             
         losses = [0 for _ in range(population_size)]
         
-        min_mse = float('inf')
+        self.epochs_performed = 0
         
         while True:
             self.epochs_performed += 1
@@ -51,7 +49,7 @@ class GAOptimizer:
             if early_stop:
                 for i, solution in enumerate(population):
                     y_pred = X_val @ solution
-                    losses[i] = mean_squared_error(y_pred, y_train)
+                    losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
 
