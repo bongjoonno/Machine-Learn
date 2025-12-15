@@ -13,6 +13,9 @@ sigma_for_mutation = 0.0001
 population_size = 1000
 
 class GAOptimizer:
+    min_delta = 0.0001
+    patience = 5
+    
     def train(self, x_train: DF, y_train: Series, x_val: DF | None = None, y_val: Series | None = None, epochs: int | None = None, mutate: bool = False) -> None:  
         if epochs is not None:
             early_stop = False
@@ -34,6 +37,7 @@ class GAOptimizer:
         losses = [0 for _ in range(population_size)]
         
         self.epochs_performed = 0
+        no_improvement = 0
         
         while True:
             self.epochs_performed += 1
@@ -53,10 +57,14 @@ class GAOptimizer:
             
                 val_generation_min_mse = min(losses)
 
-                if val_generation_min_mse >= self.min_val_mse:
-                    break
+                if self.min_val_mse - val_generation_min_mse < GAOptimizer.min_delta:
+                    no_improvement += 1
+                    
+                    if no_improvement >= GAOptimizer.patience:
+                        break
                 else:
                     self.min_val_mse = val_generation_min_mse
+                    no_improvement = 0
             
             elif self.epochs_performed == epochs:
                 break

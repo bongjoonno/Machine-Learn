@@ -17,8 +17,6 @@ class LinearRegression:
             if x_val is not None and y_val is not None:
                 X_val = np.column_stack((np.ones(len(x_val)), x_val))
                 early_stop = True
-                
-                
             else:
                 epochs = EPOCHS
             
