@@ -10,3 +10,8 @@ if __name__ == '__main__':
 #TO-DO
 # Make template general linear models
 # Make scikit learn tester
+# Get more Linear Regression test data-sets
+# Write MAE metric
+# Allow GA param optimizer to use multiple cost-functions (default should be MSE)
+# Fix Logistic Regression Cost function
+# Figure out why Linear Regression is performing so poorly (test against Scikit learn)
