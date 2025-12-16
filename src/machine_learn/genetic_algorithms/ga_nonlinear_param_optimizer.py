@@ -12,7 +12,9 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-class GAOptimizer:
+non_linear_functions = [np.sin, np.tanh, lambda x: x, np.square,]
+
+class GANONLinearOptimizer:
     min_delta = 0.0001
     patience = 5
     
@@ -39,6 +41,9 @@ class GAOptimizer:
         self.min_train_mse = float('inf')
         
         number_of_features = X.shape[1]
+
+        if non_linearity:
+            functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
         population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
         
@@ -51,7 +56,12 @@ class GAOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                y_pred = X @ solution   
+                if non_linearity:
+                    y_pred = X * solution
+                    y_pred = np.sum(np.column_stack([f(X[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                else:
+                    y_pred = X @ solution
+                    
                 losses[i] = mean_squared_error(y_pred, y_train)
             
             train_generation_min_mse = min(losses)
@@ -60,15 +70,20 @@ class GAOptimizer:
             
             if early_stop:
                 for i, solution in enumerate(population):
-                    y_pred = X_val @ solution
+                    if non_linearity:
+                        y_pred = X_val * solution
+                        y_pred = np.sum(np.column_stack([f(X_val[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    else:
+                        y_pred = X_val @ solution
+                        
                     losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
 
-                if self.min_val_mse - val_generation_min_mse < GAOptimizer.min_delta:
+                if self.min_val_mse - val_generation_min_mse < GANONLinearOptimizer.min_delta:
                     no_improvement += 1
                     
-                    if no_improvement >= GAOptimizer.patience:
+                    if no_improvement >= GANONLinearOptimizer.patience:
                         break
                 else:
                     self.min_val_mse = val_generation_min_mse
@@ -97,11 +112,18 @@ class GAOptimizer:
                 children.append(param_children)
                         
                     
+            
             children = np.array(children).T
             children = children.tolist()
             
             population = top_50_percent_of_population + children
-
+            
+            if non_linearity:
+                top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions), key=lambda x: x[0])][:population_size//2]
+                functions = top_50_percent_of_functions + top_50_percent_of_functions
+        
+                #for func in functions:
+                    #print(func)
                     
         self.theta = population[0]
     
