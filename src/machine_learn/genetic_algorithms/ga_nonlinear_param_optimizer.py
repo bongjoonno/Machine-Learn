@@ -10,7 +10,7 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3]
+non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, np.sin]
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
