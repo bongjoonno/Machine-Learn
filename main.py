@@ -13,4 +13,3 @@ if __name__ == '__main__':
 # Write MAE metric
 # Allow GA param optimizer to use multiple cost-functions (default should be MSE)
 # Fix Logistic Regression Cost function
-# Figure out why Linear Regression is performing so poorly (test against Scikit learn)

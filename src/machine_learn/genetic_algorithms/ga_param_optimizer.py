@@ -12,11 +12,20 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
+non_linear_functions = [np.sin, np.tanh, lambda x: x, lambda x: x**2, lambda x: x**3]
 class GAOptimizer:
     min_delta = 0.0001
     patience = 5
     
-    def train(self, x_train: DF, y_train: Series, x_val: DF | None = None, y_val: Series | None = None, epochs: int | None = None, mutate: bool = False) -> None:  
+    def train(self, 
+              x_train: DF, 
+              y_train: Series, 
+              x_val: DF | None = None, 
+              y_val: Series | None = None, 
+              epochs: int | None = None, 
+              mutate: bool = False, 
+              non_linearity: bool = True) -> None:  
+        
         if epochs is not None:
             early_stop = False
         elif x_val is not None and y_val is not None and epochs is None:
@@ -25,7 +34,7 @@ class GAOptimizer:
             early_stop = True
         else:
             epochs = EPOCHS
-            
+        
         X = np.column_stack((np.ones(len(x_train)), x_train))
         
         self.min_train_mse = float('inf')
