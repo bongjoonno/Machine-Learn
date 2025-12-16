@@ -1,8 +1,8 @@
-from tests import test_linear_regression, test_all_models, test_ga_param_optimizer, test_ga_lr_optimizer, data_imports_test
+from tests import test_linear_regression, test_all_models, test_ga_param_optimizer, test_ga_lr_optimizer, test_scikit_learn_linear_regression
 
 def main():
-    return test_ga_lr_optimizer()
- 
+    test_ga_lr_optimizer()
+    test_scikit_learn_linear_regression()
 
 if __name__ == '__main__':
     print(main())

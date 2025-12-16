@@ -1,6 +1,7 @@
-from src.machine_learn.imports import StandardScaler
+from src.machine_learn.imports import StandardScaler, LinearRegression, plt
 from src.machine_learn.data_prep import linear_regression_test_data
 from src.machine_learn.data_manipulation import train_test_split, scale_data
+from src.machine_learn.metrics import r_squared
 
 def test_scikit_learn_linear_regression(scale_y: bool = False):
     scaler = StandardScaler()
@@ -14,7 +15,10 @@ def test_scikit_learn_linear_regression(scale_y: bool = False):
             y_train = scaler.fit_transform(y_train.to_numpy().reshape(-1, 1)).flatten()
             y_val = scaler.transform(y_val.to_numpy().reshape(-1, 1)).flatten()
 
-        y_pred = optimizer.predict(x_val)
+        model = LinearRegression()
+        model.fit(x_train, y_train)
+        
+        y_pred = model.predict(x_val)
         
         r2 = r_squared(y_pred, y_val)
         print(f'{r2=}')
