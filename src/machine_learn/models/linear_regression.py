@@ -5,7 +5,7 @@ from src.machine_learn.metrics import mean_squared_error
 
 class LinearRegression:
     min_delta = 0.0001
-    patience = 5
+    patience = 10
     
     def __init__(self):
         self.min_val_mse = float('inf')
