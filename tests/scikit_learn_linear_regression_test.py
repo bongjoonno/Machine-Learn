@@ -2,7 +2,7 @@ from src.machine_learn.imports import StandardScaler
 from src.machine_learn.data_prep import linear_regression_test_data
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 
-def scikit_learn_linear_regression_test(scale_y: bool = False):
+def test_scikit_learn_linear_regression(scale_y: bool = False):
     scaler = StandardScaler()
         
         
