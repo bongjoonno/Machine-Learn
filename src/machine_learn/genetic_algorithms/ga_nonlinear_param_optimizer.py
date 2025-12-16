@@ -14,7 +14,7 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, np.sin, np.
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 1000
+    patience = 50
     
     def train(self, 
               x_train: DF, 
