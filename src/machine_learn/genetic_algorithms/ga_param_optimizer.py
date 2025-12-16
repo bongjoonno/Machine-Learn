@@ -13,6 +13,7 @@ sigma_for_mutation = 0.0001
 population_size = 1000
 
 non_linear_functions = [np.sin, np.tanh, lambda x: x, lambda x: x**2, lambda x: x**3]
+
 class GAOptimizer:
     min_delta = 0.0001
     patience = 5
@@ -41,8 +42,12 @@ class GAOptimizer:
         
         number_of_features = X.shape[1]
 
-        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
-            
+        if non_linearity:
+            population = [(np.random.choice(non_linear_functions), np.random.uniform(param_lower_bound, param_upper_bound, number_of_features))
+                          for _ in range(population_size)]
+        else:   
+            population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
+        
         losses = [0 for _ in range(population_size)]
         
         self.epochs_performed = 0
@@ -52,7 +57,13 @@ class GAOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                y_pred = X @ solution
+                if non_linearity:
+                    func, weight = solution[0], solution[1]
+                    y_pred = X @ weight
+                    y_pred = np.array(list(map(func, y_pred)))
+                else:
+                    y_pred = y_pred = X @ solution
+                    
                 losses[i] = mean_squared_error(y_pred, y_train)
             
             train_generation_min_mse = min(losses)
@@ -61,7 +72,12 @@ class GAOptimizer:
             
             if early_stop:
                 for i, solution in enumerate(population):
-                    y_pred = X_val @ solution
+                    if non_linearity:
+                        y_pred = X_val @ weight
+                        y_pred = np.array(list(map(func, y_val)))
+                    else:
+                        y_pred = y_pred = X_val @ solution
+                        
                     losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
