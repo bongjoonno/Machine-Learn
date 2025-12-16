@@ -25,7 +25,7 @@ class GAOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               mutate: bool = False, 
-              non_linearity: bool = True) -> None:  
+              non_linearity: bool = False) -> None:  
         
         if epochs is not None:
             early_stop = False
@@ -43,10 +43,9 @@ class GAOptimizer:
         number_of_features = X.shape[1]
 
         if non_linearity:
-            population = [(np.random.choice(non_linear_functions), np.random.uniform(param_lower_bound, param_upper_bound, number_of_features))
-                          for _ in range(population_size)]
-        else:   
-            population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
+            functions = [np.random.choice(non_linear_functions) for _ in range(population_size)]
+ 
+        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
         
         losses = [0 for _ in range(population_size)]
         
@@ -58,11 +57,10 @@ class GAOptimizer:
             
             for i, solution in enumerate(population):
                 if non_linearity:
-                    func, weight = solution[0], solution[1]
-                    y_pred = X @ weight
-                    y_pred = np.array(list(map(func, y_pred)))
+                    y_pred = X @ solution
+                    y_pred = np.array(list(map(functions[i], y_pred)))
                 else:
-                    y_pred = y_pred = X @ solution
+                    y_pred = X @ solution
                     
                 losses[i] = mean_squared_error(y_pred, y_train)
             
@@ -73,10 +71,10 @@ class GAOptimizer:
             if early_stop:
                 for i, solution in enumerate(population):
                     if non_linearity:
-                        y_pred = X_val @ weight
-                        y_pred = np.array(list(map(func, y_val)))
+                        y_pred = X_val @ solution
+                        y_pred = np.array(list(map(functions[i], y_pred)))
                     else:
-                        y_pred = y_pred = X_val @ solution
+                        y_pred = X_val @ solution
                         
                     losses[i] = mean_squared_error(y_pred, y_val)
             
@@ -119,7 +117,11 @@ class GAOptimizer:
             children = children.tolist()
             
             population = top_50_percent_of_population + children
-        
+            
+            if non_linearity:
+                top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
+                functions = top_50_percent_of_functions + top_50_percent_of_functions
+            
         self.theta = population[0]
     
     def predict(self, x: DF) -> NDArray:
