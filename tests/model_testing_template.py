@@ -5,7 +5,7 @@ from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.models import LinearRegression
 from src.machine_learn.genetic_algorithms import GAOptimizer, GAlrOptimizer
 
-def linear_regression_test_template(optimizer: LinearRegression | GAOptimizer, training_args: dict = {}, early_stop: bool = True, optimize_lr: bool = False, scale_y: bool = False):
+def model_test_template(optimizer: LinearRegression | GAOptimizer, training_args: dict = {}, early_stop: bool = True, optimize_lr: bool = False, scale_y: bool = False):
     scaler = StandardScaler()
         
         

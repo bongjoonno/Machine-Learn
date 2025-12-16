@@ -22,8 +22,7 @@ class GAOptimizer:
               x_val: DF | None = None, 
               y_val: Series | None = None, 
               epochs: int | None = None, 
-              mutate: bool = False, 
-              non_linearity: bool = False) -> None:  
+              mutate: bool = False)-> None:  
         
         if epochs is not None:
             early_stop = False
