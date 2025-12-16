@@ -7,6 +7,3 @@ concrete_columns_to_scale = ['cement', 'blast_furnace', 'fly_ash', 'water', 'sup
 
 concrete_x = concrete_df.drop(columns=['concrete_compressive_strength'])
 concrete_y = concrete_df['concrete_compressive_strength']
-
-print(concrete_x)
-print(concrete_y)

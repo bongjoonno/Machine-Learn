@@ -7,9 +7,10 @@ from .salary_data import salary_x, salary_y, salary_cols_to_scale
 from .student_performance_data import student_x, student_y, student_cols_to_scale
 from .car_price_data import car_price_x, car_price_y, car_price_cols_to_scale
 from .energy_usage_data import energy_x, energy_y, energy_cols_to_scale
-from .concrete_data import concrete_df
+from .concrete_data import concrete_x, concrete_y, concrete_columns_to_scale
 
-linear_regression_test_data = [(salary_x, salary_y, salary_cols_to_scale), 
+linear_regression_test_data = [(concrete_x, concrete_y, concrete_columns_to_scale),
+                               (salary_x, salary_y, salary_cols_to_scale), 
                                (student_x, student_y, student_cols_to_scale) ,
                                (car_price_x, car_price_y, car_price_cols_to_scale),
                                (energy_x, energy_y, energy_cols_to_scale)]

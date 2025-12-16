@@ -1,14 +1,12 @@
-from tests import (data_imports_test,
-                   test_linear_regression, 
-                  test_all_models, 
-                  test_ga_param_optimizer, 
-                  test_ga_lr_optimizer, 
-                  test_scikit_learn_linear_regression,
-                  test_nonlinear_ga_param_optimizer)
+from tests import (test_linear_regression, 
+                   test_all_models, 
+                   test_ga_param_optimizer, 
+                   test_ga_lr_optimizer, 
+                   test_scikit_learn_linear_regression,
+                   test_nonlinear_ga_param_optimizer)
 
 def main():
-    pass
-    #test_nonlinear_ga_param_optimizer()
+    test_nonlinear_ga_param_optimizer()
     #test_scikit_learn_linear_regression()
 
 if __name__ == '__main__':
