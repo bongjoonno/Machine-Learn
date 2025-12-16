@@ -1,15 +1,22 @@
-from src.machine_learn.data_prep import linear_regression_test_data
+from src.machine_learn.data_prep import linear_regression_test_data, non_linear_test_data
 from src.machine_learn.imports import plt, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.models import LinearRegression
 from src.machine_learn.genetic_algorithms import GAOptimizer, GAlrOptimizer
 
-def model_test_template(optimizer: LinearRegression | GAOptimizer, training_args: dict = {}, early_stop: bool = True, optimize_lr: bool = False, scale_y: bool = False):
+def model_test_template(optimizer: LinearRegression | GAOptimizer, 
+                        training_args: dict = {}, 
+                        early_stop: bool = True, 
+                        optimize_lr: bool = False, 
+                        scale_y: bool = False,
+                        linear_data: bool = False):
+    
     scaler = StandardScaler()
         
-        
-    for x, y, cols_to_scale in linear_regression_test_data:
+    test_data = linear_regression_test_data if linear_data else non_linear_test_data
+    
+    for x, y, cols_to_scale in test_data:
         x_train, y_train, x_val, y_val = train_test_split(x, y)
         x_train, x_val = scale_data(x_train, x_val, columns_to_scale=cols_to_scale)
             

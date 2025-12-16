@@ -10,11 +10,13 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, np.sin]
+non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
+                        np.sin, np.cos, np.tan, np.tanh,
+                        np.abs]
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 10
+    patience = 50
     
     def train(self, 
               x_train: DF, 
@@ -56,8 +58,8 @@ class GANONLinearOptimizer:
             
             for i, solution in enumerate(population):
                 if non_linearity:
-                    y_pred = X * solution
-                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    y_pred = np.column_stack([f(X[:, j]) for j, f in enumerate(functions[i])])
+                    y_pred = y_pred @ solution
                 else:
                     y_pred = X @ solution
                     
@@ -70,8 +72,8 @@ class GANONLinearOptimizer:
             if early_stop:
                 for i, solution in enumerate(population):
                     if non_linearity:
-                        y_pred = X_val * solution
-                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred = np.column_stack([f(X_val[:, j]) for j, f in enumerate(functions[i])])
+                        y_pred = y_pred @ solution
                     else:
                         y_pred = X_val @ solution
                         
