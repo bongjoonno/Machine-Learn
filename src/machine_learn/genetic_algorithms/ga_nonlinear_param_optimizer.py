@@ -119,13 +119,13 @@ class GANONLinearOptimizer:
             if non_linearity:
                 top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions), key=lambda x: x[0])][:population_size//2]
                 functions = top_50_percent_of_functions + top_50_percent_of_functions
-        
-                #for func in functions:
-                    #print(func)
                     
         self.theta = population[0]
+        self.funcs = functions[0]
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
-        y = X @ self.theta
+        
+        y = X * self.theta
+        y = np.sum(np.column_stack([f(X[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
         return y
