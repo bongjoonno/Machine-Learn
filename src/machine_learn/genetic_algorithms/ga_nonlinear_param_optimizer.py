@@ -3,8 +3,6 @@ from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error, r_squared
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
-import inspect
-# still need to determine how to determine bounds
 
 param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
@@ -12,11 +10,11 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-non_linear_functions = [np.sin, np.tanh, lambda x: x, np.square,]
+non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, np.sin, np.cos, np.tan, np.tanh, np.abs]
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 50
+    patience = 1000
     
     def train(self, 
               x_train: DF, 

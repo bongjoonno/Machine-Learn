@@ -3,8 +3,6 @@ from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error, r_squared
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
-import inspect
-# still need to determine how to determine bounds
 
 param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
