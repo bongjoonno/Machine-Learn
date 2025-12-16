@@ -6,10 +6,7 @@ from src.machine_learn.metrics import mean_squared_error
 class LinearRegression:
     min_delta = 0.0001
     patience = 50
-    
-    def __init__(self):
-        self.min_val_mse = float('inf')
-        
+
     def train(self, x_train: DF, y_train: Series, x_val: DF | None = None, y_val: Series | None = None, epochs: int | None = None, learning_rate: float = LEARNING_RATE) -> None:  
         early_stop = False
         
@@ -26,6 +23,7 @@ class LinearRegression:
 
         self.theta = np.ones(X.shape[1])
         self.min_train_mse = float('inf')
+        self.min_val_mse = float('inf')
         
         self.epochs_performed = 0
         no_improvement = 0

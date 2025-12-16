@@ -14,7 +14,7 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, np.sin, np.
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 50
+    patience = 100
     
     def train(self, 
               x_train: DF, 
@@ -25,18 +25,19 @@ class GANONLinearOptimizer:
               mutate: bool = False, 
               non_linearity: bool = False) -> None:  
         
-        if epochs is not None:
-            early_stop = False
-        elif x_val is not None and y_val is not None and epochs is None:
-            X_val = np.column_stack((np.ones(len(x_val)), x_val))
-            self.min_val_mse = float('inf')
-            early_stop = True
-        else:
-            epochs = EPOCHS
+        early_stop = False
+        
+        if epochs is None:
+            if x_val is not None and y_val is not None:
+                X_val = np.column_stack((np.ones(len(x_val)), x_val))
+                early_stop = True
+            else:
+                epochs = EPOCHS
         
         X = np.column_stack((np.ones(len(x_train)), x_train))
         
         self.min_train_mse = float('inf')
+        self.min_val_mse = float('inf')
         
         number_of_features = X.shape[1]
 
