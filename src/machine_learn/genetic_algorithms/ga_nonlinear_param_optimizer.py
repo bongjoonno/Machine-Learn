@@ -10,9 +10,13 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-class GAOptimizer:
+non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
+                        np.sin, np.cos, np.tan, np.tanh,
+                        np.abs]
+
+class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 5
+    patience = 50
     
     def train(self, 
               x_train: DF, 
@@ -20,22 +24,27 @@ class GAOptimizer:
               x_val: DF | None = None, 
               y_val: Series | None = None, 
               epochs: int | None = None, 
-              mutate: bool = False)-> None:  
+              mutate: bool = False, 
+              non_linearity: bool = False) -> None:  
         
-        if epochs is not None:
-            early_stop = False
-        elif x_val is not None and y_val is not None and epochs is None:
-            X_val = np.column_stack((np.ones(len(x_val)), x_val))
-            self.min_val_mse = float('inf')
-            early_stop = True
-        else:
-            epochs = EPOCHS
+        early_stop = False
+        
+        if epochs is None:
+            if x_val is not None and y_val is not None:
+                X_val = np.column_stack((np.ones(len(x_val)), x_val))
+                early_stop = True
+            else:
+                epochs = EPOCHS
         
         X = np.column_stack((np.ones(len(x_train)), x_train))
         
         self.min_train_mse = float('inf')
+        self.min_val_mse = float('inf')
         
         number_of_features = X.shape[1]
+
+        if non_linearity:
+            functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
         population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
         
@@ -48,7 +57,12 @@ class GAOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                y_pred = X @ solution   
+                if non_linearity:
+                    y_pred = X * solution
+                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                else:
+                    y_pred = X @ solution
+                    
                 losses[i] = mean_squared_error(y_pred, y_train)
             
             train_generation_min_mse = min(losses)
@@ -57,15 +71,20 @@ class GAOptimizer:
             
             if early_stop:
                 for i, solution in enumerate(population):
-                    y_pred = X_val @ solution
+                    if non_linearity:
+                        y_pred = X_val * solution
+                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    else:
+                        y_pred = X_val @ solution
+                        
                     losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
 
-                if self.min_val_mse - val_generation_min_mse < GAOptimizer.min_delta:
+                if self.min_val_mse - val_generation_min_mse < GANONLinearOptimizer.min_delta:
                     no_improvement += 1
                     
-                    if no_improvement >= GAOptimizer.patience:
+                    if no_improvement >= GANONLinearOptimizer.patience:
                         break
                 else:
                     self.min_val_mse = val_generation_min_mse
@@ -74,7 +93,7 @@ class GAOptimizer:
             elif self.epochs_performed == epochs:
                 break
                 
-            top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population), key=lambda x: x[0])][:population_size//2]
+            top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
             
             children = []
             
@@ -94,15 +113,22 @@ class GAOptimizer:
                 children.append(param_children)
                         
                     
+            
             children = np.array(children).T
             children = children.tolist()
             
             population = top_50_percent_of_population + children
-
+            
+            if non_linearity:
+                top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
+                functions = top_50_percent_of_functions * 2
                     
         self.theta = population[0]
+        self.funcs = functions[0]
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
-        y = X @ self.theta
+        
+        y = X * self.theta
+        y = np.sum(np.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
         return y

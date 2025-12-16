@@ -1,17 +1,22 @@
-from tests import test_linear_regression, test_all_models, test_ga_param_optimizer, test_ga_lr_optimizer, data_imports_test
+from tests import (test_linear_regression, 
+                   test_all_models, 
+                   test_ga_param_optimizer, 
+                   test_ga_lr_optimizer, 
+                   test_scikit_learn_linear_regression,
+                   test_nonlinear_ga_param_optimizer)
 
 def main():
-    return test_ga_lr_optimizer()
- 
+    test_nonlinear_ga_param_optimizer()
+    test_linear_regression()
 
 if __name__ == '__main__':
     print(main())
     
 #TO-DO
 # Make template general linear models
-# Make scikit learn tester
 # Get more Linear Regression test data-sets
+# Get more Non-Linear test data-sets
 # Write MAE metric
 # Allow GA param optimizer to use multiple cost-functions (default should be MSE)
 # Fix Logistic Regression Cost function
-# Figure out why Linear Regression is performing so poorly (test against Scikit learn)
+# possibly add a PER FEATURE parameter for whether y_pred is computed as func(w*x) or w*func(x) or some other configuration
