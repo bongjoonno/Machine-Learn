@@ -58,8 +58,8 @@ class GANONLinearOptimizer:
             
             for i, solution in enumerate(population):
                 if non_linearity:
-                    y_pred = np.column_stack([f(X[:, j]) for j, f in enumerate(functions[i])])
-                    y_pred = y_pred @ solution
+                    y_pred = X * solution
+                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                 else:
                     y_pred = X @ solution
                     
@@ -72,8 +72,8 @@ class GANONLinearOptimizer:
             if early_stop:
                 for i, solution in enumerate(population):
                     if non_linearity:
-                        y_pred = np.column_stack([f(X_val[:, j]) for j, f in enumerate(functions[i])])
-                        y_pred = y_pred @ solution
+                        y_pred = X_val * solution
+                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                     else:
                         y_pred = X_val @ solution
                         
