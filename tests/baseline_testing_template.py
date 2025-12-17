@@ -3,7 +3,7 @@ from src.machine_learn.data_prep import linear_regression_test_data, non_linear_
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
-def test_baseline_models(optimizer: LinearRegression | MLPRegressor | TabPFNRegressor,
+def test_baseline_models(optimizer: LinearRegression | MLPRegressor | TabPFNRegressor, 
                                linear_data: bool = True,
                                scale_y: bool = False):
     scaler = StandardScaler()
