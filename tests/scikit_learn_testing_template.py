@@ -4,7 +4,6 @@ from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
 def test_scikit_learn_baseline(optimizer: LinearRegression | MLPRegressor,
-                               training_args: dict = {},
                                linear_data: bool = True,
                                scale_y: bool = False):
     scaler = StandardScaler()
