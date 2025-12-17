@@ -12,3 +12,5 @@ insurance_x = insurance_df.drop(columns='charges')
 insurance_y = insurance_df['charges']
 
 insurance_cols_to_scale = ['age', 'bmi', 'children']
+
+print(insurance_df['region'].unique())

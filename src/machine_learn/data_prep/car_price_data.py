@@ -22,8 +22,8 @@ car_price_y_base_line = car_price_y.copy()
 binary_columns = ['fueltype', 'aspiration', 'doornumber', 'enginelocation']
 multi_columns = ['CarName', 'carbody', 'drivewheel', 'enginetype', 'cylindernumber', 'fuelsystem']
 
-for col in binary_columns+multi_columns:
-    car_price_x_base_line = car_price_x_base_line[col].astype('category').cat.codes
+for col in binary_columns:
+    car_price_x_base_line[col] = car_price_x_base_line[col].astype('category').cat.codes
 
 for col in binary_columns:
     car_price_x[col] = car_price_x[col].astype('category').cat.codes

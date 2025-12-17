@@ -1,5 +1,5 @@
 from src.machine_learn.imports import StandardScaler, LinearRegression, MLPRegressor, TabPFNRegressor, plt
-from src.machine_learn.data_prep import linear_regression_test_data, non_linear_test_data
+from src.machine_learn.data_prep import baseline_model_linear_test_data, baseline_model_non_linear_test_data
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
@@ -8,7 +8,7 @@ def test_baseline_models(optimizer: LinearRegression | MLPRegressor | TabPFNRegr
                                scale_y: bool = False):
     scaler = StandardScaler()
     
-    test_data = linear_regression_test_data if linear_data else non_linear_test_data
+    test_data = baseline_model_linear_test_data if linear_data else baseline_model_non_linear_test_data
         
     for x, y, cols_to_scale in test_data:
         x_train, y_train, x_val, y_val = train_test_split(x, y)

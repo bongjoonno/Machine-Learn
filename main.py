@@ -9,7 +9,6 @@ from tests import (test_linear_regression,
 
 def main():
     #test_tab_pfn_non_linear()
-    #test_nonlinear_ga_param_optimizer()
     pass
 
 if __name__ == '__main__':
