@@ -3,7 +3,7 @@ from src.machine_learn.data_prep import linear_regression_test_data
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
-def test_scikit_learn_linear_regression(scale_y: bool = False):
+def test_scikit_learn_baseline(scale_y: bool = False, training_args: dict = {}):
     scaler = StandardScaler()
         
         
