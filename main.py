@@ -4,12 +4,11 @@ from tests import (test_linear_regression,
                    test_ga_lr_optimizer, 
                    test_scikit_learn_non_linear,
                    test_tab_pfn_non_linear,
-                   test_nonlinear_ga_param_optimizer,
-                   data_imports_test)
+                   test_nonlinear_ga_param_optimizer)
 
 def main():
-    #test_tab_pfn_non_linear()
-    test_nonlinear_ga_param_optimizer()
+    test_tab_pfn_non_linear()
+    #test_nonlinear_ga_param_optimizer()
 
 if __name__ == '__main__':
     print(main())
