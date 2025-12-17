@@ -39,7 +39,7 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer,
         r2 = r_squared(y_pred, y_val)
         print(f'{r2=}')
         
-        plt.plot(range(len(y_val)), sorted(y_pred))
-        plt.plot(range(len(y_val)), sorted(y_val))
+        plt.plot(range(len(y_val)), y_pred)
+        plt.plot(range(len(y_val)), y_val)
         plt.legend(['y_pred', 'y_val'])
         plt.show()
