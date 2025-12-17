@@ -3,9 +3,9 @@ from src.machine_learn.imports import plt, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.models import LinearRegression
-from src.machine_learn.genetic_algorithms import GAOptimizer, GAlrOptimizer
+from src.machine_learn.genetic_algorithms import GAOptimizer, GAlrOptimizer, GANONLinearOptimizer
 
-def model_test_template(optimizer: LinearRegression | GAOptimizer, 
+def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearOptimizer, 
                         training_args: dict = {}, 
                         early_stop: bool = True, 
                         optimize_lr: bool = False, 
