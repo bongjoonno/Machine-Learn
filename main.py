@@ -6,8 +6,8 @@ from tests import (test_linear_regression,
                    test_nonlinear_ga_param_optimizer)
 
 def main():
-    #test_nonlinear_ga_param_optimizer()
     test_scikit_learn_non_linear()
+    test_nonlinear_ga_param_optimizer()
 
 if __name__ == '__main__':
     print(main())
