@@ -10,3 +10,4 @@ from typing import TypeAlias
 import random
 from sklearn.linear_model import LinearRegression
 from sklearn.neural_network import MLPRegressor
+from tabpfn import TabPFNRegressor

@@ -1,9 +1,9 @@
-from src.machine_learn.imports import StandardScaler, LinearRegression, MLPRegressor, plt
+from src.machine_learn.imports import StandardScaler, LinearRegression, MLPRegressor, TabPFNRegressor, plt
 from src.machine_learn.data_prep import linear_regression_test_data, non_linear_test_data
 from src.machine_learn.data_manipulation import train_test_split, scale_data
 from src.machine_learn.metrics import r_squared
 
-def test_scikit_learn_baseline(optimizer: LinearRegression | MLPRegressor,
+def test_baseline_models(optimizer: LinearRegression | MLPRegressor | TabPFNRegressor,
                                linear_data: bool = True,
                                scale_y: bool = False):
     scaler = StandardScaler()

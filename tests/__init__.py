@@ -4,6 +4,7 @@ from .naive_bayes_test import test_naive_bayes
 from .ga_lr_optimizer_test import test_ga_lr_optimizer
 from .ga_param_optimizer_test import test_ga_param_optimizer
 from .all_model_tests import test_all_models
-from .scikit_learn_testing_template import test_scikit_learn_baseline
+from .baseline_testing_template import test_baseline_models
 from .ga_nonlinear_param_optimizer_test import test_nonlinear_ga_param_optimizer
 from .scikit_learn_non_linear_test import test_scikit_learn_non_linear
+from .tab_pfn_non_linear_test import test_tab_pfn_non_linear
