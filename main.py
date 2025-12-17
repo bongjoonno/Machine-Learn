@@ -8,7 +8,7 @@ from tests import (test_linear_regression,
                    data_imports_test)
 
 def main():
-    pass#test_tab_pfn_non_linear()
+    test_tab_pfn_non_linear()
     #test_nonlinear_ga_param_optimizer()
 
 if __name__ == '__main__':
