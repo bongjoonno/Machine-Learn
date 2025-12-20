@@ -16,7 +16,7 @@ def test_baseline_models(optimizer: LinearRegression | TabPFNRegressor, scale_y:
             x_train = x[:i] + x[i+test_size:]
             x_val = x[i: i+test_size]
             
-            y_train = y[:i] + x[i+test_size:]
+            y_train = y[:i] + y[i+test_size:]
             y_val = y[i: i+test_size]
         
         x_train, x_val = scale_data(x_train, x_val, columns_to_scale=cols_to_scale)
