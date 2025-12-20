@@ -2,14 +2,14 @@ from tests import (test_tab_pfn_non_linear,
                    test_nonlinear_ga_param_optimizer)
 
 def main():
-    print(test_tab_pfn_non_linear())
+    #print(test_tab_pfn_non_linear())
     print(test_nonlinear_ga_param_optimizer())
 
 if __name__ == '__main__':
     print(main())
     
 #TO-DO
-# Make tabpfn train on GPU
+# Make everything use PyTorch, speed up from numpy
 # Speed up tests with multi-processesing
 # Make Kfold cross validation code
 # Make template general linear models

@@ -1,4 +1,7 @@
 import numpy as np
+import cupy as cp
+np = cp
+
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from math import log
