@@ -7,7 +7,7 @@ def test_baseline_models(optimizer: LinearRegression | TabPFNRegressor, scale_y:
     scaler = StandardScaler()
     
     averaged_r2s = []
-    n = 10
+    n = 5
    
     for x, y, cols_to_scale in baseline_model_regression_test_data:
         folds = split_k_folds(x, y, n)
@@ -30,5 +30,4 @@ def test_baseline_models(optimizer: LinearRegression | TabPFNRegressor, scale_y:
             r2s.append(r_squared(y_pred, y_val))
         averaged_r2s.append(np.mean(r2s))
         break
-    
-    return r2s, averaged_r2s 
+    return averaged_r2s 
