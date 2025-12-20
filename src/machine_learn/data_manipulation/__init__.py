@@ -1,3 +1,4 @@
 from .scale_data import scale_data
 from .train_test_split import train_test_split
 from .train_test_validate_split import train_test_validate_split
+from .k_folds import split_k_folds

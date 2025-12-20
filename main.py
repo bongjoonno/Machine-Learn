@@ -1,11 +1,5 @@
-from tests import (test_linear_regression, 
-                   test_all_models, 
-                   test_ga_param_optimizer, 
-                   test_ga_lr_optimizer, 
-                   test_scikit_learn_non_linear,
-                   test_tab_pfn_non_linear,
-                   test_nonlinear_ga_param_optimizer, 
-                   data_imports_test)
+from tests import (test_tab_pfn_non_linear,
+                   test_nonlinear_ga_param_optimizer)
 
 def main():
     return test_tab_pfn_non_linear()
@@ -16,6 +10,7 @@ if __name__ == '__main__':
     
 #TO-DO
 # Make tabpfn train on GPU
+# Speed up tests with multi-processesing
 # Make Kfold cross validation code
 # Make template general linear models
 # Get more Linear Regression test data-sets
