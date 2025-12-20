@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np, random
+from src.machine_learn.imports import np, cp, random
 from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error, r_squared
@@ -26,17 +26,16 @@ class GANONLinearOptimizer:
               epochs: int | None = None, 
               mutate: bool = False, 
               non_linearity: bool = False) -> None:  
-        
         early_stop = False
         
         if epochs is None:
             if x_val is not None and y_val is not None:
-                X_val = np.column_stack((np.ones(len(x_val)), x_val))
+                X_val = cp.column_stack((np.ones(len(x_val)), np.array(x_val)))
                 early_stop = True
             else:
                 epochs = EPOCHS
         
-        X = np.column_stack((np.ones(len(x_train)), x_train))
+        X = np.column_stack((np.ones(len(x_train)), np.array(x_train)))
         
         self.min_train_mse = float('inf')
         self.min_val_mse = float('inf')
