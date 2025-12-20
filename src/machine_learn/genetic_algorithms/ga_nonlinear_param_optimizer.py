@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 100
+population_size = 400
 
 non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, 
                         lambda x: 2**x, lambda x: 1/x, 
@@ -120,8 +120,8 @@ class GANONLinearOptimizer:
             population = top_50_percent_of_population+children
             
             if non_linearity:
-                top_25_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//4]
-                functions = top_25_percent_of_functions * 4
+                top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
+                functions = top_50_percent_of_functions * 2
                     
         self.theta = population[0]
         self.funcs = functions[0]
