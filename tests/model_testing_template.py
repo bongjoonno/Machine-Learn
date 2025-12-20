@@ -1,5 +1,5 @@
 from src.machine_learn.data_prep import regression_test_data
-from src.machine_learn.imports import np, plt, tqdm, StandardScaler
+from src.machine_learn.imports import np, cp, plt, tqdm, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_manipulation import train_test_split, scale_data, split_k_folds
 from src.machine_learn.models import LinearRegression
@@ -43,7 +43,6 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
             y_pred = optimizer.predict(x_val)
             
             r2s.append(r_squared(y_pred, y_val))
+            print(r_squared(y_pred, y_val))
         averaged_r2s.append(np.mean(r2s))
         break
-    
-    return r2s, averaged_r2s 

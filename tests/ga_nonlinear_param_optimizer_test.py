@@ -3,4 +3,4 @@ from .model_testing_template import model_test_template
 
 def test_nonlinear_ga_param_optimizer() -> None:
         ga_optimizer = GANONLinearOptimizer()
-        return model_test_template(ga_optimizer, training_args={'non_linearity' : False}, early_stop=True, scale_y=True)
+        return model_test_template(ga_optimizer, training_args={'non_linearity' : True}, early_stop=True, scale_y=True)

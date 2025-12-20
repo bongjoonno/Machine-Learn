@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np, cp, random
+from src.machine_learn.imports import np, random
 from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error, r_squared
@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 1000
+population_size = 20
 
 non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
                         np.sin, np.cos, np.tan, np.tanh,
@@ -16,7 +16,7 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
 
 class GANONLinearOptimizer:
     min_delta = 0.0001
-    patience = 50
+    patience = 1
     
     def train(self, 
               x_train: DF, 
@@ -30,15 +30,12 @@ class GANONLinearOptimizer:
         
         if epochs is None:
             if x_val is not None and y_val is not None:
-                X_val = cp.column_stack((cp.ones(len(x_val)), cp.array(x_val)))
-                y_val = cp.array(y_val)
-                
+                X_val = np.column_stack((np.ones(len(x_val)), x_val))     
                 early_stop = True
             else:
                 epochs = EPOCHS
         
-        X = cp.column_stack((cp.ones(len(x_train)), cp.array(x_train)))
-        y_train = cp.array(y_train)
+        X = np.column_stack((np.ones(len(x_train)), x_train))
         
         self.min_train_mse = float('inf')
         self.min_val_mse = float('inf')
@@ -48,7 +45,7 @@ class GANONLinearOptimizer:
         if non_linearity:
             functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
-        population = cp.array([np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)])
+        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
         
         losses = [0 for _ in range(population_size)]
         
@@ -61,7 +58,7 @@ class GANONLinearOptimizer:
             for i, solution in enumerate(population):
                 if non_linearity:
                     y_pred = X * solution
-                    y_pred = cp.sum(cp.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                 else:
                     y_pred = X @ solution
                     
@@ -75,7 +72,7 @@ class GANONLinearOptimizer:
                 for i, solution in enumerate(population):
                     if non_linearity:
                         y_pred = X_val * solution
-                        y_pred = cp.sum(cp.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                     else:
                         y_pred = X_val @ solution
                         
@@ -95,7 +92,7 @@ class GANONLinearOptimizer:
             elif self.epochs_performed == epochs:
                 break
                 
-            top_50_percent_of_population = cp.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
+            top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
             
             children = []
             
@@ -116,9 +113,10 @@ class GANONLinearOptimizer:
                         
                     
             
-            children = cp.array(children).T
-        
-            population = cp.concatenate(top_50_percent_of_population+children, axis=0)
+            children = np.array(children).T
+            children = children.tolist()
+            
+            population = top_50_percent_of_population+children
             
             if non_linearity:
                 top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
@@ -128,8 +126,8 @@ class GANONLinearOptimizer:
         self.funcs = functions[0]
     
     def predict(self, x: DF) -> NDArray:
-        X = cp.column_stack((cp.ones(len(x)), x))
+        X = np.column_stack((np.ones(len(x)), x))
         
         y = X * self.theta
-        y = cp.sum(cp.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
+        y = np.sum(np.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
         return y
