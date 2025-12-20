@@ -2,8 +2,8 @@ from tests import (test_tab_pfn_non_linear,
                    test_nonlinear_ga_param_optimizer)
 
 def main():
-    return test_tab_pfn_non_linear()
-    #test_nonlinear_ga_param_optimizer()
+    print(test_tab_pfn_non_linear())
+    print(test_nonlinear_ga_param_optimizer())
 
 if __name__ == '__main__':
     print(main())
