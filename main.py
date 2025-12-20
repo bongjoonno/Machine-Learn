@@ -15,6 +15,8 @@ if __name__ == '__main__':
     print(main())
     
 #TO-DO
+# Make tabpfn train on GPU
+# Make Kfold cross validation code
 # Make template general linear models
 # Get more Linear Regression test data-sets
 # Get more Non-Linear test data-sets
