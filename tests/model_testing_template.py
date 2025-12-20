@@ -25,8 +25,6 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
             
             x_train, y_train, x_val, y_val = train_test_split(x, y)
             x_train, x_val = scale_data(x_train, x_val, columns_to_scale=cols_to_scale)
-            
-            print(type(x_train), type(x_val))
                 
             if scale_y:
                 y_train = scaler.fit_transform(y_train.to_numpy().reshape(-1, 1)).flatten()

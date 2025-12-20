@@ -30,12 +30,15 @@ class GANONLinearOptimizer:
         
         if epochs is None:
             if x_val is not None and y_val is not None:
-                X_val = cp.column_stack((np.ones(len(x_val)), np.array(x_val)))
+                X_val = cp.column_stack((cp.ones(len(x_val)), cp.array(x_val)))
+                y_val = cp.array(y_val)
+                
                 early_stop = True
             else:
                 epochs = EPOCHS
         
-        X = np.column_stack((np.ones(len(x_train)), np.array(x_train)))
+        X = cp.column_stack((cp.ones(len(x_train)), cp.array(x_train)))
+        y_train = cp.array(y_train)
         
         self.min_train_mse = float('inf')
         self.min_val_mse = float('inf')
@@ -45,7 +48,7 @@ class GANONLinearOptimizer:
         if non_linearity:
             functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
-        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
+        population = cp.array([np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)])
         
         losses = [0 for _ in range(population_size)]
         
@@ -58,7 +61,7 @@ class GANONLinearOptimizer:
             for i, solution in enumerate(population):
                 if non_linearity:
                     y_pred = X * solution
-                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    y_pred = cp.sum(cp.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                 else:
                     y_pred = X @ solution
                     
@@ -72,7 +75,7 @@ class GANONLinearOptimizer:
                 for i, solution in enumerate(population):
                     if non_linearity:
                         y_pred = X_val * solution
-                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred = cp.sum(cp.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                     else:
                         y_pred = X_val @ solution
                         
@@ -92,7 +95,7 @@ class GANONLinearOptimizer:
             elif self.epochs_performed == epochs:
                 break
                 
-            top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
+            top_50_percent_of_population = cp.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
             
             children = []
             
@@ -113,10 +116,9 @@ class GANONLinearOptimizer:
                         
                     
             
-            children = np.array(children).T
-            children = children.tolist()
-            
-            population = top_50_percent_of_population + children
+            children = cp.array(children).T
+        
+            population = cp.concatenate(top_50_percent_of_population+children, axis=0)
             
             if non_linearity:
                 top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
@@ -126,8 +128,8 @@ class GANONLinearOptimizer:
         self.funcs = functions[0]
     
     def predict(self, x: DF) -> NDArray:
-        X = np.column_stack((np.ones(len(x)), x))
+        X = cp.column_stack((cp.ones(len(x)), x))
         
         y = X * self.theta
-        y = np.sum(np.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
+        y = cp.sum(cp.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
         return y

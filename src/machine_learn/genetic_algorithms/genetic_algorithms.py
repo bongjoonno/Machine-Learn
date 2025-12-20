@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np
+from src.machine_learn.imports import np, cp
 
 class GeneticAlgorithm:
     @staticmethod
