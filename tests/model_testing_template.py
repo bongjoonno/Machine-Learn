@@ -46,4 +46,4 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
 
         averaged_r2s.append(np.mean(r2s))
     
-    return np.mean(averaged_r2s)
+    return averaged_r2s
