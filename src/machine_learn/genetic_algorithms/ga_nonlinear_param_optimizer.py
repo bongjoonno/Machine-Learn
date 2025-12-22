@@ -10,13 +10,14 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 1000
 
-non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
+non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, 
+                        lambda x: 2**x,
                         np.sin, np.cos, np.tan, np.tanh,
                         np.abs]
 
 class GANONLinearOptimizer:
-    min_delta = 0.0001
-    patience = 50
+    min_delta = 0.001
+    patience = 20
     
     def train(self, 
               x_train: DF, 
@@ -26,12 +27,11 @@ class GANONLinearOptimizer:
               epochs: int | None = None, 
               mutate: bool = False, 
               non_linearity: bool = False) -> None:  
-        
         early_stop = False
         
         if epochs is None:
             if x_val is not None and y_val is not None:
-                X_val = np.column_stack((np.ones(len(x_val)), x_val))
+                X_val = np.column_stack((np.ones(len(x_val)), x_val))     
                 early_stop = True
             else:
                 epochs = EPOCHS
@@ -117,7 +117,7 @@ class GANONLinearOptimizer:
             children = np.array(children).T
             children = children.tolist()
             
-            population = top_50_percent_of_population + children
+            population = top_50_percent_of_population+children
             
             if non_linearity:
                 top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]

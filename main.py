@@ -1,21 +1,20 @@
-from tests import (test_linear_regression, 
-                   test_all_models, 
-                   test_ga_param_optimizer, 
-                   test_ga_lr_optimizer, 
-                   test_scikit_learn_non_linear,
-                   test_tab_pfn_non_linear,
-                   test_nonlinear_ga_param_optimizer, 
-                   data_imports_test)
+from tests import (test_tab_pfn_non_linear,
+                   test_nonlinear_ga_param_optimizer)
+
+from src.machine_learn.imports import np, Path
+
+save_path = Path(r'D:\code\repos\Machine-Learn\numpy_data')
 
 def main():
-    test_tab_pfn_non_linear()
-    #test_nonlinear_ga_param_optimizer()
+    np.save(save_path / 'tab_pfn_regression', test_tab_pfn_non_linear())
+    np.save(save_path / 'GANON_regression', test_nonlinear_ga_param_optimizer())
 
 if __name__ == '__main__':
     print(main())
     
 #TO-DO
-# Make tabpfn train on GPU
+# Make everything use PyTorch, speed up from numpy
+# Speed up tests with multi-processesing
 # Make Kfold cross validation code
 # Make template general linear models
 # Get more Linear Regression test data-sets
