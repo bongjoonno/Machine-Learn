@@ -39,8 +39,11 @@ class GeneticAlgorithm:
             beta = (2*u)**exp
         else:
             beta = (1 / (2(1-u)))^exp
-            
-        child_a =  + (parent_b*weight2)
-        child_b = (parent_a*weight2) + (parent_b*weight1)
+        
+        parent_sum = parent_a + parent_b
+        beta_parent_diff = beta*(parent_a - parent_b)
+        
+        child_a =  0.5*(parent_sum - beta_parent_diff)
+        child_b =  0.5*(parent_sum + beta_parent_diff)              
 
-        return child_a_lr, child_b_lr
+        return child_a, child_b
