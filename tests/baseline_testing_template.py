@@ -29,5 +29,5 @@ def test_baseline_models(optimizer: LinearRegression | TabPFNRegressor, scale_y:
             
             r2s.append(r_squared(y_pred, y_val))
         averaged_r2s.append(np.mean(r2s))
-
+    averaged_r2s.append(np.mean(averaged_r2s))
     return averaged_r2s
