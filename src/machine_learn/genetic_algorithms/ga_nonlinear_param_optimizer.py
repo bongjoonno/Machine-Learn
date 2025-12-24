@@ -26,7 +26,8 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               mutate: bool = False, 
-              non_linearity: bool = False) -> None:  
+              non_linearity: bool = False,
+              crossover_method: str) -> None:  
         early_stop = False
         
         if epochs is None:
@@ -103,7 +104,7 @@ class GANONLinearOptimizer:
                 for j in range(len(top_50_percent_of_population)):
                     params.append(top_50_percent_of_population[j][i])
                 
-                param_children = GeneticAlgorithm.make_offspring(params)
+                param_children = GeneticAlgorithm.make_offspring(params, crossover_method)
                 
                 if mutate:
                     for k in range(len(param_children)):
