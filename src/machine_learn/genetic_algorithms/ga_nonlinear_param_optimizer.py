@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 4
+population_size = 1_000
 
 non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, 
                         lambda x: 2**x,
@@ -17,7 +17,7 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 1
+    patience = 50
     
     def train(self, 
               x_train: DF, 

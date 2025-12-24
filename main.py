@@ -7,8 +7,8 @@ save_path = Path(r'D:\code\repos\Machine-Learn\numpy_data')
 
 def main():
     np.save(save_path / 'tab_pfn_regression', test_tab_pfn_non_linear())
-    np.save(save_path / 'GANON_regression_sbx', test_nonlinear_ga_param_optimizer())
-    np.save(save_path / 'GANON_regression_arithmetic_crossover', test_nonlinear_ga_param_optimizer())
+    np.save(save_path / 'GANON_regression_sbx', test_nonlinear_ga_param_optimizer(crossover_method='sbx'))
+    np.save(save_path / 'GANON_regression_arithmetic_crossover', test_nonlinear_ga_param_optimizer(crossover_method='arithmetic'))
     
 if __name__ == '__main__':
     print(main())
