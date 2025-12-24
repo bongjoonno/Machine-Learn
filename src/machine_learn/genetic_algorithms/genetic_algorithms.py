@@ -34,9 +34,13 @@ class GeneticAlgorithm:
     def sbx_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
         u = np.random.uniform(0, 1)
 
+        exp = (1 / (GeneticAlgorithm.eta + 1))
         if u <= 0.5:
-            beta = (2*u)**(1 / ())
-        child_a_lr = (parent_a*weight1) + (parent_b*weight2)
-        child_b_lr = (parent_a*weight2) + (parent_b*weight1)
+            beta = (2*u)**exp
+        else:
+            beta = (1 / (2(1-u)))^exp
+            
+        child_a =  + (parent_b*weight2)
+        child_b = (parent_a*weight2) + (parent_b*weight1)
 
         return child_a_lr, child_b_lr
