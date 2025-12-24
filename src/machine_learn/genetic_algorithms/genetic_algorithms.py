@@ -33,17 +33,21 @@ class GeneticAlgorithm:
     @staticmethod
     def sbx_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
         u = np.random.uniform(0, 1)
+        
+        x1 = min(parent_a, parent_b)
+        x2 = max(parent_a, parent_b)
 
         exp = (1 / (GeneticAlgorithm.eta + 1))
+        
         if u <= 0.5:
-            beta = (2*u)**exp
+            beta = (2 * u) ** exp
         else:
-            beta = (1 / (2(1-u)))^exp
+            beta = (1 / (2 * (1 - u))) ** exp
         
-        parent_sum = parent_a + parent_b
-        beta_parent_diff = beta*(parent_a - parent_b)
+        diff = x2 - x1
+        mid = 0.5 * (x1 + x2)
         
-        child_a =  0.5*(parent_sum - beta_parent_diff)
-        child_b =  0.5*(parent_sum + beta_parent_diff)              
+        child_a =  mid - 0.5 * beta * diff
+        child_b =  mid + 0.5 * beta * diff     
 
         return child_a, child_b
