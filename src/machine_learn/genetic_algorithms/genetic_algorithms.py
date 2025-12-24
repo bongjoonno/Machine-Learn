@@ -27,3 +27,13 @@ class GeneticAlgorithm:
         child_b_lr = (parent_a*weight2) + (parent_b*weight1)
 
         return child_a_lr, child_b_lr
+    
+    @staticmethod
+    def sbx_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
+        u = np.random.uniform(0, 1)
+
+        beta = 
+        child_a_lr = (parent_a*weight1) + (parent_b*weight2)
+        child_b_lr = (parent_a*weight2) + (parent_b*weight1)
+
+        return child_a_lr, child_b_lr
