@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 1000
+population_size = 1_000
 
 non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, 
                         lambda x: 2**x,
@@ -17,7 +17,7 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 20
+    patience = 50
     
     def train(self, 
               x_train: DF, 
@@ -26,7 +26,8 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               mutate: bool = False, 
-              non_linearity: bool = False) -> None:  
+              non_linearity: bool = False,
+              crossover_method: str = 'none') -> None:  
         early_stop = False
         
         if epochs is None:
@@ -103,7 +104,7 @@ class GANONLinearOptimizer:
                 for j in range(len(top_50_percent_of_population)):
                     params.append(top_50_percent_of_population[j][i])
                 
-                param_children = GeneticAlgorithm.make_offspring(params)
+                param_children = GeneticAlgorithm.make_offspring(params, crossover_method)
                 
                 if mutate:
                     for k in range(len(param_children)):

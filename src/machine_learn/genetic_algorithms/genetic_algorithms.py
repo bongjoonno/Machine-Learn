@@ -1,8 +1,19 @@
 from src.machine_learn.imports import np, cp
 
+crossover_methods = ['arithmetic', 'sbx']
+
 class GeneticAlgorithm:
+    eta = 15
+    
     @staticmethod
-    def make_offspring(top_50_percent: list[float]) -> list[float]:
+    def make_offspring(top_50_percent: list[float], crossover_method: str) -> list[float]:
+        if crossover_method not in crossover_methods:
+            raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
+        elif crossover_method == 'arithmetic':
+            crossover_func = GeneticAlgorithm.arithmetic_crossover
+        elif crossover_method == 'sbx':
+            crossover_func = GeneticAlgorithm.sbx_crossover
+            
         np.random.shuffle(top_50_percent)
         
         children = []
@@ -11,7 +22,7 @@ class GeneticAlgorithm:
             parent_a = top_50_percent[i]
             parent_b = top_50_percent[i+1]
 
-            child1, child2 = GeneticAlgorithm.arithmetic_crossover(parent_a, parent_b)
+            child1, child2 = crossover_func(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
@@ -27,3 +38,25 @@ class GeneticAlgorithm:
         child_b_lr = (parent_a*weight2) + (parent_b*weight1)
 
         return child_a_lr, child_b_lr
+    
+    @staticmethod
+    def sbx_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
+        u = np.random.uniform(0, 1)
+        
+        x1 = min(parent_a, parent_b)
+        x2 = max(parent_a, parent_b)
+
+        exp = (1 / (GeneticAlgorithm.eta + 1))
+        
+        if u <= 0.5:
+            beta = (2 * u) ** exp
+        else:
+            beta = (1 / (2 * (1 - u))) ** exp
+        
+        diff = x2 - x1
+        mid = 0.5 * (x1 + x2)
+        
+        child_a =  mid - 0.5 * beta * diff
+        child_b =  mid + 0.5 * beta * diff     
+
+        return child_a, child_b
