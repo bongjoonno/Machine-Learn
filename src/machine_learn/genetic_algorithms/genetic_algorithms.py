@@ -1,6 +1,8 @@
 from src.machine_learn.imports import np, cp
 
 class GeneticAlgorithm:
+    eta = 15
+    
     @staticmethod
     def make_offspring(top_50_percent: list[float]) -> list[float]:
         np.random.shuffle(top_50_percent)
@@ -32,7 +34,8 @@ class GeneticAlgorithm:
     def sbx_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:
         u = np.random.uniform(0, 1)
 
-        beta = 
+        if u <= 0.5:
+            beta = (2*u)**(1 / ())
         child_a_lr = (parent_a*weight1) + (parent_b*weight2)
         child_b_lr = (parent_a*weight2) + (parent_b*weight1)
 
