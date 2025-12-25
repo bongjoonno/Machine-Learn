@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 1_000
+population_size = 8
 
 non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3, 
                         lambda x: 2**x,
@@ -20,7 +20,7 @@ non_linear_functions = [x, x**2, x**3, 2**x]
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 50
+    patience = 1
     
     def train(self, 
               x_train: DF, 
@@ -63,20 +63,22 @@ class GANONLinearOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                solution = sp.Matrix(solution)
-                    
+                solution = sp.Matrix(solution).T
+                
                 if non_linearity:
-                    y_pred_w_weights = X * solution
-                        
-                    y_pred = []
-                        
-                    for j in range(y_pred_w_weights.rows):
-                        f = functions[i][j]
+                    y_pred_a = sp.Matrix([
+                        X[j, :].multiply_elementwise(solution)
+                        for j in range(X.rows)
+                        ])
                             
-                        y_pred.append(y_pred_w_weights[i, :].applyfunc(lambda item: f.subs(x, item)))
+                    y_pred = sp.Matrix([
+                        [y_pred_a[k, :].applyfunc(lambda item: functions[i][j].subs(x, item))
+                        for j in range(y_pred_a.cols)]
+                        for k in range(y_pred_a.rows)
+                    ])
 
-                    else:
-                        y_pred = X @ solution
+                else:
+                    y_pred = X @ solution
                     
                 losses[i] = mean_squared_error(y_pred, y_train)
             
@@ -86,22 +88,24 @@ class GANONLinearOptimizer:
             
             if early_stop:
                 for i, solution in enumerate(population):
-                    solution = sp.Matrix(solution)
-                    
-                    if non_linearity:
-                        y_pred_w_weights = X_val * solution
-                        
-                        y_pred = []
-                        
-                        for j in range(y_pred_w_weights.rows):
-                            f = functions[i][j]
+                    solution = sp.Matrix(solution).T
+                
+                if non_linearity:
+                    y_pred_a = sp.Matrix([
+                        X_val[j, :].multiply_elementwise(solution)
+                        for j in range(X_val.rows)
+                        ])
                             
-                            y_pred.append(y_pred_w_weights[i, :].applyfunc(lambda item: f.subs(x, item)))
+                    y_pred = sp.Matrix([
+                        [y_pred_a[k, :].applyfunc(lambda item: functions[i][j].subs(x, item))
+                        for j in range(y_pred_a.cols)]
+                        for k in range(y_pred_a.rows)
+                    ])
 
-                    else:
-                        y_pred = X_val @ solution
-                        
-                    losses[i] = mean_squared_error(y_pred, y_val)
+                else:
+                    y_pred = X_val @ solution
+                            
+                losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
 
