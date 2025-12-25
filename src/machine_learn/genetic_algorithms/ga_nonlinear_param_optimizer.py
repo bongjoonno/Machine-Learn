@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 100
+population_size = 1000
 
 x_var = sp.symbols('x')
 
@@ -20,7 +20,7 @@ non_linear_functions = [sp.lambdify(x_var, f, 'numpy') for f in non_linear_funct
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 10
+    patience = 50
 
     def train(self, 
               x_train: DF, 
