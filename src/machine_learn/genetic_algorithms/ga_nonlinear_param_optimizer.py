@@ -29,7 +29,7 @@ class GANONLinearOptimizer:
               mutate: bool = False, 
               non_linearity: bool = False,
               crossover_method: str = 'none') -> None:  
-        
+        print('called')
         early_stop = False
         
         if epochs is None:
@@ -57,23 +57,19 @@ class GANONLinearOptimizer:
         no_improvement = 0
         
         while True:
+            print(self.epochs_performed)
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
+                funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
                 
                 if non_linearity:
-                    y_pred_a = sp.Matrix(X*solution) 
-
-                    y_pred = sp.Matrix([
-                        
-                        sum([functions[i][j].subs(x_var, y_pred_a[k, j])
-                            for j in range(y_pred_a.cols)
-                        ])
-                                       
-                        for k in range(y_pred_a.rows)
-                    ])
+                    y_pred_a = X*solution
                     
-                    y_pred = np.array(y_pred).flatten()
+                    y_pred = np.array([
+                    sum([func(num) for num, func in zip(row, funcs)])
+                    for row in y_pred_a
+                        ])
 
                 else:
                     y_pred = X @ solution
@@ -90,20 +86,19 @@ class GANONLinearOptimizer:
         
             if early_stop:
                 for i, solution in enumerate(population):          
+                    funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
+                
                     if non_linearity:
-                        y_pred_a = sp.Matrix(X*solution)
-                                
-                        y_pred = sp.Matrix([
-                            
-                            sum([functions[i][j].subs(x_var, y_pred_a[k, j])
-                                for j in range(y_pred_a.cols)
+                        y_pred_a = X_val*solution
+                        
+                        y_pred = np.array([
+                        sum([func(num) for num, func in zip(row, funcs)])
+                        for row in y_pred_a
                             ])
-                                        
-                            for k in range(y_pred_a.rows)
-                        ])
 
                     else:
                         y_pred = X_val @ solution
+                    
                             
                     losses[i] = mean_squared_error(y_pred, y_val)
 
