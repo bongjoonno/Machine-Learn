@@ -55,19 +55,12 @@ class GANONLinearOptimizer:
         self.epochs_performed = 0
         no_improvement = 0
         
-        X = sp.Matrix(X)
-        
         while True:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                solution = sp.Matrix(solution).T
-                
                 if non_linearity:
-                    y_pred_a = sp.Matrix([
-                        X[j, :].multiply_elementwise(solution)
-                        for j in range(X.rows)
-                        ])
+                    y_pred_a = sp.Matrix(X*solution)
                             
                     y_pred = sp.Matrix([
                         
@@ -88,28 +81,23 @@ class GANONLinearOptimizer:
             self.min_train_mse = min(train_generation_min_mse, self.min_train_mse)
             
             if early_stop:
-                for i, solution in enumerate(population):
-                    solution = sp.Matrix(solution).T
-                
-                if non_linearity:
-                    y_pred_a = sp.Matrix([
-                        X_val[j, :].multiply_elementwise(solution)
-                        for j in range(X_val.rows)
-                        ])
+                for i, solution in enumerate(population):          
+                    if non_linearity:
+                        y_pred_a = sp.Matrix(X*solution)
+                                
+                        y_pred = sp.Matrix([
                             
-                    y_pred = sp.Matrix([
-                        
-                        sum([functions[i][j].subs(x, y_pred_a[k, j])
-                            for j in range(y_pred_a.cols)
+                            sum([functions[i][j].subs(x, y_pred_a[k, j])
+                                for j in range(y_pred_a.cols)
+                            ])
+                                        
+                            for k in range(y_pred_a.rows)
                         ])
-                                       
-                        for k in range(y_pred_a.rows)
-                    ])
 
-                else:
-                    y_pred = X_val @ solution
+                    else:
+                        y_pred = X_val @ solution
                             
-                losses[i] = mean_squared_error(y_pred, y_val)
+                    losses[i] = mean_squared_error(y_pred, y_val)
             
                 val_generation_min_mse = min(losses)
 
