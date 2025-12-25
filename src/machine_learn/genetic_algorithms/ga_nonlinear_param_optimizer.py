@@ -16,8 +16,6 @@ non_linear_functions = [x_var, x_var**2, x_var**3, 2**x_var,
                         sp.sin(x_var), sp.cos(x_var), sp.tan(x_var), sp.tanh(x_var), 
                         sp.Abs(x_var)]
 
-non_linear_functions = [sp.lambdify(x_var, f, 'numpy') for f in non_linear_functions]
-
 class GANONLinearOptimizer:
     min_delta = 0.001
     patience = 10
@@ -62,10 +60,12 @@ class GANONLinearOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
+                funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
+                
                 if non_linearity:
                     y_pred_a = X*solution
                     
-                    y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(funcs)]), axis=1)
 
                 else:
                     y_pred = X @ solution
@@ -81,11 +81,13 @@ class GANONLinearOptimizer:
             
         
             if early_stop:
-                for i, solution in enumerate(population):          
+                for i, solution in enumerate(population):    
+                    funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
+                          
                     if non_linearity:
                         y_pred_a = X_val*solution
                         
-                        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(funcs)]), axis=1)
 
                     else:
                         y_pred = X_val @ solution
@@ -118,8 +120,16 @@ class GANONLinearOptimizer:
             population = top_50_percent_of_population+children
             
             if non_linearity:
-                top_50_percent_of_functions = [solution for _, solution in sorted(zip(losses, functions))][:population_size//2]
-                functions = top_50_percent_of_functions * 2
+                top_50_percent_of_functions = np.array([solution for _, solution in sorted(zip(losses, functions))][:population_size//2])
+                
+                children = np.column_stack([GeneticAlgorithm.make_offspring(top_50_percent_of_functions[:, j], crossover_method) 
+                        for j in range(top_50_percent_of_functions.shape[1])])
+                
+                children = children.tolist()
+                top_50_percent_of_functions = top_50_percent_of_functions.tolist()
+                
+                functions = top_50_percent_of_functions + children
+                
                     
         self.theta = population[0]
         
