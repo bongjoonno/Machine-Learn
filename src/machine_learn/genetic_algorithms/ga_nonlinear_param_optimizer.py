@@ -1,7 +1,7 @@
 from src.machine_learn.imports import np, random, sp
 from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
-from src.machine_learn.metrics import mean_squared_error, r_squared
+from src.machine_learn.metrics import mean_squared_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 param_lower_bound = -0.8568
@@ -21,7 +21,7 @@ non_linear_functions = [sp.lambdify(x_var, f, 'numpy') for f in non_linear_funct
 class GANONLinearOptimizer:
     min_delta = 0.001
     patience = 10
-    
+
     def train(self, 
               x_train: DF, 
               y_train: Series, 
@@ -31,7 +31,6 @@ class GANONLinearOptimizer:
               mutate: bool = False, 
               non_linearity: bool = False,
               crossover_method: str = 'none') -> None:  
-        print('called')
         early_stop = False
         
         if epochs is None:
@@ -47,7 +46,9 @@ class GANONLinearOptimizer:
         self.min_val_mse = float('inf')
         
         number_of_features = X.shape[1]
-
+        self.funcs = [x_var for _ in range(number_of_features)]
+        self.funcs = [sp.lambdify(x_var, f, 'numpy') for f in self.funcs]
+        
         if non_linearity:
             functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
@@ -59,7 +60,6 @@ class GANONLinearOptimizer:
         no_improvement = 0
         
         while True:
-            print(self.epochs_performed)
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
@@ -145,7 +145,9 @@ class GANONLinearOptimizer:
                 functions = top_50_percent_of_functions * 2
                     
         self.theta = population[0]
-        self.funcs = functions[0]
+        
+        if non_linearity:
+            self.funcs = functions[0]
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))

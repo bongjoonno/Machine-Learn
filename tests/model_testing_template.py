@@ -43,7 +43,6 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
             y_pred = optimizer.predict(x_val)
             
             r2s.append(r_squared(y_pred, y_val))
-
         averaged_r2s.append(np.mean(r2s))
     averaged_r2s.append(np.mean(averaged_r2s))
     
