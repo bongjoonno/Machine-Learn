@@ -8,17 +8,17 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 4
+population_size = 100
 
-x = sp.symbols('x')
+x_var = sp.symbols('x')
 
-non_linear_functions = [x, x**2, x**3, 2**x, 
-                        sp.sin(x), sp.cos(x), sp.tan(x), sp.tanh(x), 
-                        sp.Abs(x)]
+non_linear_functions = [x_var, x_var**2, x_var**3, 2**x_var, 
+                        sp.sin(x_var), sp.cos(x_var), sp.tan(x_var), sp.tanh(x_var), 
+                        sp.Abs(x_var)]
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 0
+    patience = 10
     
     def train(self, 
               x_train: DF, 
@@ -29,6 +29,7 @@ class GANONLinearOptimizer:
               mutate: bool = False, 
               non_linearity: bool = False,
               crossover_method: str = 'none') -> None:  
+        
         early_stop = False
         
         if epochs is None:
@@ -59,27 +60,34 @@ class GANONLinearOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
+                
                 if non_linearity:
-                    y_pred_a = sp.Matrix(X*solution)
-                            
+                    y_pred_a = sp.Matrix(X*solution) 
+
                     y_pred = sp.Matrix([
                         
-                        sum([functions[i][j].subs(x, y_pred_a[k, j])
+                        sum([functions[i][j].subs(x_var, y_pred_a[k, j])
                             for j in range(y_pred_a.cols)
                         ])
                                        
                         for k in range(y_pred_a.rows)
                     ])
+                    
+                    y_pred = np.array(y_pred).flatten()
 
                 else:
                     y_pred = X @ solution
-                    
+                
+        
                 losses[i] = mean_squared_error(y_pred, y_train)
+ 
             
             train_generation_min_mse = min(losses)
+     
             
             self.min_train_mse = min(train_generation_min_mse, self.min_train_mse)
             
+        
             if early_stop:
                 for i, solution in enumerate(population):          
                     if non_linearity:
@@ -87,7 +95,7 @@ class GANONLinearOptimizer:
                                 
                         y_pred = sp.Matrix([
                             
-                            sum([functions[i][j].subs(x, y_pred_a[k, j])
+                            sum([functions[i][j].subs(x_var, y_pred_a[k, j])
                                 for j in range(y_pred_a.cols)
                             ])
                                         
@@ -98,7 +106,7 @@ class GANONLinearOptimizer:
                         y_pred = X_val @ solution
                             
                     losses[i] = mean_squared_error(y_pred, y_val)
-            
+
                 val_generation_min_mse = min(losses)
 
                 if self.min_val_mse - val_generation_min_mse < GANONLinearOptimizer.min_delta:
@@ -112,9 +120,9 @@ class GANONLinearOptimizer:
             
             elif self.epochs_performed == epochs:
                 break
-                
+
             top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
-            
+
             children = []
             
             for i in range(number_of_features):
@@ -148,7 +156,18 @@ class GANONLinearOptimizer:
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
+    
+        y_pred_a = sp.Matrix(X*self.theta)
+                                    
+        y_pred = sp.Matrix([
+            
+            sum([self.funcs[j].subs(x_var, y_pred_a[k, j])
+                for j in range(y_pred_a.cols)
+            ])
+                        
+            for k in range(y_pred_a.rows)
+        ])
         
-        y = X * self.theta
-        y = np.sum(np.column_stack([f(y[:, i]) for i, f in enumerate(self.funcs)]), axis=1)
+        y = np.array(y_pred).flatten()
+        
         return y
