@@ -16,6 +16,8 @@ non_linear_functions = [x_var, x_var**2, x_var**3, 2**x_var,
                         sp.sin(x_var), sp.cos(x_var), sp.tan(x_var), sp.tanh(x_var), 
                         sp.Abs(x_var)]
 
+non_linear_functions = [sp.lambdify(x_var, f, 'numpy') for f in non_linear_functions]
+
 class GANONLinearOptimizer:
     min_delta = 0.001
     patience = 10
@@ -61,13 +63,11 @@ class GANONLinearOptimizer:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
-                
                 if non_linearity:
                     y_pred_a = X*solution
                     
                     y_pred = np.array([
-                    sum([func(num) for num, func in zip(row, funcs)])
+                    sum([func(num) for num, func in zip(row, functions[i])])
                     for row in y_pred_a
                         ])
 
@@ -86,13 +86,11 @@ class GANONLinearOptimizer:
         
             if early_stop:
                 for i, solution in enumerate(population):          
-                    funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
-                
                     if non_linearity:
                         y_pred_a = X_val*solution
                         
                         y_pred = np.array([
-                        sum([func(num) for num, func in zip(row, funcs)])
+                        sum([func(num) for num, func in zip(row, functions[i])])
                         for row in y_pred_a
                             ])
 
@@ -152,17 +150,11 @@ class GANONLinearOptimizer:
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
     
-        y_pred_a = sp.Matrix(X*self.theta)
-                                    
-        y_pred = sp.Matrix([
-            
-            sum([self.funcs[j].subs(x_var, y_pred_a[k, j])
-                for j in range(y_pred_a.cols)
-            ])
+        y_pred_a = X*self.theta
                         
-            for k in range(y_pred_a.rows)
-        ])
-        
-        y = np.array(y_pred).flatten()
+        y = np.array([
+        sum([func(num) for num, func in zip(row, self.funcs)])
+        for row in y_pred_a
+            ])
         
         return y
