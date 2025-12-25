@@ -66,10 +66,7 @@ class GANONLinearOptimizer:
                 if non_linearity:
                     y_pred_a = X*solution
                     
-                    y_pred = np.array([
-                    sum([func(num) for num, func in zip(row, functions[i])])
-                    for row in y_pred_a
-                        ])
+                    y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(functions[i])]), axis=1)
 
                 else:
                     y_pred = X @ solution
@@ -89,10 +86,7 @@ class GANONLinearOptimizer:
                     if non_linearity:
                         y_pred_a = X_val*solution
                         
-                        y_pred = np.array([
-                        sum([func(num) for num, func in zip(row, functions[i])])
-                        for row in y_pred_a
-                            ])
+                        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(functions[i])]), axis=1)
 
                     else:
                         y_pred = X_val @ solution
