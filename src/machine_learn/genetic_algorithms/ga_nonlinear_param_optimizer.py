@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np, random
+from src.machine_learn.imports import np, random, sp
 from src.machine_learn.constants import EPOCHS
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error, r_squared
@@ -14,8 +14,9 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
                         lambda x: 2**x,
                         np.sin, np.cos, np.tan, np.tanh,
                         np.abs]
+x = sp.symbols('x')
 
-non_linear_functions = []
+non_linear_functions = [x, x**2, x**3, 2**x]
 
 class GANONLinearOptimizer:
     min_delta = 0.001
@@ -62,7 +63,8 @@ class GANONLinearOptimizer:
             for i, solution in enumerate(population):
                 if non_linearity:
                     y_pred = X * solution
-                    y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                    y_pred = sp.sympify(y_pred.to_list())
+                    y_pred = np.sum(np.column_stack([f.subs(x, y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                 else:
                     y_pred = X @ solution
                     
@@ -76,7 +78,7 @@ class GANONLinearOptimizer:
                 for i, solution in enumerate(population):
                     if non_linearity:
                         y_pred = X_val * solution
-                        y_pred = np.sum(np.column_stack([f(y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred = np.sum(np.column_stack([f.subs(x, y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
                     else:
                         y_pred = X_val @ solution
                         

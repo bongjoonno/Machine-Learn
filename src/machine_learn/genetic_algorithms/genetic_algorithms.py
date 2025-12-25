@@ -1,4 +1,4 @@
-from src.machine_learn.imports import np, cp
+from src.machine_learn.imports import np
 
 crossover_methods = ['arithmetic', 'sbx']
 

@@ -1,5 +1,5 @@
 from src.machine_learn.data_prep import regression_test_data
-from src.machine_learn.imports import np, cp, plt, tqdm, StandardScaler
+from src.machine_learn.imports import np, plt, tqdm, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_manipulation import train_test_split, scale_data, split_k_folds
 from src.machine_learn.models import LinearRegression
