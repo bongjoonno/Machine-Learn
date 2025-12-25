@@ -15,6 +15,8 @@ non_linear_functions = [lambda x: x, lambda x: x**2, lambda x: x**3,
                         np.sin, np.cos, np.tan, np.tanh,
                         np.abs]
 
+non_linear_functions = []
+
 class GANONLinearOptimizer:
     min_delta = 0.001
     patience = 50

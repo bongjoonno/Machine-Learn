@@ -1,5 +1,5 @@
 import numpy as np
-import cupy as cp
+import sympy as sp
 
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
