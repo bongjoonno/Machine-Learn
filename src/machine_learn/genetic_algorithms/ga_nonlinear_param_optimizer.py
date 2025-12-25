@@ -57,16 +57,26 @@ class GANONLinearOptimizer:
         self.epochs_performed = 0
         no_improvement = 0
         
+        X = sp.Matrix(X)
+        
         while True:
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
+                solution = sp.Matrix(solution)
+                    
                 if non_linearity:
-                    y_pred = X * solution
-                    y_pred = sp.sympify(y_pred.to_list())
-                    y_pred = np.sum(np.column_stack([f.subs(x, y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
-                else:
-                    y_pred = X @ solution
+                    y_pred_w_weights = X * solution
+                        
+                    y_pred = []
+                        
+                    for j in range(y_pred_w_weights.rows):
+                        f = functions[i][j]
+                            
+                        y_pred.append(y_pred_w_weights[i, :].applyfunc(lambda item: f.subs(x, item)))
+
+                    else:
+                        y_pred = X @ solution
                     
                 losses[i] = mean_squared_error(y_pred, y_train)
             
@@ -76,9 +86,18 @@ class GANONLinearOptimizer:
             
             if early_stop:
                 for i, solution in enumerate(population):
+                    solution = sp.Matrix(solution)
+                    
                     if non_linearity:
-                        y_pred = X_val * solution
-                        y_pred = np.sum(np.column_stack([f.subs(x, y_pred[:, j]) for j, f in enumerate(functions[i])]), axis=1)
+                        y_pred_w_weights = X_val * solution
+                        
+                        y_pred = []
+                        
+                        for j in range(y_pred_w_weights.rows):
+                            f = functions[i][j]
+                            
+                            y_pred.append(y_pred_w_weights[i, :].applyfunc(lambda item: f.subs(x, item)))
+
                     else:
                         y_pred = X_val @ solution
                         
