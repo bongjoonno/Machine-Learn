@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 1000
+population_size = 100
 
 x_var = sp.symbols('x')
 
@@ -20,7 +20,7 @@ non_linear_functions = [sp.lambdify(x_var, f, 'numpy') for f in non_linear_funct
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 50
+    patience = 10
 
     def train(self, 
               x_train: DF, 
@@ -28,7 +28,6 @@ class GANONLinearOptimizer:
               x_val: DF | None = None, 
               y_val: Series | None = None, 
               epochs: int | None = None, 
-              mutate: bool = False, 
               non_linearity: bool = False,
               crossover_method: str = 'none') -> None:  
         early_stop = False
@@ -108,29 +107,13 @@ class GANONLinearOptimizer:
             elif self.epochs_performed == epochs:
                 break
 
-            top_50_percent_of_population = [solution for _, solution in sorted(zip(losses, population))][:population_size//2]
-
-            children = []
+            top_50_percent_of_population = np.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
             
-            for i in range(number_of_features):
-                params = []
-                    
-                for j in range(len(top_50_percent_of_population)):
-                    params.append(top_50_percent_of_population[j][i])
-                
-                param_children = GeneticAlgorithm.make_offspring(params, crossover_method)
-                
-                if mutate:
-                    for k in range(len(param_children)):
-                        if np.random.random() < 0.01:
-                            param_children[k] += random.gauss(0, sigma = sigma_for_mutation)
-                
-                children.append(param_children)
+            children = np.column_stack([GeneticAlgorithm.make_offspring(top_50_percent_of_population[:, j], crossover_method) 
+                        for j in range(top_50_percent_of_population.shape[1])])
                         
-                    
-            
-            children = np.array(children).T
             children = children.tolist()
+            top_50_percent_of_population = top_50_percent_of_population.tolist()
             
             population = top_50_percent_of_population+children
             
