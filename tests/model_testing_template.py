@@ -14,7 +14,7 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
     scaler = StandardScaler()
     
     averaged_r2s = []
-    n = 5
+    n = 2
     
     for x, y, cols_to_scale in tqdm(regression_test_data):
         folds = split_k_folds(x, y, n)

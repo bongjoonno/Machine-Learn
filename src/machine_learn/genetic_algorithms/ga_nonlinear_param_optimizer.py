@@ -57,7 +57,6 @@ class GANONLinearOptimizer:
         no_improvement = 0
         
         while True:
-            print('mm')
             lambdified_functions = [[sp.lambdify(x_var, f, 'numpy') for f in funcs] for funcs in functions]
             self.epochs_performed += 1
             
