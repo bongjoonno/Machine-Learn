@@ -57,15 +57,15 @@ class GANONLinearOptimizer:
         no_improvement = 0
         
         while True:
+            print('mm')
+            lambdified_functions = [[sp.lambdify(x_var, f, 'numpy') for f in funcs] for funcs in functions]
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
-                funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
-                
                 if non_linearity:
                     y_pred_a = X*solution
                     
-                    y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(funcs)]), axis=1)
+                    y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(lambdified_functions[i])]), axis=1)
 
                 else:
                     y_pred = X @ solution
@@ -81,13 +81,11 @@ class GANONLinearOptimizer:
             
         
             if early_stop:
-                for i, solution in enumerate(population):    
-                    funcs = [sp.lambdify(x_var, f, 'numpy') for f in functions[i]]
-                          
+                for i, solution in enumerate(population):             
                     if non_linearity:
                         y_pred_a = X_val*solution
                         
-                        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(funcs)]), axis=1)
+                        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(lambdified_functions[i])]), axis=1)
 
                     else:
                         y_pred = X_val @ solution
@@ -135,15 +133,13 @@ class GANONLinearOptimizer:
         
         if non_linearity:
             self.funcs = functions[0]
+            self.funcs = [sp.lambdify(x_var, f, 'numpy') for f in self.funcs]
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
-    
+                        
         y_pred_a = X*self.theta
                         
-        y = np.array([
-        sum([func(num) for num, func in zip(row, self.funcs)])
-        for row in y_pred_a
-            ])
+        y_pred = np.sum(np.column_stack([f(y_pred_a[:, j]) for j, f in enumerate(self.funcs)]), axis=1)
         
-        return y
+        return y_pred
