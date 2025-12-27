@@ -1,13 +1,13 @@
 from src.machine_learn.imports import np, sp
 from src.machine_learn.constants import X_VARIABLE
 
-crossover_methods = ['arithmetic', 'sbx']
+crossover_methods = ['arithmetic', 'sbx', 'sbx_function']
 
 class GeneticAlgorithm:
     eta = 15
     min_of_feature = -1
     max_of_feature = 1
-    distribution_len = 30
+    distribution_len = 10
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
         
     @staticmethod
@@ -18,6 +18,8 @@ class GeneticAlgorithm:
             crossover_func = GeneticAlgorithm.arithmetic_crossover
         elif crossover_method == 'sbx':
             crossover_func = GeneticAlgorithm.sbx_crossover
+        elif crossover_method == 'sbx_function':
+            crossover_func = GeneticAlgorithm.sbx_function_crossover
             
         np.random.shuffle(top_50_percent)
         
@@ -67,7 +69,7 @@ class GeneticAlgorithm:
         return child_a, child_b
     
     @staticmethod
-    def sbx__function_crossover(function_a: float, function_b: float) -> tuple[float, float]:
+    def sbx_function_crossover(function_a: float, function_b: float) -> tuple[float, float]:
         u = np.random.uniform(0, 1)
         
         lambdified_function_a = sp.lambdify(X_VARIABLE, function_a, 'numpy')
@@ -76,8 +78,8 @@ class GeneticAlgorithm:
         function_a_interval_mean = np.mean([lambdified_function_a(num) for num in GeneticAlgorithm.uniform_feature_distribution])
         function_b_interval_mean = np.mean([lambdified_function_b(num) for num in GeneticAlgorithm.uniform_feature_distribution])
         
-        x1 = function_a if function_a_interval_mean < function_b_interval_mean else function_b
-        x2 = function_a if function_a_interval_mean > function_b_interval_mean else function_b
+        x1 = function_a if function_a_interval_mean <= function_b_interval_mean else function_b
+        x2 = function_a if function_a_interval_mean >= function_b_interval_mean else function_b
 
         exp = (1 / (GeneticAlgorithm.eta + 1))
         
