@@ -13,7 +13,7 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
                         optimize_lr: bool = False, 
                         scale_y: bool = False):
     
-    n = 2
+    n = 1
     
     avg_r2s = []
     
@@ -24,7 +24,7 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
                          for fold, cols_to_scale in zip(all_data_folds, all_cols_to_scale)]
         
         
-    parallel_obj = Parallel(n_jobs=3)
+    parallel_obj = Parallel(n_jobs=6)
     
     with tqdm_joblib(tqdm(total=len(training_packages))):
         avg_r2s = parallel_obj(delayed(k_cross_validation_train)(*args) for args in training_packages)
@@ -36,13 +36,11 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
 def k_cross_validation_train(*args):
     folds, cols_to_scale, optimizer, training_args, early_stop, optimize_lr, scale_y = args
 
-    
     args_packages = [(fold, cols_to_scale, optimizer, training_args, early_stop, optimize_lr, scale_y)
                      for fold in folds]
     
-    
-    parallel_obj = Parallel(n_jobs=3)
-    r2s = parallel_obj(delayed(fold_train)(*args) for args in args_packages)
+   
+    r2s = [fold_train(*args) for args in args_packages]
     
     return np.mean(r2s)
 
