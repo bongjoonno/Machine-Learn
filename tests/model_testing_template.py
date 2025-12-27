@@ -41,7 +41,7 @@ def k_cross_validation_train(*args):
     
    
     r2s = [fold_train(*args) for args in args_packages]
-    
+    print(r2s)
     return np.mean(r2s)
 
     

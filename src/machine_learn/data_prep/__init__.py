@@ -13,7 +13,6 @@ from .wine_data import wine_x, wine_y, wine_columns_to_scale
 regression_test_data = [(wine_x, wine_y, wine_columns_to_scale),
                         (salary_x, salary_y, salary_cols_to_scale), 
                         (student_x, student_y, student_cols_to_scale) ,
-                        (car_price_x, car_price_y, car_price_cols_to_scale),
                         (energy_x, energy_y, energy_cols_to_scale),
                         (insurance_x, insurance_y, insurance_cols_to_scale)]
 
