@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from tqdm_joblib import tqdm_joblib
 from typing import TypeAlias
 import random
 from sklearn.linear_model import LinearRegression
