@@ -1,10 +1,15 @@
-from src.machine_learn.imports import np
+from src.machine_learn.imports import np, sp
+from src.machine_learn.constants import X_VARIABLE
 
 crossover_methods = ['arithmetic', 'sbx']
 
 class GeneticAlgorithm:
     eta = 15
-    
+    min_of_feature = -1
+    max_of_feature = 1
+    distribution_len = 30
+    uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
+        
     @staticmethod
     def make_offspring(top_50_percent: list[float], crossover_method: str) -> list[float]:
         if crossover_method not in crossover_methods:
@@ -45,6 +50,34 @@ class GeneticAlgorithm:
         
         x1 = min(parent_a, parent_b)
         x2 = max(parent_a, parent_b)
+
+        exp = (1 / (GeneticAlgorithm.eta + 1))
+        
+        if u <= 0.5:
+            beta = (2 * u) ** exp
+        else:
+            beta = (1 / (2 * (1 - u))) ** exp
+        
+        diff = x2 - x1
+        mid = 0.5 * (x1 + x2)
+        
+        child_a =  mid - 0.5 * beta * diff
+        child_b =  mid + 0.5 * beta * diff     
+
+        return child_a, child_b
+    
+    @staticmethod
+    def sbx__function_crossover(function_a: float, function_b: float) -> tuple[float, float]:
+        u = np.random.uniform(0, 1)
+        
+        lambdified_function_a = sp.lambdify(X_VARIABLE, function_a, 'numpy')
+        lambdified_function_b = sp.lambdify(X_VARIABLE, function_b, 'numpy')
+
+        function_a_interval_mean = np.mean([lambdified_function_a(num) for num in GeneticAlgorithm.uniform_feature_distribution])
+        function_b_interval_mean = np.mean([lambdified_function_b(num) for num in GeneticAlgorithm.uniform_feature_distribution])
+        
+        x1 = function_a if function_a_interval_mean < function_b_interval_mean else function_b
+        x2 = function_a if function_a_interval_mean > function_b_interval_mean else function_b
 
         exp = (1 / (GeneticAlgorithm.eta + 1))
         

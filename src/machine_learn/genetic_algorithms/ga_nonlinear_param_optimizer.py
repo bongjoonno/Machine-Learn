@@ -1,5 +1,5 @@
 from src.machine_learn.imports import np, random, sp
-from src.machine_learn.constants import EPOCHS
+from src.machine_learn.constants import EPOCHS, X_VARIABLE
 from src.machine_learn.types import DF, Series, NDArray
 from src.machine_learn.metrics import mean_squared_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
@@ -10,11 +10,9 @@ param_upper_bound = abs(param_lower_bound)
 sigma_for_mutation = 0.0001
 population_size = 500
 
-x_var = sp.symbols('x')
-
-non_linear_functions = [x_var, x_var**2, x_var**3, 2**x_var, 
-                        sp.sin(x_var), sp.cos(x_var), sp.tan(x_var), sp.tanh(x_var), 
-                        sp.Abs(x_var)]
+non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE, 
+                        sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
+                        sp.Abs(X_VARIABLE)]
 
 class GANONLinearOptimizer:
     min_delta = 0.001
@@ -43,8 +41,8 @@ class GANONLinearOptimizer:
         self.min_val_mse = float('inf')
         
         number_of_features = X.shape[1]
-        self.funcs = [x_var for _ in range(number_of_features)]
-        self.funcs = [sp.lambdify(x_var, f, 'numpy') for f in self.funcs]
+        self.funcs = [X_VARIABLE for _ in range(number_of_features)]
+        self.funcs = [sp.lambdify(X_VARIABLE, f, 'numpy') for f in self.funcs]
         
         if non_linearity:
             functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
@@ -57,7 +55,7 @@ class GANONLinearOptimizer:
         no_improvement = 0
         
         while True:
-            lambdified_functions = [[sp.lambdify(x_var, f, 'numpy') for f in funcs] for funcs in functions]
+            lambdified_functions = [[sp.lambdify(X_VARIABLE, f, 'numpy') for f in funcs] for funcs in functions]
             self.epochs_performed += 1
             
             for i, solution in enumerate(population):
@@ -132,7 +130,7 @@ class GANONLinearOptimizer:
         
         if non_linearity:
             self.funcs = functions[0]
-            self.funcs = [sp.lambdify(x_var, f, 'numpy') for f in self.funcs]
+            self.funcs = [sp.lambdify(X_VARIABLE, f, 'numpy') for f in self.funcs]
     
     def predict(self, x: DF) -> NDArray:
         X = np.column_stack((np.ones(len(x)), x))
