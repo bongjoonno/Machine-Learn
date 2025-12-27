@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 50
+population_size = 500
 
 x_var = sp.symbols('x')
 
