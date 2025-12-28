@@ -1,7 +1,12 @@
 from src.machine_learn.imports import np, pd
 from src.machine_learn.types import DF, Series
+from src.machine_learn.data_manipulation import train_test_split
 
 def split_k_folds(x: DF, y: Series, k: int) -> list[tuple[DF, Series, DF, Series]]:
+    if k == 1:
+        x_train, y_train, x_val, y_val = train_test_split(x, y)
+        return [(x_train, y_train, x_val, y_val)]
+    
     folds = []
     
     test_size = int(len(x)*(1/k))
