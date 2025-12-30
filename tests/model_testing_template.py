@@ -26,8 +26,8 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
         
     parallel_obj = Parallel(n_jobs=6)
     
-    with tqdm_joblib(tqdm(total=len(training_packages))):
-        avg_r2s = parallel_obj(delayed(k_cross_validation_train)(*args) for args in training_packages)
+    
+    avg_r2s = [k_cross_validation_train(*args) for args in training_packages]
     
     return avg_r2s
         
