@@ -16,7 +16,9 @@ if __name__ == '__main__':
     print(main())
     
 #TO-DO
-# Speed up tests with multi-processesing
+# DATA LEAKAGE in TABPFN testing vs. GANON Testing Validation set???
+# Parallelize GANON
+# Convert entire library to CuPY
 # Make template general linear models
 # Get more Linear Regression test data-sets
 # Get more Non-Linear test data-sets
@@ -24,7 +26,3 @@ if __name__ == '__main__':
 # Allow GA param optimizer to use multiple cost-functions (default should be MSE)
 # Fix Logistic Regression Cost function
 # possibly add a PER FEATURE parameter for whether y_pred is computed as func(w*x) or w*func(x) or some other configuration
-#make function crossover method
-
-#SBX crossover for functions
-#arithmetic crossover for functions

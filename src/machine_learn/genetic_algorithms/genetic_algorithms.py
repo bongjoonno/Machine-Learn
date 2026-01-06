@@ -11,7 +11,7 @@ class GeneticAlgorithm:
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
         
     @staticmethod
-    def make_offspring(top_50_percent: list[float], crossover_method: str) -> list[float]:
+    def make_offspring(selection: list[float], crossover_method: str) -> list[float]:
         if crossover_method not in crossover_methods:
             raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
         elif crossover_method == 'arithmetic':
@@ -21,13 +21,13 @@ class GeneticAlgorithm:
         elif crossover_method == 'sbx_function':
             crossover_func = GeneticAlgorithm.sbx_function_crossover
             
-        np.random.shuffle(top_50_percent)
+        np.random.shuffle(selection)
         
         children = []
 
-        for i in range(0, len(top_50_percent)-1, 2):
-            parent_a = top_50_percent[i]
-            parent_b = top_50_percent[i+1]
+        for i in range(0, len(selection)-1, 2):
+            parent_a = selection[i]
+            parent_b = selection[i+1]
 
             child1, child2 = crossover_func(parent_a, parent_b)
             

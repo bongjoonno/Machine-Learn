@@ -1,4 +1,5 @@
 import numpy as np
+np.random.seed(42)
 import sympy as sp
 
 import pandas as pd
@@ -11,6 +12,7 @@ from tqdm import tqdm
 from tqdm_joblib import tqdm_joblib
 from typing import TypeAlias
 import random
+random.seed(42)
 from sklearn.linear_model import LinearRegression
 from sklearn.neural_network import MLPRegressor
 from tabpfn import TabPFNRegressor
