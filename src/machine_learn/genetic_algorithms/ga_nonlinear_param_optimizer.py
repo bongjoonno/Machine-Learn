@@ -16,7 +16,7 @@ non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE,
 
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 50
+    patience = 10
 
     def train(self, 
               x_train: DF, 

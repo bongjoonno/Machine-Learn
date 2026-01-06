@@ -1,5 +1,5 @@
 from src.machine_learn.data_prep import regression_test_data
-from src.machine_learn.imports import np, plt, tqdm, tqdm_joblib, StandardScaler, Parallel, delayed
+from src.machine_learn.imports import np, StandardScaler
 from src.machine_learn.metrics import r_squared
 from src.machine_learn.data_manipulation import scale_data, split_k_folds
 from src.machine_learn.models import LinearRegression
@@ -22,9 +22,6 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
     
     training_packages = [(fold, cols_to_scale, optimizer, training_args, early_stop, optimize_lr, scale_y) 
                          for fold, cols_to_scale in zip(all_data_folds, all_cols_to_scale)]
-        
-        
-    parallel_obj = Parallel(n_jobs=6)
     
     
     avg_r2s = [k_cross_validation_train(*args) for args in training_packages]
