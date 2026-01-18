@@ -106,7 +106,7 @@ class GANONLinearOptimizer:
 
             top_50_percent_of_population = np.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
             
-            children = np.column_stack([GeneticAlgorithm.make_offspring(top_50_percent_of_population[:, j], crossover_method) 
+            children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_population[:, j], crossover_method) 
                         for j in range(top_50_percent_of_population.shape[1])])
                         
             children = children.tolist()
@@ -117,7 +117,7 @@ class GANONLinearOptimizer:
             if non_linearity:
                 top_50_percent_of_functions = np.array([solution for _, solution in sorted(zip(losses, functions))][:population_size//2])
                 
-                children = np.column_stack([GeneticAlgorithm.make_offspring(top_50_percent_of_functions[:, j], crossover_method) 
+                children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_functions[:, j], crossover_method) 
                         for j in range(top_50_percent_of_functions.shape[1])])
                 
                 children = children.tolist()

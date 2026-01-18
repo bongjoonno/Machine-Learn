@@ -43,7 +43,7 @@ class GAlrOptimizer:
             
             top_50_percent = [solution for _, solution in fitness_to_population_sorted]
 
-            children = GeneticAlgorithm.make_offspring(top_50_percent)
+            children = GeneticAlgorithm.threshold_selection(top_50_percent)
             
             self.population = top_50_percent + children
 

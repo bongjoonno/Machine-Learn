@@ -11,7 +11,7 @@ class GeneticAlgorithm:
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
         
     @staticmethod
-    def make_offspring(selection: list[float], crossover_method: str) -> list[float]:
+    def threshold_selection(selection: list[float], crossover_method: str) -> list[float]:
         if crossover_method not in crossover_methods:
             raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
         elif crossover_method == 'arithmetic':

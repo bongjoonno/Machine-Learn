@@ -84,7 +84,7 @@ class GAOptimizer:
                 for j in range(len(top_50_percent_of_population)):
                     params.append(top_50_percent_of_population[j][i])
                 
-                param_children = GeneticAlgorithm.make_offspring(params)
+                param_children = GeneticAlgorithm.threshold_selection(params)
                 
                 if mutate:
                     for k in range(len(param_children)):
