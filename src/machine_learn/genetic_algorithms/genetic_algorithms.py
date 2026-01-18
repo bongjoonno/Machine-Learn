@@ -2,6 +2,7 @@ from src.machine_learn.imports import np, sp
 from src.machine_learn.constants import X_VARIABLE
 
 crossover_methods = ['arithmetic', 'sbx', 'sbx_function']
+selection_methods = ['threshold', 'tournament']
 
 class GeneticAlgorithm:
     eta = 15
@@ -9,27 +10,42 @@ class GeneticAlgorithm:
     max_of_feature = 1
     distribution_len = 10
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
+    
+    @classmethod
+    def get_crossover_dict(cls) -> dict[str, callable]:
+        return {'arithmetic' : cls.arithmetic_crossover,
+                                'sbx' : cls.sbx_crossover,
+                                'sbx_function' : cls.sbx_function_crossover}
+    
+    @classmethod
+    def get_selection_dict(cls) -> dict[str, callable]:
+        return {'threshold' : cls.selection_crossover,
+                                'sbx' : cls.sbx_crossover,
+                                'sbx_function' : cls.sbx_function_crossover}
         
-    @staticmethod
-    def threshold_selection(selection: list[float], crossover_method: str) -> list[float]:
-        if crossover_method not in crossover_methods:
+    def repopulate(self, population: list[float], selection_method: str, crossover_method: str) -> list[float]:
+        self.crossover_func = self.get_crossover_dict().get(crossover_method, None)
+        
+        if crossover_method is None:
             raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
-        elif crossover_method == 'arithmetic':
-            crossover_func = GeneticAlgorithm.arithmetic_crossover
-        elif crossover_method == 'sbx':
-            crossover_func = GeneticAlgorithm.sbx_crossover
-        elif crossover_method == 'sbx_function':
-            crossover_func = GeneticAlgorithm.sbx_function_crossover
-            
-        np.random.shuffle(selection)
         
-        children = []
+        self.selection_func = self.get_selection_dict().get(selection_method, None)
+        
+        if selection_method is None:
+            raise ValueError(f'Selection method must be one of the following: {}')
+        
+    def threshold_selection(self, selection: list[tuple[float, float]], crossover_method: str) -> list[float]:
+        
 
+
+    def make_children(self, selection: list[float])
+        children = []
+        
         for i in range(0, len(selection)-1, 2):
             parent_a = selection[i]
             parent_b = selection[i+1]
 
-            child1, child2 = crossover_func(parent_a, parent_b)
+            child1, child2 = self.crossover_func(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
