@@ -25,6 +25,7 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               non_linearity: bool = False,
+              selection_method: str = 'none',
               crossover_method: str = 'none') -> None:  
         early_stop = False
         
@@ -105,7 +106,7 @@ class GANONLinearOptimizer:
                 break
 
             
-            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method = 'threshold', crossover_method='arithmetic') 
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method, crossover_method) 
                         for j in range(population.shape[1])]).tolist()
                         
             
