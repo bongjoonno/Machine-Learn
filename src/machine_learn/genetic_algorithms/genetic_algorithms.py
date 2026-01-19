@@ -6,10 +6,15 @@ selection_methods = ['threshold', 'tournament']
 
 class GeneticAlgorithm:
     eta = 15
+    
     min_of_feature = -1
     max_of_feature = 1
+    
     distribution_len = 10
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
+    
+    k_tournament_selections = 3
+    
     
     @classmethod
     def get_crossover_dict(cls) -> dict[str, callable]:
@@ -19,26 +24,44 @@ class GeneticAlgorithm:
     
     @classmethod
     def get_selection_dict(cls) -> dict[str, callable]:
-        return {'threshold' : cls.selection_crossover,
-                                'sbx' : cls.sbx_crossover,
-                                'sbx_function' : cls.sbx_function_crossover}
+        return {'threshold' : cls.threshold_selection,
+                'tournament' : cls.tournament_selection}
         
-    def repopulate(self, population: list[float], selection_method: str, crossover_method: str) -> list[float]:
+    def repopulate(self, solution_fitness_pairs: list[tuple[float, float]], selection_method: str, crossover_method: str) -> list[float]:
         self.crossover_func = self.get_crossover_dict().get(crossover_method, None)
         
-        if crossover_method is None:
+        if self.crossover_func is None:
             raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
         
         self.selection_func = self.get_selection_dict().get(selection_method, None)
         
-        if selection_method is None:
-            raise ValueError(f'Selection method must be one of the following: {}')
+        if self.selection_func is None:
+            raise ValueError(f'Selection method must be one of the following: {selection_methods}')
+
+        selection = self.selection_func(solution_fitness_pairs)
+
+    @staticmethod
+    def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:
+        return sorted(solution for solution, _ in zip(solutions, fitness_scores))[:len(solutions)//2]
+
+    @staticmethod
+    def tournament_selection(solutions: list[float], fitness_scores: list[float]):
+        num_selections = len(solutions) // 2
+        selected = []
         
-    def threshold_selection(self, selection: list[tuple[float, float]], crossover_method: str) -> list[float]:
+        for _ in range(num_selections):
+            rand_indices = np.random.randint(0, len(solutions), GeneticAlgorithm.k_tournament_selections)
+            
+            
+            
+            
+            
+            
         
+    
 
 
-    def make_children(self, selection: list[float])
+    def make_children(self, selection: list[float]):
         children = []
         
         for i in range(0, len(selection)-1, 2):
