@@ -26,7 +26,7 @@ class GANONLinearOptimizer:
               epochs: int | None = None, 
               non_linearity: bool = False,
               selection_method: str = 'none',
-              crossover_method: str = 'none') -> None:  
+              function_crossover_method: str = 'none') -> None:  
         early_stop = False
         
         if epochs is None:
@@ -106,21 +106,13 @@ class GANONLinearOptimizer:
                 break
 
             
-            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method, crossover_method) 
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method, 'sbx') 
                         for j in range(population.shape[1])]).tolist()
                         
             
             if non_linearity:
-                top_50_percent_of_functions = np.array([solution for _, solution in sorted(zip(losses, functions))][:population_size//2])
-                
-                children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_functions[:, j], crossover_method) 
-                        for j in range(top_50_percent_of_functions.shape[1])])
-                
-                children = children.tolist()
-                top_50_percent_of_functions = top_50_percent_of_functions.tolist()
-                
-                functions = top_50_percent_of_functions + children
-                
+                functions = np.column_stack([GeneticAlgorithm.repopulate(functions[:, j], losses[:, j], selection_method, function_crossover_method) 
+                        for j in range(functions.shape[1])])
                     
         self.theta = population[0]
         
