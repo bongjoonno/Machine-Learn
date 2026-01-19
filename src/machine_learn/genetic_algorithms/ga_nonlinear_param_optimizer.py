@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 10
+population_size = 20
 
 non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE, 
                         sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
@@ -47,7 +47,7 @@ class GANONLinearOptimizer:
         self.funcs = [sp.lambdify(X_VARIABLE, f, 'numpy') for f in self.funcs]
         
         if non_linearity:
-            functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
+            functions = np.array([[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)])
  
         population = np.array([np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)])
         

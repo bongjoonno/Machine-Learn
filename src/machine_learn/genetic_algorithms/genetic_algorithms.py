@@ -47,7 +47,7 @@ class GeneticAlgorithm:
 
     @staticmethod
     def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:
-        return solutions[np.argsort(fitness_scores)]
+        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
 
     @staticmethod
     def tournament_selection(solutions: list[float], fitness_scores: list[float]):
