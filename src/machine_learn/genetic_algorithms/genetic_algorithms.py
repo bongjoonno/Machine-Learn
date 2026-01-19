@@ -13,7 +13,7 @@ class GeneticAlgorithm:
     distribution_len = 10
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
     
-    k_tournament_selections = 3
+    k_tournament_selections = 5
     
     
     @classmethod
