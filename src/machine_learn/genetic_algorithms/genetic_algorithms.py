@@ -26,21 +26,22 @@ class GeneticAlgorithm:
     def get_selection_dict(cls) -> dict[str, callable]:
         return {'threshold' : cls.threshold_selection,
                 'tournament' : cls.tournament_selection}
+    
+    @staticmethod
+    def repopulate(solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
+        crossover_func = GeneticAlgorithm.get_crossover_dict().get(crossover_method, None)
         
-    def repopulate(self, solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
-        self.crossover_func = self.get_crossover_dict().get(crossover_method, None)
-        
-        if self.crossover_func is None:
+        if crossover_func is None:
             raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
         
-        self.selection_func = self.get_selection_dict().get(selection_method, None)
+        selection_func = GeneticAlgorithm.get_selection_dict().get(selection_method, None)
         
-        if self.selection_func is None:
+        if selection_func is None:
             raise ValueError(f'Selection method must be one of the following: {selection_methods}')
 
-        selection = self.selection_func(solutions, fitness_scores)
+        selection = selection_func(solutions, fitness_scores)
         
-        children = self.make_children(selection)
+        children = GeneticAlgorithm.make_children(selection, crossover_func)
         
         return np.concatenate((selection, children))
 
@@ -65,14 +66,15 @@ class GeneticAlgorithm:
         
         return np.array(selected)
 
-    def make_children(self, selection: list[float]):
+    @staticmethod
+    def make_children(selection: list[float], crossover_func: callable):
         children = []
         
         for i in range(0, len(selection)-1, 2):
             parent_a = selection[i]
             parent_b = selection[i+1]
 
-            child1, child2 = self.crossover_func(parent_a, parent_b)
+            child1, child2 = crossover_func(parent_a, parent_b)
             
             children.append(child1)
             children.append(child2)
