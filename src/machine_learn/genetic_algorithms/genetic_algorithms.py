@@ -27,7 +27,7 @@ class GeneticAlgorithm:
         return {'threshold' : cls.threshold_selection,
                 'tournament' : cls.tournament_selection}
         
-    def repopulate(self, solution_fitness_pairs: list[tuple[float, float]], selection_method: str, crossover_method: str) -> list[float]:
+    def repopulate(self, solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
         self.crossover_func = self.get_crossover_dict().get(crossover_method, None)
         
         if self.crossover_func is None:
@@ -38,7 +38,11 @@ class GeneticAlgorithm:
         if self.selection_func is None:
             raise ValueError(f'Selection method must be one of the following: {selection_methods}')
 
-        selection = self.selection_func(solution_fitness_pairs)
+        selection = self.selection_func(solutions, fitness_scores)
+        
+        children = self.make_children(selection)
+        
+        return selection + children
 
     @staticmethod
     def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:

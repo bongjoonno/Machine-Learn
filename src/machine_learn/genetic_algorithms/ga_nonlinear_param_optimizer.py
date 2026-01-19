@@ -104,15 +104,10 @@ class GANONLinearOptimizer:
             elif self.epochs_performed == epochs:
                 break
 
-            top_50_percent_of_population = np.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
             
-            children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_population[:, j], crossover_method) 
-                        for j in range(top_50_percent_of_population.shape[1])])
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method = 'threshold', crossover_method='arithmetic') 
+                        for j in range(population.shape[1])]).tolist()
                         
-            children = children.tolist()
-            top_50_percent_of_population = top_50_percent_of_population.tolist()
-            
-            population = top_50_percent_of_population+children
             
             if non_linearity:
                 top_50_percent_of_functions = np.array([solution for _, solution in sorted(zip(losses, functions))][:population_size//2])
