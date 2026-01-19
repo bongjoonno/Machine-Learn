@@ -42,11 +42,11 @@ class GeneticAlgorithm:
         
         children = self.make_children(selection)
         
-        return selection + children
+        return np.concatenate((selection, children))
 
     @staticmethod
     def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:
-        return sorted(solution for solution, _ in zip(solutions, fitness_scores))[:len(solutions)//2]
+        return solutions[np.argsort(fitness_scores)]
 
     @staticmethod
     def tournament_selection(solutions: list[float], fitness_scores: list[float]):
@@ -63,7 +63,7 @@ class GeneticAlgorithm:
             
             selected.append(best_solution)
         
-        return selected
+        return np.array(selected)
 
     def make_children(self, selection: list[float]):
         children = []
@@ -77,7 +77,7 @@ class GeneticAlgorithm:
             children.append(child1)
             children.append(child2)
 
-        return children
+        return np.array(children)
     
     @staticmethod
     def arithmetic_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:

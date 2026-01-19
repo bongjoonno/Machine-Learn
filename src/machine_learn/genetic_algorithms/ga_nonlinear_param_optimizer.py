@@ -48,9 +48,10 @@ class GANONLinearOptimizer:
         if non_linearity:
             functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
  
-        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
+        population = np.array([np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)])
         
-        losses = [0 for _ in range(population_size)]
+        train_losses = np.array([0 for _ in range(population_size)])
+        val_losses = np.array([0 for _ in range(population_size)])
         
         self.epochs_performed = 0
         no_improvement = 0
@@ -69,10 +70,10 @@ class GANONLinearOptimizer:
                     y_pred = X @ solution
                 
         
-                losses[i] = mean_squared_error(y_pred, y_train)
+                train_losses[i] = mean_squared_error(y_pred, y_train)
  
             
-            train_generation_min_mse = min(losses)
+            train_generation_min_mse = min(train_losses)
      
             
             self.min_train_mse = min(train_generation_min_mse, self.min_train_mse)
@@ -89,9 +90,9 @@ class GANONLinearOptimizer:
                         y_pred = X_val @ solution
                     
                             
-                    losses[i] = mean_squared_error(y_pred, y_val)
+                    val_losses[i] = mean_squared_error(y_pred, y_val)
 
-                val_generation_min_mse = min(losses)
+                val_generation_min_mse = min(val_losses)
 
                 if self.min_val_mse - val_generation_min_mse < GANONLinearOptimizer.min_delta:
                     no_improvement += 1
@@ -106,12 +107,12 @@ class GANONLinearOptimizer:
                 break
 
             
-            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], losses[:, j], selection_method, 'sbx') 
-                        for j in range(population.shape[1])]).tolist()
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], train_losses, selection_method, 'sbx') 
+                        for j in range(population.shape[1])])
                         
             
             if non_linearity:
-                functions = np.column_stack([GeneticAlgorithm.repopulate(functions[:, j], losses[:, j], selection_method, function_crossover_method) 
+                functions = np.column_stack([GeneticAlgorithm.repopulate(functions[:, j], train_losses, selection_method, function_crossover_method) 
                         for j in range(functions.shape[1])])
                     
         self.theta = population[0]
