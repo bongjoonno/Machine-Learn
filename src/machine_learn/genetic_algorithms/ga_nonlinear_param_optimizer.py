@@ -108,7 +108,7 @@ class GANONLinearOptimizer:
                 break
 
             
-            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], train_losses, crossover_method, selection_method, 'sbx') 
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], train_losses, selection_method, crossover_method) 
                         for j in range(population.shape[1])])
                         
             
