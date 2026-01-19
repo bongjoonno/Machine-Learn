@@ -2,29 +2,74 @@ from src.machine_learn.imports import np, sp
 from src.machine_learn.constants import X_VARIABLE
 
 crossover_methods = ['arithmetic', 'sbx', 'sbx_function']
+selection_methods = ['threshold', 'tournament']
 
 class GeneticAlgorithm:
     eta = 15
+    
     min_of_feature = -1
     max_of_feature = 1
+    
     distribution_len = 10
     uniform_feature_distribution = np.random.uniform(min_of_feature, max_of_feature, distribution_len)
-        
+    
+    k_tournament_selections = 5
+    
+    
+    @classmethod
+    def get_crossover_dict(cls) -> dict[str, callable]:
+        return {'arithmetic' : cls.arithmetic_crossover,
+                                'sbx' : cls.sbx_crossover,
+                                'sbx_function' : cls.sbx_function_crossover}
+    
+    @classmethod
+    def get_selection_dict(cls) -> dict[str, callable]:
+        return {'threshold' : cls.threshold_selection,
+                'tournament' : cls.tournament_selection}
+    
     @staticmethod
-    def threshold_selection(selection: list[float], crossover_method: str) -> list[float]:
-        if crossover_method not in crossover_methods:
-            raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
-        elif crossover_method == 'arithmetic':
-            crossover_func = GeneticAlgorithm.arithmetic_crossover
-        elif crossover_method == 'sbx':
-            crossover_func = GeneticAlgorithm.sbx_crossover
-        elif crossover_method == 'sbx_function':
-            crossover_func = GeneticAlgorithm.sbx_function_crossover
-            
-        np.random.shuffle(selection)
+    def repopulate(solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
+        crossover_func = GeneticAlgorithm.get_crossover_dict().get(crossover_method, None)
         
-        children = []
+        if crossover_func is None:
+            raise ValueError(f'crossover method must be one of the following: {crossover_methods}')
+        
+        selection_func = GeneticAlgorithm.get_selection_dict().get(selection_method, None)
+        
+        if selection_func is None:
+            raise ValueError(f'Selection method must be one of the following: {selection_methods}')
 
+        selection = selection_func(solutions, fitness_scores)
+        
+        children = GeneticAlgorithm.make_children(selection, crossover_func)
+        
+        return np.concatenate((selection, children))
+
+    @staticmethod
+    def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:
+        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
+
+    @staticmethod
+    def tournament_selection(solutions: list[float], fitness_scores: list[float]):
+        num_selections = len(solutions) // 2
+        selected = []
+        
+        for _ in range(num_selections):
+            rand_indices = np.random.randint(0, len(solutions), GeneticAlgorithm.k_tournament_selections)
+            
+            rand_solutions = [solutions[idx] for idx in rand_indices]
+            rand_fitness_scores = [fitness_scores[idx] for idx in rand_indices]
+            
+            best_solution = rand_solutions[np.argmax(rand_fitness_scores)]
+            
+            selected.append(best_solution)
+        
+        return np.array(selected)
+
+    @staticmethod
+    def make_children(selection: list[float], crossover_func: callable):
+        children = []
+        
         for i in range(0, len(selection)-1, 2):
             parent_a = selection[i]
             parent_b = selection[i+1]
@@ -34,7 +79,7 @@ class GeneticAlgorithm:
             children.append(child1)
             children.append(child2)
 
-        return children
+        return np.array(children)
     
     @staticmethod
     def arithmetic_crossover(parent_a: float, parent_b: float) -> tuple[float, float]:

@@ -8,7 +8,7 @@ param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 10
+population_size = 100
 
 non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE, 
                         sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
@@ -25,7 +25,9 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               non_linearity: bool = False,
-              crossover_method: str = 'none') -> None:  
+              selection_method: str = 'none',
+              crossover_method: str = 'none',
+              function_crossover_method: str = 'none') -> None:  
         early_stop = False
         
         if epochs is None:
@@ -45,11 +47,12 @@ class GANONLinearOptimizer:
         self.funcs = [sp.lambdify(X_VARIABLE, f, 'numpy') for f in self.funcs]
         
         if non_linearity:
-            functions = [[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)]
+            functions = np.array([[np.random.choice(non_linear_functions) for _ in range(number_of_features)] for _ in range(population_size)])
  
-        population = [np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)]
+        population = np.array([np.random.uniform(param_lower_bound, param_upper_bound, number_of_features) for _ in range(population_size)])
         
-        losses = [0 for _ in range(population_size)]
+        train_losses = np.array([0 for _ in range(population_size)])
+        val_losses = np.array([0 for _ in range(population_size)])
         
         self.epochs_performed = 0
         no_improvement = 0
@@ -68,10 +71,10 @@ class GANONLinearOptimizer:
                     y_pred = X @ solution
                 
         
-                losses[i] = mean_squared_error(y_pred, y_train)
+                train_losses[i] = mean_squared_error(y_pred, y_train)
  
             
-            train_generation_min_mse = min(losses)
+            train_generation_min_mse = min(train_losses)
      
             
             self.min_train_mse = min(train_generation_min_mse, self.min_train_mse)
@@ -88,9 +91,9 @@ class GANONLinearOptimizer:
                         y_pred = X_val @ solution
                     
                             
-                    losses[i] = mean_squared_error(y_pred, y_val)
+                    val_losses[i] = mean_squared_error(y_pred, y_val)
 
-                val_generation_min_mse = min(losses)
+                val_generation_min_mse = min(val_losses)
 
                 if self.min_val_mse - val_generation_min_mse < GANONLinearOptimizer.min_delta:
                     no_improvement += 1
@@ -104,27 +107,14 @@ class GANONLinearOptimizer:
             elif self.epochs_performed == epochs:
                 break
 
-            top_50_percent_of_population = np.array([solution for _, solution in sorted(zip(losses, population))][:population_size//2])
             
-            children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_population[:, j], crossover_method) 
-                        for j in range(top_50_percent_of_population.shape[1])])
+            population = np.column_stack([GeneticAlgorithm.repopulate(population[:, j], train_losses, selection_method, crossover_method) 
+                        for j in range(population.shape[1])])
                         
-            children = children.tolist()
-            top_50_percent_of_population = top_50_percent_of_population.tolist()
-            
-            population = top_50_percent_of_population+children
             
             if non_linearity:
-                top_50_percent_of_functions = np.array([solution for _, solution in sorted(zip(losses, functions))][:population_size//2])
-                
-                children = np.column_stack([GeneticAlgorithm.threshold_selection(top_50_percent_of_functions[:, j], crossover_method) 
-                        for j in range(top_50_percent_of_functions.shape[1])])
-                
-                children = children.tolist()
-                top_50_percent_of_functions = top_50_percent_of_functions.tolist()
-                
-                functions = top_50_percent_of_functions + children
-                
+                functions = np.column_stack([GeneticAlgorithm.repopulate(functions[:, j], train_losses, selection_method, function_crossover_method) 
+                        for j in range(functions.shape[1])])
                     
         self.theta = population[0]
         

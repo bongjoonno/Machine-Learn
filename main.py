@@ -10,7 +10,9 @@ def main():
     #np.save(save_path / 'GANON_regression_sbx', test_nonlinear_ga_param_optimizer(crossover_method='sbx'))
     #np.save(save_path / 'GANON_regression_arithmetic_crossover', test_nonlinear_ga_param_optimizer(crossover_method='arithmetic'))
     #np.save(save_path / 'GANON_regression_arithmetic_crossover_sympy_2', test_nonlinear_ga_param_optimizer(crossover_method='arithmetic'))
-    np.save(save_path / 'GANON_regression_sbx_function_crossover_sympy', test_nonlinear_ga_param_optimizer(crossover_method='sbx_function'))
+    np.save(save_path / 'GANON_regression_sbx_function_crossover_sympy', test_nonlinear_ga_param_optimizer(selection_method='tournament', 
+                                                                                                           crossover_method='sbx',
+                                                                                                           function_crossover_method='arithmetic'))
     
 if __name__ == '__main__':
     print(main())
