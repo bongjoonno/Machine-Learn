@@ -52,14 +52,14 @@ class GeneticAlgorithm:
         for _ in range(num_selections):
             rand_indices = np.random.randint(0, len(solutions), GeneticAlgorithm.k_tournament_selections)
             
+            rand_solutions = [solutions[idx] for idx in rand_indices]
+            rand_fitness_scores = [fitness_scores[idx] for idx in rand_indices]
             
+            best_solution = rand_solutions[np.argmax(rand_fitness_scores)]
             
-            
-            
-            
+            selected.append(best_solution)
         
-    
-
+        return selected
 
     def make_children(self, selection: list[float]):
         children = []
