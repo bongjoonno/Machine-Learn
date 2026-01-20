@@ -26,7 +26,8 @@ class GeneticAlgorithm:
     def get_selection_dict(cls) -> dict[str, callable]:
         return {'threshold' : cls.threshold_selection,
                 'tournament' : cls.tournament_selection,
-                'roulette_wheel' : cls.roulette_wheel_selection}
+                'roulette_wheel' : cls.roulette_wheel_selection,
+                'sus' : cls.stochastic_universal_sampling}
     
     @staticmethod
     def repopulate(solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
