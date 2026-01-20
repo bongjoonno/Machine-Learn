@@ -25,7 +25,8 @@ class GeneticAlgorithm:
     @classmethod
     def get_selection_dict(cls) -> dict[str, callable]:
         return {'threshold' : cls.threshold_selection,
-                'tournament' : cls.tournament_selection}
+                'tournament' : cls.tournament_selection,
+                'roulette_wheel' : cls.roulette_wheel_selection}
     
     @staticmethod
     def repopulate(solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
@@ -63,9 +64,6 @@ class GeneticAlgorithm:
                     break
         
         return np.array(selected)
-                    
-            
-        
     
     @staticmethod
     def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
