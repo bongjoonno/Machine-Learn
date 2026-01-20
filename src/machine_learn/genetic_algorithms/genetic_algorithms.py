@@ -44,13 +44,17 @@ class GeneticAlgorithm:
         children = GeneticAlgorithm.make_children(selection, crossover_func)
         
         return np.concatenate((selection, children))
-
+    
+    @staticmethod 
+    def roulette_wheel_selection(solutions: list, fitness_scores: list[float]) -> list:
+        pass
+    
     @staticmethod
-    def threshold_selection(solutions: list[float], fitness_scores: list[float]) -> list[float]:
+    def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
         return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
 
     @staticmethod
-    def tournament_selection(solutions: list[float], fitness_scores: list[float]):
+    def tournament_selection(solutions: list, fitness_scores: list[float]) -> list:
         num_selections = len(solutions) // 2
         selected = []
         
