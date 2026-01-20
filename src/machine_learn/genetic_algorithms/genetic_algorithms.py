@@ -59,7 +59,27 @@ class GeneticAlgorithm:
             random_spin = np.random.random()
         
             for i, prob in enumerate(cum_probs):
-                if prob > random_spin:
+                if prob >= random_spin:
+                    selected.append(solutions[i])
+                    break
+        
+        return np.array(selected)
+
+    @staticmethod 
+    def stochastic_universal_sampling(solutions: list, fitness_scores: list[float]) -> list:
+        num_selections = len(solutions) // 2
+        selected = []
+        
+        total_fitness = sum(fitness_scores)
+        probs = np.array(fitness_scores) / total_fitness
+        cum_probs = np.cumsum(probs)
+        
+        start = np.random.uniform(0, 1/num_selections)
+        evenly_spaced_selection_probs = start + np.arange(num_selections) / num_selections
+        
+        for selection_prob in evenly_spaced_selection_probs:
+            for i, prob in enumerate(cum_probs):
+                if prob >= selection_prob:
                     selected.append(solutions[i])
                     break
         
