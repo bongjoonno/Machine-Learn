@@ -47,7 +47,25 @@ class GeneticAlgorithm:
     
     @staticmethod 
     def roulette_wheel_selection(solutions: list, fitness_scores: list[float]) -> list:
-        pass
+        num_selections = len(solutions) // 2
+        selected = []
+        
+        total_fitness = sum(fitness_scores)
+        probs = np.array(fitness_scores) / total_fitness
+        cum_probs = np.cumsum(probs)
+        
+        for _ in range(num_selections):
+            random_spin = np.random.random()
+        
+            for i, prob in enumerate(cum_probs):
+                if prob > random_spin:
+                    selected.append(solutions[i])
+                    break
+        
+        return np.array(selected)
+                    
+            
+        
     
     @staticmethod
     def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
