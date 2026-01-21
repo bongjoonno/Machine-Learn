@@ -15,6 +15,9 @@ class GeneticAlgorithm:
     
     k_tournament_selections = 5
     
+    max_selection_pressure = 1.5
+    min_selection_pressure = 2 - max_selection_pressure
+    
     
     @classmethod
     def get_crossover_dict(cls) -> dict[str, callable]:
@@ -24,10 +27,11 @@ class GeneticAlgorithm:
     
     @classmethod
     def get_selection_dict(cls) -> dict[str, callable]:
-        return {'threshold' : cls.threshold_selection,
+        return {'roulette_wheel' : cls.roulette_wheel_selection,
+                'sus' : cls.stochastic_universal_sampling,
+                'rank' : cls.rank_selection,
                 'tournament' : cls.tournament_selection,
-                'roulette_wheel' : cls.roulette_wheel_selection,
-                'sus' : cls.stochastic_universal_sampling}
+                'threshold' : cls.threshold_selection}
     
     @staticmethod
     def repopulate(solutions: list[float], fitness_scores: list[float], selection_method: str, crossover_method: str) -> list[float]:
@@ -87,9 +91,17 @@ class GeneticAlgorithm:
         return np.array(selected)
     
     @staticmethod
-    def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
-        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
-
+    def rank_selection(solutions: list, fitness_scores: list[float]) -> list:
+        num_selections = len(solutions) // 2
+        
+        solutions = solutions[np.argsort(fitness_scores)]
+        ranks = np.array(range(len(solutions)))
+        selection_probs = (((GeneticAlgorithm.max_selection_pressure - GeneticAlgorithm.min_selection_pressure)/(len(solutions)-1))*ranks) + GeneticAlgorithm.min_selection_pressure
+        selection_probs /= selection_probs.sum()
+        
+        return np.random.choice(solutions, size=num_selections, p=selection_probs)
+        
+        
     @staticmethod
     def tournament_selection(solutions: list, fitness_scores: list[float]) -> list:
         num_selections = len(solutions) // 2
@@ -106,6 +118,10 @@ class GeneticAlgorithm:
             selected.append(best_solution)
         
         return np.array(selected)
+
+    @staticmethod
+    def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
+        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
 
     @staticmethod
     def make_children(selection: list[float], crossover_func: callable):
