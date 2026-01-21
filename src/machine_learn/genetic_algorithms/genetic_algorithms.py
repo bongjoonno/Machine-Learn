@@ -15,6 +15,8 @@ class GeneticAlgorithm:
     
     k_tournament_selections = 5
     
+    selection_pressure = 1.5
+    
     
     @classmethod
     def get_crossover_dict(cls) -> dict[str, callable]:
@@ -87,9 +89,12 @@ class GeneticAlgorithm:
         return np.array(selected)
     
     @staticmethod
-    def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
-        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
-
+    def rank_selection(solutions: list, fitness_scores: list[float]) -> list:
+        num_selections = len(solutions) // 2
+        selected = []
+        
+        
+    
     @staticmethod
     def tournament_selection(solutions: list, fitness_scores: list[float]) -> list:
         num_selections = len(solutions) // 2
@@ -106,6 +111,10 @@ class GeneticAlgorithm:
             selected.append(best_solution)
         
         return np.array(selected)
+
+     @staticmethod
+    def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
+        return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
 
     @staticmethod
     def make_children(selection: list[float], crossover_func: callable):
