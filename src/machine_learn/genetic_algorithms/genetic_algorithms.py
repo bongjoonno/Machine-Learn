@@ -93,11 +93,10 @@ class GeneticAlgorithm:
     @staticmethod
     def rank_selection(solutions: list, fitness_scores: list[float]) -> list:
         num_selections = len(solutions) // 2
-        selected = []
         
         solutions = solutions[np.argsort(fitness_scores)]
-        ranks = [i for i in range(0, len(solutions))]
-        selection_probs = GeneticAlgorithm.min_selection_pressure + (((GeneticAlgorithm.max_selection_pressure - GeneticAlgorithm.min_selection_pressure)/(len(solutions)-1))*ranks)
+        ranks = np.array([i for i in range(0, len(solutions))])
+        selection_probs = (((GeneticAlgorithm.max_selection_pressure - GeneticAlgorithm.min_selection_pressure)/(len(solutions)-1))*ranks) + GeneticAlgorithm.min_selection_pressure
         
         return np.random.choice(solutions, size=num_selections, p=selection_probs)
         
