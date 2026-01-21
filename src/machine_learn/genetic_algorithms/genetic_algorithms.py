@@ -15,7 +15,8 @@ class GeneticAlgorithm:
     
     k_tournament_selections = 5
     
-    selection_pressure = 1.5
+    max_selection_pressure = 1.5
+    min_selection_pressure = 2 - max_selection_pressure
     
     
     @classmethod
@@ -93,6 +94,12 @@ class GeneticAlgorithm:
         num_selections = len(solutions) // 2
         selected = []
         
+        solutions = solutions[np.argsort(fitness_scores)]
+        selection_probs = 
+        
+        for _ in range num_selections:
+            selected.append()
+        
         
     
     @staticmethod
@@ -112,7 +119,7 @@ class GeneticAlgorithm:
         
         return np.array(selected)
 
-     @staticmethod
+    @staticmethod
     def threshold_selection(solutions: list, fitness_scores: list[float]) -> list:
         return solutions[np.argsort(fitness_scores)][:len(solutions)//2]
 
