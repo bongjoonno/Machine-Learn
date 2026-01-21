@@ -94,9 +94,10 @@ class GeneticAlgorithm:
     def rank_selection(solutions: list, fitness_scores: list[float]) -> list:
         num_selections = len(solutions) // 2
         
-        solutions = solutions[np.argsort(fitness_scores)]
-        ranks = np.array([i for i in range(0, len(solutions))])
+        solutions = solutions[np.argsort(fitness_scores)][::-1]
+        ranks = np.array(range(len(solutions)))
         selection_probs = (((GeneticAlgorithm.max_selection_pressure - GeneticAlgorithm.min_selection_pressure)/(len(solutions)-1))*ranks) + GeneticAlgorithm.min_selection_pressure
+        selection_probs /= len(solutions)
         
         return np.random.choice(solutions, size=num_selections, p=selection_probs)
         
