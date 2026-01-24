@@ -35,3 +35,4 @@ if __name__ == '__main__':
 # Get more Non-Linear test data-sets
 # Fix Logistic Regression Cost function
 # possibly add a PER FEATURE parameter for whether y_pred is computed as func(w*x) or w*func(x) or some other configuration
+# write own scaling code
