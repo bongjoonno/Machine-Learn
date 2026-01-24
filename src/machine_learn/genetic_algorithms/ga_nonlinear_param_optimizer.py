@@ -14,6 +14,8 @@ non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE,
                         sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
                         sp.Abs(X_VARIABLE)]
 
+cost_functions = ['mse', 'mae']
+
 class GANONLinearOptimizer:
     min_delta = 0.001
     patience = 5
@@ -25,9 +27,14 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               non_linearity: bool = False,
+              cost_function: str = 'mse',
               selection_method: str = 'none',
               crossover_method: str = 'none',
               function_crossover_method: str = 'none') -> None:  
+
+        if cost_function not in cost_functions:
+            raise ValueError(f'cost_function must be in {cost_functions}')
+        
         early_stop = False
         
         if epochs is None:
