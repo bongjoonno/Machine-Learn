@@ -25,7 +25,6 @@ for i, data in enumerate(california_housing_data):
 for i in range(len(california_housing_data)):
     california_housing_data[i][1], california_housing_data[i][3] = scale_data(california_housing_data[i][1], california_housing_data[i][3], columns_to_scale=['median_house_value']) 
 
-
 for i in range(len(california_housing_data)):
     for j in range(4):
         california_housing_data[i][j] = california_housing_data[i][j].to_numpy()
