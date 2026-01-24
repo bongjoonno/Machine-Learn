@@ -80,7 +80,7 @@ class GANONLinearOptimizer:
                     y_pred = X @ solution
                 
         
-                train_losses[i] = mean_squared_error(y_pred, y_train)
+                train_lossesf = mean_squared_error(y_pred, y_train)
  
             
             train_generation_min_mse = min(train_losses)
