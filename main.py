@@ -12,10 +12,10 @@ def main():
     #np.save(save_path / 'GANON_regression_arithmetic_crossover', test_nonlinear_ga_param_optimizer(crossover_method='arithmetic'))
     #np.save(save_path / 'GANON_regression_arithmetic_crossover_sympy_2', test_nonlinear_ga_param_optimizer(crossover_method='arithmetic'))
     np.save(save_path_laptop / 'GANON_regression_sbx_function_crossover_sympy', test_nonlinear_ga_param_optimizer({'non_linearity' : True, 
-                                                                                                            'cost_function' : 'mae',
-                                                                                                            'selection_method' : 'rank', 
-                                                                                                            'crossover_method' : 'sbx', 
-                                                                                                            'function_crossover_method' : 'arithmetic'}))
+                                                                                                                   'cost_function' : 'mae',
+                                                                                                                   'selection_method' : 'tournament', 
+                                                                                                                   'crossover_method' : 'sbx', 
+                                                                                                                   'function_crossover_method' : 'arithmetic'}))
                                                                 
                                     
     
@@ -29,7 +29,5 @@ if __name__ == '__main__':
 # Make template general linear models
 # Get more Linear Regression test data-sets
 # Get more Non-Linear test data-sets
-# Write MAE metric
-# Allow GA param optimizer to use multiple cost-functions (default should be MSE)
 # Fix Logistic Regression Cost function
 # possibly add a PER FEATURE parameter for whether y_pred is computed as func(w*x) or w*func(x) or some other configuration
