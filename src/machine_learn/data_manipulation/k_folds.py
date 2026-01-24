@@ -2,10 +2,10 @@ from src.machine_learn.imports import np, pd
 from src.machine_learn.types import DF, Series
 from src.machine_learn.data_manipulation import train_test_split
 
-def split_k_folds(x: DF, y: Series, k: int) -> list[tuple[DF, Series, DF, Series]]:
+def split_k_folds(x: DF, y: Series, k: int) -> list[list[DF, Series, DF, Series]]:
     if k == 1:
         x_train, y_train, x_val, y_val = train_test_split(x, y)
-        return [(x_train, y_train, x_val, y_val)]
+        return [[x_train, y_train, x_val, y_val]]
     
     folds = []
     
@@ -18,6 +18,6 @@ def split_k_folds(x: DF, y: Series, k: int) -> list[tuple[DF, Series, DF, Series
         y_train = pd.concat([y[:i], y[i+test_size:]])
         y_val = y[i: i+test_size]
     
-        folds.append((x_train, y_train, x_val, y_val))
+        folds.append([x_train, y_train, x_val, y_val])
     
     return folds

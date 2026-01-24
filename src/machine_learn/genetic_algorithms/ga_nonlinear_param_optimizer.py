@@ -1,22 +1,25 @@
 from src.machine_learn.imports import np, random, sp
 from src.machine_learn.constants import EPOCHS, X_VARIABLE
 from src.machine_learn.types import DF, Series, NDArray
-from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.metrics import mean_squared_error, mean_absolute_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 param_lower_bound = -0.8568
 param_upper_bound = abs(param_lower_bound)
 
 sigma_for_mutation = 0.0001
-population_size = 20
+population_size = 4
 
 non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE, 
                         sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
                         sp.Abs(X_VARIABLE)]
 
+cost_functions = {'mse' : mean_squared_error,
+                  'mae' : mean_absolute_error}
+
 class GANONLinearOptimizer:
     min_delta = 0.001
-    patience = 5
+    patience = 0
 
     def train(self, 
               x_train: DF, 
@@ -25,9 +28,15 @@ class GANONLinearOptimizer:
               y_val: Series | None = None, 
               epochs: int | None = None, 
               non_linearity: bool = False,
+              cost_function: str = 'mse',
               selection_method: str = 'none',
               crossover_method: str = 'none',
               function_crossover_method: str = 'none') -> None:  
+
+        if cost_functions.get(cost_function, None) is None:
+            raise ValueError(f'cost_function must be in {list(cost_functions.keys())}')
+
+        
         early_stop = False
         
         if epochs is None:
@@ -71,7 +80,7 @@ class GANONLinearOptimizer:
                     y_pred = X @ solution
                 
         
-                train_losses[i] = mean_squared_error(y_pred, y_train)
+                train_lossesf = mean_squared_error(y_pred, y_train)
  
             
             train_generation_min_mse = min(train_losses)
