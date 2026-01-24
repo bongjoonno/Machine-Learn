@@ -34,7 +34,8 @@ class GANONLinearOptimizer:
               function_crossover_method: str = 'none') -> None:  
 
         if cost_functions.get(cost_function, None) is None:
-            raise ValueError(f'cost_function must be in {cost_functions.keys()}')
+            raise ValueError(f'cost_function must be in {list(cost_functions.keys())}')
+            
         
         early_stop = False
         
