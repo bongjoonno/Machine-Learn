@@ -9,6 +9,7 @@ from .car_price_data import car_price_x, car_price_y, car_price_x_base_line, car
 from .energy_usage_data import energy_x, energy_y, energy_cols_to_scale
 from .concrete_data import concrete_x, concrete_y, concrete_columns_to_scale
 from .wine_data import wine_x, wine_y, wine_columns_to_scale
+from .california_housing_data import california_housing_df
 
 regression_test_data = [(wine_x, wine_y, wine_columns_to_scale),
                         (salary_x, salary_y, salary_cols_to_scale), 
