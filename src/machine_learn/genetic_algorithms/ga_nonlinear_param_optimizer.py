@@ -1,7 +1,7 @@
 from src.machine_learn.imports import np, random, sp
 from src.machine_learn.constants import EPOCHS, X_VARIABLE
 from src.machine_learn.types import DF, Series, NDArray
-from src.machine_learn.metrics import mean_squared_error
+from src.machine_learn.metrics import mean_squared_error, mean_absolute_error
 from src.machine_learn.genetic_algorithms import GeneticAlgorithm
 
 param_lower_bound = -0.8568
@@ -14,7 +14,8 @@ non_linear_functions = [X_VARIABLE, X_VARIABLE**2, X_VARIABLE**3, 2**X_VARIABLE,
                         sp.sin(X_VARIABLE), sp.cos(X_VARIABLE), sp.tan(X_VARIABLE), sp.tanh(X_VARIABLE), 
                         sp.Abs(X_VARIABLE)]
 
-cost_functions = ['mse', 'mae']
+cost_functions = {'mse' : mean_squared_error,
+                  'mae' : mean_absolute_error}
 
 class GANONLinearOptimizer:
     min_delta = 0.001
@@ -32,8 +33,8 @@ class GANONLinearOptimizer:
               crossover_method: str = 'none',
               function_crossover_method: str = 'none') -> None:  
 
-        if cost_function not in cost_functions:
-            raise ValueError(f'cost_function must be in {cost_functions}')
+        if cost_functions.get(cost_function, None) is None:
+            raise ValueError(f'cost_function must be in {cost_functions.keys()}')
         
         early_stop = False
         
