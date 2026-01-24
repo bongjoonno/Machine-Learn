@@ -16,20 +16,21 @@ def model_test_template(optimizer: LinearRegression | GAOptimizer | GANONLinearO
     r2s = []
 
     for data in regression_test_data:
-        x_train, y_train, x_val, y_val = data*
-        
-        if optimize_lr:
-            lr_optimizer = GAlrOptimizer(optimizer, x_train, y_train, x_val, y_val)
-            lr = lr_optimizer.optimize_lr()
-            training_args['learning_rate'] = lr
+        for set in data:
+            x_train, y_train, x_val, y_val = set
             
-        if early_stop:
-            optimizer.train(x_train, y_train, x_val, y_val, **training_args)
-        else:
-            optimizer.train(x_train, y_train, **training_args)
+            if optimize_lr:
+                lr_optimizer = GAlrOptimizer(optimizer, x_train, y_train, x_val, y_val)
+                lr = lr_optimizer.optimize_lr()
+                training_args['learning_rate'] = lr
+                
+            if early_stop:
+                optimizer.train(x_train, y_train, x_val, y_val, **training_args)
+            else:
+                optimizer.train(x_train, y_train, **training_args)
 
-        y_pred = optimizer.predict(x_val)
+            y_pred = optimizer.predict(x_val)
+            
+            r2s.append(r_squared(y_pred, y_val))
         
-        r2s.append(r_squared(y_pred, y_val))
-    
     return r2s
